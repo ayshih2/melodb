@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   state = {
@@ -49,7 +49,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
-        
+
         <p>{this.state.response}</p>
         <form onSubmit={this.handleSubmit}>
           <p>
