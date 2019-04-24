@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.menuWrapper {
+  width: 75%;
+}
