@@ -18,27 +18,34 @@ class Header extends Component {
         </Menu.Menu>
         <Menu.Menu position='right'>
           <Menu.Item
-            name='features'
-            active={activeItem === 'features'}
+            name='search'
+            active={activeItem === 'search'}
             onClick={this.handleItemClick}
           >
             Search
           </Menu.Item>
 
           <Menu.Item
-            name='testimonials'
-            active={activeItem === 'testimonials'}
+            name='compare'
+            active={activeItem === 'compare'}
             onClick={this.handleItemClick}
           >
             Compare
           </Menu.Item>
 
           <Menu.Item
-            name='sign-in'
-            active={activeItem === 'sign-in'}
+            name='user'
+            active={activeItem === 'user'}
             onClick={this.handleItemClick}
           >
             User
+          </Menu.Item>
+          <Menu.Item
+            name='sign-out'
+            active={activeItem === 'sign-out'}
+            onClick={this.handleItemClick}
+          >
+            Sign Out
           </Menu.Item>
         </Menu.Menu>
       </Menu>
