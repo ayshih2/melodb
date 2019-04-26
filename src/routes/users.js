@@ -1,5 +1,6 @@
 var models = require('../database');
 var Song = models.songModel;
+var User = models.userModel;
 
 module.exports = function(router) {
 	var userRoute = router.route('/hello');
@@ -8,6 +9,16 @@ module.exports = function(router) {
 
 	userRoute.get((req, res) => {
 		res.status(200).send({ express: 'Hello From Express' });
+	});
+	userRoute.post((req, res) => {
+		let newUser = new User({
+			email: "testEmail"
+		});
+		newUser.save();
+		res.status(201).send({
+			message: "OK",
+			data: newUser
+		})
 	});
 	tempWorldRoute.post((req, res) => {
 		console.log(req.body);
