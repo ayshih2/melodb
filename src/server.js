@@ -1,11 +1,12 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const secrets = require('./secrets');
+var express = require('express');
+var router = express.Router();
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var secrets = require('./secrets');
 
 
-const app = express();
-const port = process.env.PORT || 5000;
+var app = express();
+var port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -4,10 +4,10 @@ var UserSchema = new mongoose.Schema({
 	name: String,
 	email: { type: String, required: true },
 	pictureUrl: String,
-	likedSongs: [{ songId: String, likedDate: { type: Date, default: new Date() }],
+	likedSongs: [{ songId: String, likedDate: { type: Date, default: new Date() }}],
 	history: [{
-		songs: [{ songId: String, searchDate: { type: Date, default: new Date() }],
-		comparisons: [{ songId1: String, songId2: String, compareDate: { type: Date, default: new Date() }]
+		songs: [{ songId: String, searchDate: { type: Date, default: new Date() }}],
+		comparisons: [{ songId1: String, songId2: String, compareDate: { type: Date, default: new Date() }}]
 	}],
 	recommended: [String]
 });
