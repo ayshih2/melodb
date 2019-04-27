@@ -6,8 +6,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import Search from './Components/Search/Search';
+import Compare from './Components/Compare/Compare';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Compare />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
