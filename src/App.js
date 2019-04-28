@@ -1,17 +1,36 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { auth, googleAuthProvider } from './firebase.js';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 class App extends Component {
   state = {
     response: '',
     post: '',
     responseToPost: '',
+    isSignedIn: false
   };
+
+  uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [
+      googleAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccess: () => false
+    }
+  }
+
   componentDidMount() {
     this.callApi()
       .then(res => this.setState({ response: res.express }))
       .catch(err => console.log(err));
+
+    auth.onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user })
+      console.log("user", user)
+    })
   }
   callApi = async () => {
     const response = await fetch('/api/hello');
@@ -63,6 +82,23 @@ class App extends Component {
           <button type="submit">Submit</button>
         </form>
         <p>{this.state.responseToPost}</p>
+
+        {this.state.isSignedIn ? (
+          <span>
+            <div>Signed In!</div>
+            <button onClick={() => auth.signOut()}>Sign out!</button>
+            <h1>Welcome {auth.currentUser.displayName}</h1>
+            <img
+              alt="profile picture"
+              src={auth.currentUser.photoURL}
+            />
+          </span>
+        ) : (
+          <StyledFirebaseAuth
+            uiConfig={this.uiConfig}
+            firebaseAuth={auth}
+          />
+        )}
       </div>
     );
   }
