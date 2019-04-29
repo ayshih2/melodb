@@ -167,7 +167,7 @@ module.exports = function(router) {
 										});
 									} else {
 										res.status(500).send({
-											message: "Failed to change email",
+											message: "Failed to change picture",
 											data: {},
 											error: errsave
 										});
@@ -184,7 +184,7 @@ module.exports = function(router) {
 											message: "Invalid query check for empty parameters",
 											data: {},
 										});
-							}
+						}
 					}
 				});
 		}
