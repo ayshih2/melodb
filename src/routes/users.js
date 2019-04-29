@@ -149,9 +149,88 @@ module.exports = function(router) {
 	// });
 
 	userRoute.put((req, res) => {
-		if (Object.keys(req.query).length == 1) {
+		if (req.query.type == "modify") {
 			//change name & picture
-		} else if (Object.keys(req.query).length == 3) {
+			User.findOne({ email: req.query.email }, (err, res_user) => {
+					if (!res_user) {
+						res.status(404).send({
+		                    message: "User not found",
+		                    data: {}
+		                });
+					} else if (err) {
+						res.status(500).send({
+		                    message: "Server error",
+							data: {},
+							error: err
+		                });
+					} else {
+						if(req.query.name !== '' && req.query.name !== undefined && req.query.pictureUrl !== '' && req.query.pictureUrl !== undefined){
+							res_user.name = req.query.name;
+							res_user.pictureUrl = req.query.pictureUrl;
+							res_user.save((errsave, ressave)=> {
+								if (errsave == null) {
+										res.status(200).send({
+											message: "Name and Picture OK",
+											data: {}
+										});
+									} else {
+										res.status(500).send({
+											message: "Failed to change name and email",
+											data: {},
+											error: errsave
+										});
+									}
+								});
+						}
+						else if(req.query.name !== '' && req.query.name !== undefined && req.query.pictureUrl !== ''){
+							res_user.name = req.query.name;
+							res_user.save((errsave, ressave)=> {
+								if (errsave == null) {
+										res.status(200).send({
+											message: "Name OK",
+											data: {}
+										});
+									} else {
+										res.status(500).send({
+											message: "Failed to change name",
+											data: {},
+											error: errsave
+										});
+									}
+								});
+						}
+						else if(req.query.pictureUrl !== '' && req.query.pictureUrl !== undefined && req.query.name !== ''){
+							res_user.pictureUrl = req.query.pictureUrl;
+							res_user.save((errsave, ressave)=> {
+								if (errsave == null) {
+										res.status(200).send({
+											message: "Picture OK",
+											data: {}
+										});
+									} else {
+										res.status(500).send({
+											message: "Failed to change picture",
+											data: {},
+											error: errsave
+										});
+									}
+								});
+						}
+						else {
+										res.status(400).send({
+											name: req.query.name,
+											isURLUndef: req.query.pictureUrl == undefined,
+											isURLEmpty: req.query.pictureUrl == '',
+											isNameUndef: req.query.name == undefined,
+											isNameEmpty: req.query.name == '',
+											message: "Invalid query check for empty parameters",
+											data: {},
+										});
+						}
+					}
+				});
+		}
+		 else if (Object.keys(req.query).length == 3) {
 			if (req.query.type == "history" &&
 				(req.query.add == "song" || req.query.add == "comparison")) {
 				User.findOne({ email: req.query.email }, (err, res_user) => {
