@@ -288,10 +288,28 @@ module.exports = function(router) {
 				}
 			});
 		} else {
-			res.status(400).send({
-					message: "This is not a valid request.",
+			if (req.body.email) {
+				User.find({"email": req.body.email}, (err, docs) => {
+					if (docs.length) {
+						res.status(500).send({
+							message: "User with this email already exists",
+							data: {}
+						});
+					} else {
+						let user = new User(req.body);
+						user.save();
+						res.status(201).send({
+							message: "User created",
+							data: user
+						});
+					}
+				});
+			} else {
+				res.status(500).send({
+					message: "Missing user email",
 					data: {}
-			});
+				});
+			}
 		}
 	});
 
