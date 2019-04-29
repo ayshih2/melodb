@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Grid, Segment, Progress } from 'semantic-ui-react';
-import { VictoryPie } from 'victory';
+import { VictoryPie, VictoryLabel } from 'victory';
 import './Compare.scss';
 
 class Compare extends Component { 
   constructor(props) {
     super(props);
     this.state = {
-
+    	
     };
 
     this.leftSearchRef = React.createRef();
@@ -110,38 +110,56 @@ class Compare extends Component {
 			      </Grid.Column>
 			      <Grid.Column width={8}>
 			        <Segment>
-			        	<h3>Top 5 Common Words</h3>
-			        	<VictoryPie 
-			        		innerRadius={50}
-							    events={[{
-							      target: "data",
-							      eventHandlers: {
-							        onClick: () => {
-							          return [
-							            {
-							              target: "data",
-							              mutation: (props) => {
-							                const fill = props.style && props.style.fill;
-							                return fill === "#c43a31" ? null : { style: { fill: "#c43a31" } };
-							              }
-							            }
-							          ];
-							        }
-							      }
-							    }]}			        		
-			        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT 
-								  data={[
-								    { x: "I", y: 15 },
-								    { x: "You", y: 15 },
-								    { x: "Me", y:  40},
-								    { x: "Word", y: 10 },
-								    { x: "Dunno", y:  20 }
-								  ]}
-								  padAngle={2}
-								  labelRadius={90}
-								  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold" } }}
-								  //padding={{left: 100, right: 100, top: 100, bottom: 100}}
-			        	/>
+     						<svg viewBox="0 0 400 400">
+				        	<VictoryPie 
+					          standalone={false}
+					          width={400} height={400}			        	
+				        		innerRadius={68}
+								    events={[{
+								      target: "data",
+								      eventHandlers: {
+								        onClick: () => {
+								          return [
+								            {
+								            	// clear all colors
+								              target: "data",
+								              eventKey: "all",
+								              mutation: () => { 
+								              	return { style: undefined };
+								              }
+								            }, 
+								            {
+								            	// highlight clicked section
+								              target: "data",
+								              mutation: (props) => {
+								                const fill = props.style && props.style.fill;
+								                return fill === "#c43a31" ? null : { style: { fill: "#c43a31" } };					              	
+								              }							            	
+								            }
+								          ];
+								        }
+								      }
+								    }]}			        		
+				        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT 
+									  data={[
+									    { x: "I", y: 15 },
+									    { x: "You", y: 15 },
+									    { x: "Me", y:  40},
+									    { x: "Word", y: 10 },
+									    { x: "Dunno", y:  20 }
+									  ]}
+									  padAngle={2}
+									  labelRadius={100}
+									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold" } }}
+									  //padding={{left: 100, right: 100, top: 100, bottom: 100}}
+				        	/> 
+					        <VictoryLabel
+					          textAnchor="middle"
+					          style={{ fontSize: 20 }}
+					          x={200} y={200}
+					          text={['Top 5', 'Common', 'Words']}
+					        />
+				      	</svg> 	
 			        </Segment>
 			      </Grid.Column>
 			      <Grid.Column>
@@ -200,24 +218,11 @@ class Compare extends Component {
 			    		</Segment>
 			    	</Grid.Column>
 			    </Grid.Row>
-			  </Grid>						
+			  </Grid>				
 			</div>	
     );
   }
 }
 
-				// <div className="cntr">
-				// 	<span id="leftSearch">
-		  // 			<label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
-				// 			<input ref={this.leftSearchRef} id="left_inpt_search" type="text" />
-				// 		</label>
-				// 	</span>
-
-				// 	<span id="rightSearch">
-				// 		<label className="search" htmlFor="right_inpt_search" onFocus={this._onRightFocus} onBlur={this._onBlur}>
-				// 			<input ref={this.rightSearchRef} id="right_inpt_search" type="text" />
-				// 		</label>
-				// 	</span>			
-				// </div>
 
 export default Compare;
