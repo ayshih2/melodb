@@ -9,7 +9,7 @@ module.exports = function(router) {
 
 	userRoute.get((req, res) => {
 		if (Object.keys(req.query).length == 1) {
-			User.findById(req.query.id, (err, res_user) => {
+			User.findOne({ email: req.query.email }, (err, res_user) => {
 				if (!res_user) {
 					res.status(404).send({
 	                    message: "User not found",
@@ -34,7 +34,7 @@ module.exports = function(router) {
 			} else if (req.query.type == "history") {
 				//stuff goes here
 			} else if (req.query.type == "liked") {
-				User.findById(req.query.id, (err, res_user) => {
+				User.findOne({ email: req.query.email }, (err, res_user) => {
 					if (!res_user) {
 						res.status(404).send({
 		                    message: "User not found",
