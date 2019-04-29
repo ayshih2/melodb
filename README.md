@@ -27,12 +27,15 @@ Please call the API as follows:
 ### `/api/user?email=EMAILHERE&type=liked POST`
 
   Headers: Content-Type application/x-www-form-urlencoded
+  
   Expects an x-www-form-urlencoded body with key songName and song name value.
+  
   Adds song name to liked songs if the song is not in the likedSongs array, removes song name from liked songs if the song is in the likedSongs array.
 
 ### `/api/user?email=EMAILHERE&type=history&add=SONG or COMPARISON`
 
   Headers: Content-Type application/x-www-form-urlencoded
+  
   Adds song history or comparison history to the specified user.
   
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **with add=song:**
