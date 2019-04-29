@@ -16,6 +16,35 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
+## API Calls
+
+Please call the API as follows:
+
+### `/api/user?email=EMAILHERE&type=liked GET`
+
+  Returns all liked songs of the specified user.
+  
+### `/api/user?email=EMAILHERE&type=liked POST`
+
+  Headers: Content-Type application/x-www-form-urlencoded
+  Expects an x-www-form-urlencoded body with key songName and song name value.
+  Adds song name to liked songs if the song is not in the likedSongs array, removes song name from liked songs if the song is in the likedSongs array.
+
+### `/api/user?email=EMAILHERE&type=history&add=SONG or COMPARISON`
+
+  Headers: Content-Type application/x-www-form-urlencoded
+  Adds song history or comparison history to the specified user.
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **with add=song:**
+  
+  Expects an x-www-form-urlencoded body with key songName and song name value.
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **with add=comparison:**
+  
+  Expects an x-www-form-urlencoded body with keys songName1 and songName2 and values of the respective song names.
+ 
+## Available Scripts (cont.)
+
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.<br>
