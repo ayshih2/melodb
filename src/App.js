@@ -27,6 +27,15 @@ class App extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })
+      if (user) {
+        // Add user to database if new user
+        axios.post("http://localhost:5000/api/user/", {
+          name: user.displayName,
+          email: user.email
+        }).catch(err => {
+          console.log(err);
+        });
+      }
       this.callApi();
       console.log("user", user)
     })
