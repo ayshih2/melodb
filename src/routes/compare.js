@@ -118,7 +118,9 @@ module.exports = function(router) {
                 res.status(200).send({
                     message: "OK",
                     data: {
-                        topFiveCommonWords: commonWordPhrases
+                        topFiveCommonWords: commonWordPhrases,
+                        song1Sentiment: song1.sentiment,
+                        song2Sentiment: song2.sentiment
                     }
                 });
             } else {
