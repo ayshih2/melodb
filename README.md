@@ -31,6 +31,10 @@ Please call the API as follows:
   Expects an x-www-form-urlencoded body with key songName and song name value.
   
   Adds song name to liked songs if the song is not in the likedSongs array, removes song name from liked songs if the song is in the likedSongs array.
+  
+### `/api/user POST`
+  
+  Creates a new user. Should only be called on login by a user. The endpoint will check if the user is already in the database and will add/ignore the user accordingly. Must have `email` in the body of the request.
 
 ### `/api/user?email=EMAILHERE&type=history&add=SONG or COMPARISON`
 

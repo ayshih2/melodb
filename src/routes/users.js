@@ -1,6 +1,7 @@
 var models = require('../database');
 var Song = models.songModel;
 var User = models.userModel;
+var utils = require('../utils.js');
 
 function songIn(arr, song) {
 	for (var i = 0; i < arr.length; i++) {
@@ -13,10 +14,15 @@ function songIn(arr, song) {
 
 module.exports = function(router) {
 	var userRoute = router.route('/user');
-	// var tempWorldRoute = router.route('/world');
-	// var songRoute = router.route('/song');
-	console.log('test')
+
 	userRoute.get((req, res) => {
+		// if (!utils.hasValidCredentials(req)) {
+		// 	res.status(401).send({
+		// 		message: "Missing bearer token. Only logged in users can make API requests."
+		// 	});
+		// 	return;
+		// }
+
 		if (Object.keys(req.query).length == 1) {
 			User.findOne({ email: req.query.email }, (err, res_user) => {
 				if (!res_user) {
@@ -39,9 +45,45 @@ module.exports = function(router) {
 			});
 		} else if (Object.keys(req.query).length == 2) {
 			if (req.query.type == "recommended") {
-				//stuff goes here
+				User.findOne({ email: req.query.email }, (err, res_user) => {
+					if (!res_user) {
+						res.status(404).send({
+		                    message: "User not found",
+		                    data: {}
+		                });
+					} else if (err) {
+						res.status(500).send({
+		                    message: "Server error",
+							data: {},
+							error: err
+		                });
+					} else {
+						res.status(200).send({
+							message: "OK",
+							data: res_user.recommended
+						});
+					}
+				});
 			} else if (req.query.type == "history") {
-				//stuff goes here
+				User.findOne({ email: req.query.email }, (err, res_user) => {
+					if (!res_user) {
+						res.status(404).send({
+		                    message: "User not found",
+		                    data: {}
+		                });
+					} else if (err) {
+						res.status(500).send({
+		                    message: "Server error",
+							data: {},
+							error: err
+		                });
+					} else {
+						res.status(200).send({
+							message: "OK",
+							data: res_user.history
+						});
+					}
+				});
 			} else if (req.query.type == "liked") {
 				User.findOne({ email: req.query.email }, (err, res_user) => {
 					if (!res_user) {
@@ -325,10 +367,28 @@ module.exports = function(router) {
 				}
 			});
 		} else {
-			res.status(400).send({
-					message: "This is not a valid request.",
+			if (req.body.email) {
+				User.find({"email": req.body.email}, (err, docs) => {
+					if (docs.length) {
+						res.status(500).send({
+							message: "User with this email already exists",
+							data: {}
+						});
+					} else {
+						let user = new User(req.body);
+						user.save();
+						res.status(201).send({
+							message: "User created",
+							data: user
+						});
+					}
+				});
+			} else {
+				res.status(500).send({
+					message: "Missing user email",
 					data: {}
-			});
+				});
+			}
 		}
 	});
 
