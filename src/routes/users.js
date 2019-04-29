@@ -1,14 +1,20 @@
 var models = require('../database');
 var Song = models.songModel;
 var User = models.userModel;
+var utils = require('../utils.js');
 
 module.exports = function(router) {
-	var userIdRoute = router.route('/user/:id');
-	// var tempWorldRoute = router.route('/world');
-	// var songRoute = router.route('/song');
+	var userIdRoute = router.route('/user');
 
 	userIdRoute.get((req, res) => {
-		User.findById(req.params.id, (err, res_user) => {
+		User.findOne({"email": req.query.email}, (err, res_user) => {
+			if (!utils.hasValidCredentials(req)) {
+				res.status(401).send({
+					message: "Missing bearer token. Only logged in users can make API requests."
+				});
+				return;
+			}
+			
 			if (!res_user) {
 				res.status(404).send({
                     message: "User not found",

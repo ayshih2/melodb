@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import { auth, googleAuthProvider } from './firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import axios from 'axios';
+import {checkedAxiosGet} from './utils.js';
 
 class App extends Component {
   state = {
@@ -23,21 +25,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
-
     auth.onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })
+      this.callApi();
       console.log("user", user)
     })
   }
+
   callApi = async () => {
-    const response = await fetch('/api/hello');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  };
+    checkedAxiosGet('http://localhost:5000/api/user/?email=testEmail', auth).then(res => {
+      this.setState({response: res.data.message});
+    }).catch(err => {
+      this.setState({response: err.response.data.message})
+    });
+  }
+
   handleSubmit = async e => {
     e.preventDefault();
     const response = await fetch('/api/world', {
