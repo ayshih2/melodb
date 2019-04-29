@@ -45,9 +45,45 @@ module.exports = function(router) {
 			});
 		} else if (Object.keys(req.query).length == 2) {
 			if (req.query.type == "recommended") {
-				//stuff goes here
+				User.findOne({ email: req.query.email }, (err, res_user) => {
+					if (!res_user) {
+						res.status(404).send({
+		                    message: "User not found",
+		                    data: {}
+		                });
+					} else if (err) {
+						res.status(500).send({
+		                    message: "Server error",
+							data: {},
+							error: err
+		                });
+					} else {
+						res.status(200).send({
+							message: "OK",
+							data: res_user.recommended
+						});
+					}
+				});
 			} else if (req.query.type == "history") {
-				//stuff goes here
+				User.findOne({ email: req.query.email }, (err, res_user) => {
+					if (!res_user) {
+						res.status(404).send({
+		                    message: "User not found",
+		                    data: {}
+		                });
+					} else if (err) {
+						res.status(500).send({
+		                    message: "Server error",
+							data: {},
+							error: err
+		                });
+					} else {
+						res.status(200).send({
+							message: "OK",
+							data: res_user.history
+						});
+					}
+				});
 			} else if (req.query.type == "liked") {
 				User.findOne({ email: req.query.email }, (err, res_user) => {
 					if (!res_user) {
