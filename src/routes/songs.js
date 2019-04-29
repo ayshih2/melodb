@@ -13,7 +13,7 @@ module.exports = function(router) {
 				data: {}
 			});
 		} else {
-			Song.findOne({songTitle: req.query.name}, (err, res_song) => {
+			Song.findOne({songTitle: {$regex: req.query.name, $options: 'i'}}, (err, res_song) => {
 				if(!res_song){
 					res.status(404).send({
 						message: "Song not found",
