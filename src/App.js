@@ -25,6 +25,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     auth.onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })
       if (user) {
