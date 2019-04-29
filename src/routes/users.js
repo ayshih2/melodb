@@ -16,12 +16,12 @@ module.exports = function(router) {
 	var userRoute = router.route('/user');
 
 	userRoute.get((req, res) => {
-		if (!utils.hasValidCredentials(req)) {
-			res.status(401).send({
-				message: "Missing bearer token. Only logged in users can make API requests."
-			});
-			return;
-		}
+		// if (!utils.hasValidCredentials(req)) {
+		// 	res.status(401).send({
+		// 		message: "Missing bearer token. Only logged in users can make API requests."
+		// 	});
+		// 	return;
+		// }
 
 		if (Object.keys(req.query).length == 1) {
 			User.findOne({ email: req.query.email }, (err, res_user) => {
