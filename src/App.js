@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { auth, googleAuthProvider } from './firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import './server.js';
 
 class App extends Component {
   state = {
@@ -23,9 +24,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+    //this.callApi()
+    //  .then(res => this.setState({ response: res.express }))
+    //  .catch(err => console.log(err));
 
     auth.onAuthStateChanged(user => {
       this.setState({ isSignedIn: !!user })

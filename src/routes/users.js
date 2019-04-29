@@ -6,7 +6,7 @@ module.exports = function(router) {
 	var userRoute = router.route('/user');
 	// var tempWorldRoute = router.route('/world');
 	// var songRoute = router.route('/song');
-
+	console.log('test')
 	userRoute.get((req, res) => {
 		if (Object.keys(req.query).length == 1) {
 			User.findOne({ email: req.query.email }, (err, res_user) => {
