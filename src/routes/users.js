@@ -156,22 +156,6 @@ module.exports = function(router) {
 							};
 
 							
-							// User.findByIdAndUpdate(res_user._id, 
-							// 	{$push: { 'history[0][1]' : compObj}}, (erru, resu) => {
-							// 		if (erru == null) {
-							// 			res.status(200).send({
-							// 				message: "OK",
-							// 				data: {}
-							// 			});
-							// 		} else {
-							// 			res.status(500).send({
-							// 				message: "Failed to add comparison to history",
-							// 				data: {},
-							// 				error: erru
-							// 			});
-							// 		}
-							// 	});
-
 							User.findById(res_user._id, (erru, resu) => {
 								resu.history[0].comparisons.push(compObj);
 								resu.save((errsave, ressave) => {
