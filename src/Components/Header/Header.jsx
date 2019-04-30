@@ -40,6 +40,7 @@ class Header extends Component {
           >
             User
           </Menu.Item>
+          
           <Menu.Item
             name='sign-out'
             active={activeItem === 'sign-out'}
