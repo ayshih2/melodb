@@ -192,7 +192,7 @@ class Compare extends Component {
 								    }]}			        		
 				        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT 
 									  data={this.state.pieData}
-									  //padAngle={2}
+									  padAngle={2}
 									  labelRadius={100}
 									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Comfortaa" } }}		        	
 								  /> 
