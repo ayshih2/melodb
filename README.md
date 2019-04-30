@@ -24,6 +24,14 @@ Please call the API as follows:
 
   Returns all liked songs of the specified user.
   
+### `/api/user?id=xxx&type=recommended GET`
+
+  Returns all recommended songs of a specified user.
+  
+### `/api/user?id=xxx&type=history GET`
+
+  Returns the history of searches and song comparisons of a specified user.
+  
 ### `/api/user?email=EMAILHERE&type=liked POST`
 
   Headers: Content-Type application/x-www-form-urlencoded
