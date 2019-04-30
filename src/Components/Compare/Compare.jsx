@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Grid, Segment, Progress } from 'semantic-ui-react';
-import { VictoryPie, VictoryLabel } from 'victory';
+import { VictoryPie, VictoryLabel, VictoryBar } from 'victory';
 import './Compare.scss';
 
 class Compare extends Component { 
@@ -14,14 +15,18 @@ class Compare extends Component {
 									    { x: "Word", y: 0 },
 									    { x: "Dunno", y: 100 }
             ],
+            barData: [{x: 'Waste It On Me', y: 5}, {x: 'Free Spirit', y: 5}]
     }
 
     this.leftSearchRef = React.createRef();
     this.rightSearchRef = React.createRef();
+    this.bars = React.createRef();
     this._onBlur = this._onBlur.bind(this);
     this._onLeftFocus = this._onLeftFocus.bind(this);
     this._onRightFocus = this._onRightFocus.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
   }
 
 	_onBlur() {
@@ -47,14 +52,39 @@ class Compare extends Component {
 	}
 
 	componentDidMount() {
-        this.setState({
-            pieData: [
-									    { x: "I", y: 15 },
-									    { x: "You", y: 15 },
-									    { x: "Me", y:  40},
-									    { x: "Word", y: 10 },
-									    { x: "Dunno", y:  20 }
-            ]})
+		window.addEventListener('scroll', this.handleScroll, { passive: true })
+	  this.setState({
+	      pieData: [
+							    { x: "I", y: 15 },
+							    { x: "You", y: 15 },
+							    { x: "Me", y:  40},
+							    { x: "Word", y: 10 },
+							    { x: "Dunno", y:  20 }
+	  ]})
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll(event) {
+	  //console.log(this.bars)
+	  var rect = ReactDOM.findDOMNode(this.bars.current).getBoundingClientRect();
+	  //console.log(this.state.reloadedBars);
+		if (rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+		) {
+			console.log('In the viewport!');
+	    this.setState({
+				barData: [{x: 'Waste It On Me', y: 30}, {x: 'Free Spirit', y: 60}]
+	    });		
+		} 
+		// else {
+		// 	console.log('Not in the viewport... whomp whomp');
+		// 	this.setState({barData: [{x: 'Waste It On Me', y: 5, y0: 1}, {x: 'Free Spirit', y: 10, y0: 1}]});
+		// }
   }
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
@@ -80,7 +110,7 @@ class Compare extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			      <Grid.Column>
-			        <p align="left">
+			        <p className="lyrics">
 								You say love is messed up<br />
 								You say that it don't work<br />
 								You don't wanna try, no, no<br />
@@ -175,7 +205,7 @@ class Compare extends Component {
 			        
 			      </Grid.Column>
 			      <Grid.Column>
-			        <p align="left">	
+			        <p className="lyrics">	
 								We were runnin' onto something<br />
 								And we didn't say forever but it's all we wanted<br />
 								You were so in love with simple things<br />
@@ -220,14 +250,16 @@ class Compare extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			    	<Grid.Column>
-			    		<Segment>
-			    		  <Progress percent={65} size='tiny' color='red'>
-      						Waste It On Me
-    						</Progress>
-    						<Progress percent={70} size='tiny' color='violet'>
-      						Free Spirit
-    						</Progress>
-			    		</Segment>
+  						<VictoryBar horizontal
+  							height={125}
+  							ref={this.bars}
+						    data={this.state.barData}
+						    labels={(d) => d.x}
+						    y0={0}
+						    domain={ {y: [0, 100]} }
+						    style={{ labels: { fill: "black", fontSize: 7}, data: { fill: "#c43a31" } }}	
+						    animate={{ duration: 2000 }}	  
+  						/>
 			    	</Grid.Column>
 			    </Grid.Row>
 			  </Grid>				
