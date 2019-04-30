@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Grid, Segment, Progress } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar } from 'victory';
 import './Compare.scss';
+import '../../variables.scss';
 
 class Compare extends Component { 
   constructor(props) {
@@ -58,7 +59,7 @@ class Compare extends Component {
 							    { x: "I", y: 15 },
 							    { x: "You", y: 15 },
 							    { x: "Me", y:  40},
-							    { x: "Word", y: 10 },
+							    { x: "running", y: 10 },
 							    { x: "Dunno", y:  20 }
 	  ]})
   }
@@ -193,11 +194,11 @@ class Compare extends Component {
 									  data={this.state.pieData}
 									  //padAngle={2}
 									  labelRadius={100}
-									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold" } }}		        	
+									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Comfortaa" } }}		        	
 								  /> 
 					        <VictoryLabel
 					          textAnchor="middle"
-					          style={{ fontSize: 20 }}
+					          style={{ fontSize: 20, fontFamily: "Comfortaa" }}
 					          x={200} y={200}
 					          text={['Top 5', 'Common', 'Words']}
 					        />
@@ -257,7 +258,7 @@ class Compare extends Component {
 						    labels={(d) => d.x}
 						    y0={0}
 						    domain={ {y: [0, 100]} }
-						    style={{ labels: { fill: "black", fontSize: 7}, data: { fill: "#c43a31" } }}	
+						    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#c43a31" } }}	
 						    animate={{ duration: 2000 }}	  
   						/>
 			    	</Grid.Column>
