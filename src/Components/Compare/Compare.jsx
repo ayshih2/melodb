@@ -6,15 +6,22 @@ import './Compare.scss';
 class Compare extends Component { 
   constructor(props) {
     super(props);
-    this.state = {
-    	
-    };
+		this.state = {
+            pieData: [
+									    { x: "I", y: 0 },
+									    { x: "You", y: 0 },
+									    { x: "Me", y:  0},
+									    { x: "Word", y: 0 },
+									    { x: "Dunno", y: 100 }
+            ],
+    }
 
     this.leftSearchRef = React.createRef();
     this.rightSearchRef = React.createRef();
     this._onBlur = this._onBlur.bind(this);
     this._onLeftFocus = this._onLeftFocus.bind(this);
     this._onRightFocus = this._onRightFocus.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
 	_onBlur() {
@@ -39,6 +46,17 @@ class Compare extends Component {
     rightSearchElem.parentElement.classList.add('active');
 	}
 
+	componentDidMount() {
+        this.setState({
+            pieData: [
+									    { x: "I", y: 15 },
+									    { x: "You", y: 15 },
+									    { x: "Me", y:  40},
+									    { x: "Word", y: 10 },
+									    { x: "Dunno", y:  20 }
+            ]})
+  }
+
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
     return (
@@ -62,7 +80,7 @@ class Compare extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			      <Grid.Column>
-			        <Segment>
+			        <p align="left">
 								You say love is messed up<br />
 								You say that it don't work<br />
 								You don't wanna try, no, no<br />
@@ -106,12 +124,13 @@ class Compare extends Component {
 								Than just a waste of your time<br />
 								Waste it on me<br />
 								Waste it on me		        
-			        </Segment>
+			        </p>
 			      </Grid.Column>
-			      <Grid.Column width={8}>
-			        <Segment>
+			      <Grid.Column width={7}>
+			        
      						<svg viewBox="0 0 400 400">
 				        	<VictoryPie 
+										animate={{ duration: 1000, onLoad: { duration: 1500 } }}
 					          standalone={false}
 					          width={400} height={400}			        	
 				        		innerRadius={68}
@@ -141,18 +160,11 @@ class Compare extends Component {
 								      }
 								    }]}			        		
 				        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT 
-									  data={[
-									    { x: "I", y: 15 },
-									    { x: "You", y: 15 },
-									    { x: "Me", y:  40},
-									    { x: "Word", y: 10 },
-									    { x: "Dunno", y:  20 }
-									  ]}
-									  padAngle={2}
+									  data={this.state.pieData}
+									  //padAngle={2}
 									  labelRadius={100}
-									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold" } }}
-									  //padding={{left: 100, right: 100, top: 100, bottom: 100}}
-				        	/> 
+									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold" } }}		        	
+								  /> 
 					        <VictoryLabel
 					          textAnchor="middle"
 					          style={{ fontSize: 20 }}
@@ -160,10 +172,10 @@ class Compare extends Component {
 					          text={['Top 5', 'Common', 'Words']}
 					        />
 				      	</svg> 	
-			        </Segment>
+			        
 			      </Grid.Column>
 			      <Grid.Column>
-			        <Segment>
+			        <p align="left">	
 								We were runnin' onto something<br />
 								And we didn't say forever but it's all we wanted<br />
 								You were so in love with simple things<br />
@@ -203,7 +215,7 @@ class Compare extends Component {
 								Free spirit<br />
 								Free spirit<br />
 								Free spirit		        	
-			        </Segment>
+			        </p>
 			      </Grid.Column>
 			    </Grid.Row>
 			    <Grid.Row>
