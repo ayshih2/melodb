@@ -289,7 +289,7 @@ class Compare extends Component {
 									height={125}
 									ref={this.bars}
 							    data={this.state.barData}
-							    labels={(d) => d.x}
+							    labels={(d) => d.x + ': ' + Math.round(d.y)}
 							    y0={0}
 							    domain={ {y: [0, 100]} }
 							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#005b96" } }}	
@@ -303,7 +303,7 @@ class Compare extends Component {
 								    ticks: {stroke: "grey", size: 5},
 								    tickLabels: {fontSize: 7, padding: 5}
 								  }}
-								  tickValues={[0, 20, 40, 60, 80, 100]}
+								  tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
 						    />
 						  </VictoryChart >
 			    	</Grid.Column>
