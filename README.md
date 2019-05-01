@@ -19,7 +19,10 @@ You will also see any lint errors in the console.
 ## API Calls
 
 Please call the API as follows:
+### `/api/song?name=NAME GET`
 
+  Returns song with specified name. Case insensitive but punctuation and whitespace sensitive. 
+  
 ### `/api/user?email=EMAILHERE&type=liked GET`
 
   Returns all liked songs of the specified user.
@@ -43,6 +46,10 @@ Please call the API as follows:
 ### `/api/user POST`
   
   Creates a new user. Should only be called on login by a user. The endpoint will check if the user is already in the database and will add/ignore the user accordingly. Must have `email` in the body of the request.
+  
+### `/api/user?email=EMAIL&type=modify&name=NAME&pictureUrl=URL PUT`
+  
+  Changes the name or picture of an user. Name and picture are optional arguments but if specified they must not be empty. 
 
 ### `/api/user?email=EMAILHERE&type=history&add=SONG or COMPARISON`
 
