@@ -247,7 +247,7 @@ module.exports = function(router) {
 		                });
 					} else {
 						if (req.query.add == "song") {
-							songHistory = res_user.history.songs;
+							let songHistory = res_user.history.songs;
 							let songObj = {
 								songId: req.body.songName
 							};
@@ -270,7 +270,7 @@ module.exports = function(router) {
 								});
 							});
 						} else {
-							compHistory = res_user.history.compHistory;
+							let compHistory = res_user.history.compHistory;
 							let compObj = {
 								songId1: req.body.songName1,
 								songId2: req.body.songName2
@@ -327,7 +327,7 @@ module.exports = function(router) {
 						error: err
 	                });
 				} else {
-					liked = res_user.likedSongs;
+					let liked = res_user.likedSongs;
 					let songObj = {
 						songId: songName
 					};

@@ -19,10 +19,21 @@ You will also see any lint errors in the console.
 ## API Calls
 
 Please call the API as follows:
+### `/api/song?name=NAME GET`
 
+  Returns song with specified name. Case insensitive but punctuation and whitespace sensitive. 
+  
 ### `/api/user?email=EMAILHERE&type=liked GET`
 
   Returns all liked songs of the specified user.
+  
+### `/api/user?email=EMAILHERE&type=recommended GET`
+
+  Returns all recommended songs of a specified user.
+  
+### `/api/user?email=EMAILHERE&type=history GET`
+
+  Returns the history of searches and song comparisons of a specified user.
   
 ### `/api/user?email=EMAILHERE&type=liked POST`
 
@@ -35,6 +46,10 @@ Please call the API as follows:
 ### `/api/user POST`
   
   Creates a new user. Should only be called on login by a user. The endpoint will check if the user is already in the database and will add/ignore the user accordingly. Must have `email` in the body of the request.
+  
+### `/api/user?email=EMAIL&type=modify&name=NAME&pictureUrl=URL PUT`
+  
+  Changes the name or picture of an user. Name and picture are optional arguments but if specified they must not be empty. 
 
 ### `/api/user?email=EMAILHERE&type=history&add=SONG or COMPARISON`
 
@@ -49,6 +64,73 @@ Please call the API as follows:
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **with add=comparison:**
   
   Expects an x-www-form-urlencoded body with keys songName1 and songName2 and values of the respective song names.
+  
+### `/api/compare/?song1=envy me&song2=old town roAD GET`
+
+Compares two songs and returns the results. The song name arguments are case insensitive. The result will look like 
+
+```
+{
+    "message": "OK",
+    "data": {
+        "topFiveCommonWords": [
+            {
+                "word": "got",
+                "song1Lyrics": [
+                    " Like a locksmith, I got the keys (yeah)",
+                    " I got water like overseas, yeah (aye)",
+                ],
+                "song2Lyrics": [
+                    " I got the horses in the back",
+                    " I got the"
+                ]
+            },
+            {
+                "word": "back",
+                "song1Lyrics": [
+                    " But I gave her back, why you tweaking?",
+                    " If he run, blow his back down",
+                    " I was gone but I'm back now",
+                    " But I never back down"
+                ],
+                "song2Lyrics": [
+                    " I got the horses in the back"
+                ]
+            },
+            {
+                "word": "black",
+                "song1Lyrics": [
+                    " Hit that smoke and I black out"
+                ],
+                "song2Lyrics": [
+                    " Hat is matte black",
+                    " Got the boots that's black to match"
+                ]
+            },
+            {
+                "word": "now",
+                "song1Lyrics": [
+                    " I was gone but I'm back now"
+                ],
+                "song2Lyrics": [
+                    " You ain't been up off that porch, now"
+                ]
+            },
+            {
+                "word": "ain't",
+                "song1Lyrics": [
+                    " With the gang, we ain't playing fair"
+                ],
+                "song2Lyrics": [
+                    " You ain't been up off that porch, now"
+                ]
+            }
+        ],
+        "song1Sentiment": 0.019357744127451,
+        "song2Sentiment": -0.16960166757377
+    }
+}
+```
  
 ## Available Scripts (cont.)
 
