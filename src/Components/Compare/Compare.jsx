@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Segment, Progress } from 'semantic-ui-react';
-import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryTooltip, VictoryAxis, VictoryTheme, VictoryLine } from 'victory';
+import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
 
