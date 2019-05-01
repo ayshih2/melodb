@@ -16,6 +16,128 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
+## API Calls
+
+Please call the API as follows:
+### `/api/song?name=NAME GET`
+
+  Returns song with specified name. Case insensitive but punctuation and whitespace sensitive. 
+
+### `/api/song?all=true GET`
+
+  Returns all songs in database. 
+  
+### `/api/user?email=EMAILHERE&type=liked GET`
+
+  Returns all liked songs of the specified user.
+  
+### `/api/user?email=EMAILHERE&type=recommended GET`
+
+  Returns all recommended songs of a specified user.
+  
+### `/api/user?email=EMAILHERE&type=history GET`
+
+  Returns the history of searches and song comparisons of a specified user.
+  
+### `/api/user?email=EMAILHERE&type=liked POST`
+
+  Headers: Content-Type application/x-www-form-urlencoded
+  
+  Expects an x-www-form-urlencoded body with key songName and song name value.
+  
+  Adds song name to liked songs if the song is not in the likedSongs array, removes song name from liked songs if the song is in the likedSongs array.
+  
+### `/api/user POST`
+  
+  Creates a new user. Should only be called on login by a user. The endpoint will check if the user is already in the database and will add/ignore the user accordingly. Must have `email` in the body of the request.
+  
+### `/api/user?email=EMAIL&type=modify&name=NAME&pictureUrl=URL PUT`
+  
+  Changes the name or picture of an user. Name and picture are optional arguments but if specified they must not be empty. 
+
+### `/api/user?email=EMAILHERE&type=history&add=SONG or COMPARISON`
+
+  Headers: Content-Type application/x-www-form-urlencoded
+  
+  Adds song history or comparison history to the specified user.
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **with add=song:**
+  
+  Expects an x-www-form-urlencoded body with key songName and song name value.
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **with add=comparison:**
+  
+  Expects an x-www-form-urlencoded body with keys songName1 and songName2 and values of the respective song names.
+  
+### `/api/compare/?song1=envy me&song2=old town roAD GET`
+
+Compares two songs and returns the results. The song name arguments are case insensitive. The result will look like 
+
+```
+{
+    "message": "OK",
+    "data": {
+        "topFiveCommonWords": [
+            {
+                "word": "got",
+                "song1Lyrics": [
+                    " Like a locksmith, I got the keys (yeah)",
+                    " I got water like overseas, yeah (aye)",
+                ],
+                "song2Lyrics": [
+                    " I got the horses in the back",
+                    " I got the"
+                ]
+            },
+            {
+                "word": "back",
+                "song1Lyrics": [
+                    " But I gave her back, why you tweaking?",
+                    " If he run, blow his back down",
+                    " I was gone but I'm back now",
+                    " But I never back down"
+                ],
+                "song2Lyrics": [
+                    " I got the horses in the back"
+                ]
+            },
+            {
+                "word": "black",
+                "song1Lyrics": [
+                    " Hit that smoke and I black out"
+                ],
+                "song2Lyrics": [
+                    " Hat is matte black",
+                    " Got the boots that's black to match"
+                ]
+            },
+            {
+                "word": "now",
+                "song1Lyrics": [
+                    " I was gone but I'm back now"
+                ],
+                "song2Lyrics": [
+                    " You ain't been up off that porch, now"
+                ]
+            },
+            {
+                "word": "ain't",
+                "song1Lyrics": [
+                    " With the gang, we ain't playing fair"
+                ],
+                "song2Lyrics": [
+                    " You ain't been up off that porch, now"
+                ]
+            }
+        ],
+        "song1Sentiment": 0.019357744127451,
+        "song2Sentiment": -0.16960166757377
+    }
+}
+```
+ 
+## Available Scripts (cont.)
+
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.<br>
