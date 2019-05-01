@@ -8,7 +8,7 @@ module.exports = function(router) {
 
 	songRoute.get((req,res) => {
 		console.log('Song');
-		if(Object.keys(req.all==="true")){
+		if(req.query.all==="true"){
 			Song.find({}, (err, res_all) => {
 				if(!res_all){
 					res.status(404).send({
