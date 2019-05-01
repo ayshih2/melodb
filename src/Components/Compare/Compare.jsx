@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Segment, Progress } from 'semantic-ui-react';
-import { VictoryPie, VictoryLabel, VictoryBar } from 'victory';
+import { VictoryPie, VictoryLabel, VictoryBar, VictoryTooltip } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
 
@@ -10,11 +10,11 @@ class Compare extends Component {
     super(props);
 		this.state = {
             pieData: [
-									    { x: "I", y: 0 },
-									    { x: "You", y: 0 },
-									    { x: "Me", y:  0},
-									    { x: "Word", y: 0 },
-									    { x: "Dunno", y: 100 }
+									    { x: "I", y: 0, label: "click me" },
+									    { x: "You", y: 0, label: "click me" },
+									    { x: "Me", y:  0, label: "click me"},
+									    { x: "Word", y: 0, label: "click me" },
+									    { x: "Dunno", y: 100, label: "click me" }
             ],
             barData: [{x: 'Waste It On Me', y: 5}, {x: 'Free Spirit', y: 5}]
     }
@@ -56,11 +56,11 @@ class Compare extends Component {
 		window.addEventListener('scroll', this.handleScroll, { passive: true })
 	  this.setState({
 	      pieData: [
-							    { x: "I", y: 15 },
-							    { x: "You", y: 15 },
+							    { x: "I", y: 15},
+							    { x: "You", y: 15},
 							    { x: "Me", y:  40},
-							    { x: "running", y: 10 },
-							    { x: "Dunno", y:  20 }
+							    { x: "running", y: 10},
+							    { x: "Dunno", y:  20}
 	  ]})
   }
 
@@ -111,7 +111,7 @@ class Compare extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			      <Grid.Column>
-			        <p className="lyrics">
+			        <p className="lyrics" align="right">
 								You say love is messed up<br />
 								You say that it don't work<br />
 								You don't wanna try, no, no<br />
@@ -165,6 +165,9 @@ class Compare extends Component {
 					          standalone={false}
 					          width={400} height={400}			        	
 				        		innerRadius={68}
+				        		// labelComponent={
+				          //     <VictoryTooltip/>
+            		// 		}
 								    events={[{
 								      target: "data",
 								      eventHandlers: {
@@ -187,14 +190,42 @@ class Compare extends Component {
 								              }							            	
 								            }
 								          ];
-								        }
+								        },
+								        onMouseOver: () => {
+								          return [
+								            {
+								              target: "data",
+								              mutation: (props) => {
+								              	if (props.style && props.style.fill != "#c43a31") {
+								              		return { style: { fill: "gold" } }
+								              	} else {
+								              		return { style: { fill: "#c43a31" } }
+								              	}
+								              }
+								            }
+								          ];
+								        },								        
+								        onMouseOut: () => {
+								          return [
+								            {
+								              target: "data",
+								              mutation: (props) => {
+								              	if (props.style.fill != "#c43a31") {
+								              		return {};
+								              	} else {
+								              		return { style: { fill: "#c43a31" } }
+								              	}
+								              }
+								            }
+								          ];
+								        },								        								        
 								      }
 								    }]}			        		
 				        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT 
 									  data={this.state.pieData}
 									  padAngle={2}
 									  labelRadius={100}
-									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Comfortaa" } }}		        	
+									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Comfortaa" } }}	        	
 								  /> 
 					        <VictoryLabel
 					          textAnchor="middle"
@@ -206,7 +237,7 @@ class Compare extends Component {
 			        
 			      </Grid.Column>
 			      <Grid.Column>
-			        <p className="lyrics">	
+			        <p className="lyrics" align="left">	
 								We were runnin' onto something<br />
 								And we didn't say forever but it's all we wanted<br />
 								You were so in love with simple things<br />

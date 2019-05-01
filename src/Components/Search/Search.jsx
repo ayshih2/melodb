@@ -17,6 +17,7 @@ class SearchBar extends Component {
   inputChangehandler(e) {
     var elem = this.searchRef.current;
     elem.style.transform = 'translateY(-46vh)';
+    elem.style.maxHeight = "100px";
     elem.style.transition = "all 1000ms";
     this.setState({
       value: e.target.value
