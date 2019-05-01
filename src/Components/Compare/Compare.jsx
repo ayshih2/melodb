@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Segment, Progress } from 'semantic-ui-react';
-import { VictoryPie, VictoryLabel, VictoryBar, VictoryTooltip } from 'victory';
+import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryTooltip, VictoryAxis, VictoryTheme } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
 
@@ -186,7 +186,7 @@ class Compare extends Component {
 								              target: "data",
 								              mutation: (props) => {
 								                const fill = props.style && props.style.fill;
-								                return fill === "#c43a31" ? null : { style: { fill: "#c43a31" } };					              	
+								                return fill === "#005b96" ? null : { style: { fill: "#005b96" } };					              	
 								              }							            	
 								            }
 								          ];
@@ -196,10 +196,10 @@ class Compare extends Component {
 								            {
 								              target: "data",
 								              mutation: (props) => {
-								              	if ((props.style && props.style.fill) != "#c43a31") {
-								              		return { style: { fill: "gold" } }
+								              	if ((props.style && props.style.fill) != "#005b96") {
+								              		return { style: { fill: "#6497b1" } }
 								              	} else {
-								              		return { style: { fill: "#c43a31" } }
+								              		return { style: { fill: "#005b96" } }
 								              	}
 								              }
 								            }
@@ -210,10 +210,10 @@ class Compare extends Component {
 								            {
 								              target: "data",
 								              mutation: (props) => {
-								              	if ((props.style && props.style.fill) != "#c43a31") {
+								              	if ((props.style && props.style.fill) != "#005b96") {
 								              		return {};
 								              	} else {
-								              		return { style: { fill: "#c43a31" } }
+								              		return { style: { fill: "#005b96" } }
 								              	}
 								              }
 								            }
@@ -282,16 +282,23 @@ class Compare extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			    	<Grid.Column>
-  						<VictoryBar horizontal
-  							height={125}
-  							ref={this.bars}
-						    data={this.state.barData}
-						    labels={(d) => d.x}
-						    y0={0}
-						    domain={ {y: [0, 100]} }
-						    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#c43a31" } }}	
-						    animate={{ duration: 2000 }}	  
-  						/>
+<div>
+	  						<VictoryBar horizontal
+									height={125}
+	  							ref={this.bars}
+							    data={this.state.barData}
+							    labels={(d) => d.x}
+							    y0={0}
+							    domain={ {y: [0, 100]} }
+							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#005b96" } }}	
+							    animate={{ duration: 2000 }}
+	  						/>
+<div className="test">
+<VictoryAxis 
+tickValues={[0, 20, 40, 60, 80, 100]}
+height={300}
+/></div></div>
+
 			    	</Grid.Column>
 			    </Grid.Row>
 			  </Grid>				
