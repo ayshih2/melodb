@@ -196,7 +196,7 @@ class Compare extends Component {
 								            {
 								              target: "data",
 								              mutation: (props) => {
-								              	if (props.style && props.style.fill != "#c43a31") {
+								              	if ((props.style && props.style.fill) != "#c43a31") {
 								              		return { style: { fill: "gold" } }
 								              	} else {
 								              		return { style: { fill: "#c43a31" } }
@@ -210,7 +210,7 @@ class Compare extends Component {
 								            {
 								              target: "data",
 								              mutation: (props) => {
-								              	if (props.style.fill != "#c43a31") {
+								              	if ((props.style && props.style.fill) != "#c43a31") {
 								              		return {};
 								              	} else {
 								              		return { style: { fill: "#c43a31" } }
