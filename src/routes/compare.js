@@ -64,14 +64,14 @@ function getCommonWords (wordCountMap1, wordCountMap2) {
 
 function getCommonWordPhrases(song1Lyrics, song2Lyrics) {
     // Remove new lines, commas, question/exclamation marks, and parentheses
-    song1LyricsFiltered = song1Lyrics.replace(/\\n|\,|\?|\!|\(|\)/g, '');
-    song2LyricsFiltered = song2Lyrics.replace(/\\n|\,|\?|\!|\(|\)/g, '');
+    let song1LyricsFiltered = song1Lyrics.replace(/\\n|\,|\?|\!|\(|\)/g, '');
+    let song2LyricsFiltered = song2Lyrics.replace(/\\n|\,|\?|\!|\(|\)/g, '');
 
-    song1WordsArray = song1LyricsFiltered.split(' ');
-    song2WordsArray = song2LyricsFiltered.split(' ');
+    let song1WordsArray = song1LyricsFiltered.split(' ');
+    let song2WordsArray = song2LyricsFiltered.split(' ');
 
-    song1WordCountMap = createWordCountMap(song1WordsArray);
-    song2WordCountMap = createWordCountMap(song2WordsArray);
+    let song1WordCountMap = createWordCountMap(song1WordsArray);
+    let song2WordCountMap = createWordCountMap(song2WordsArray);
 
     let commonWords = getCommonWords(song1WordCountMap, song2WordCountMap);
 
@@ -79,7 +79,7 @@ function getCommonWordPhrases(song1Lyrics, song2Lyrics) {
     let song1LyricLines = song1Lyrics.split(/\\n/);
     let song2LyricLines = song2Lyrics.split(/\\n/);
     let numResults = Math.min(5, commonWords.length);
-    for (i = 0; i < numResults; i++) {
+    for (let i = 0; i < numResults; i++) {
         let word = commonWords[i].word;
         let lyrics1 = [];
         let lyrics2 = [];
