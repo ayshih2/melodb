@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Segment, Progress } from 'semantic-ui-react';
-import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryTooltip, VictoryAxis, VictoryTheme } from 'victory';
+import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryTooltip, VictoryAxis, VictoryTheme, VictoryLine } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
 
@@ -111,7 +111,7 @@ class Compare extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			      <Grid.Column>
-			        <p className="lyrics" align="right">
+			        <p className="lyrics">
 								You say love is messed up<br />
 								You say that it don't work<br />
 								You don't wanna try, no, no<br />
@@ -237,7 +237,7 @@ class Compare extends Component {
 			        
 			      </Grid.Column>
 			      <Grid.Column>
-			        <p className="lyrics" align="left">	
+			        <p className="lyrics">	
 								We were runnin' onto something<br />
 								And we didn't say forever but it's all we wanted<br />
 								You were so in love with simple things<br />
@@ -282,23 +282,30 @@ class Compare extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			    	<Grid.Column>
-<div>
-	  						<VictoryBar horizontal
+						  <VictoryChart 
+						  style={{ parent: { maxWidth: "100%" } }}
+						  height={150}>
+								<VictoryBar horizontal
 									height={125}
-	  							ref={this.bars}
+									ref={this.bars}
 							    data={this.state.barData}
 							    labels={(d) => d.x}
 							    y0={0}
 							    domain={ {y: [0, 100]} }
 							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#005b96" } }}	
 							    animate={{ duration: 2000 }}
-	  						/>
-<div className="test">
-<VictoryAxis 
-tickValues={[0, 20, 40, 60, 80, 100]}
-height={300}
-/></div></div>
-
+								/> 
+						    <VictoryAxis dependentAxis 
+						    	standalone={false}
+						    	offsetY={25}
+						      style={{
+								    axis: {stroke: "#756f6a"},
+								    ticks: {stroke: "grey", size: 5},
+								    tickLabels: {fontSize: 7, padding: 5}
+								  }}
+								  tickValues={[0, 20, 40, 60, 80, 100]}
+						    />
+						  </VictoryChart >
 			    	</Grid.Column>
 			    </Grid.Row>
 			  </Grid>				
