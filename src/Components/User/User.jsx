@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import './User.css'
-import { Header, Icon, Menu } from 'semantic-ui-react';
+import './User.scss'
+import { Header, Icon, Menu, Segment } from 'semantic-ui-react';
+import { auth, googleAuthProvider } from './firebase.js';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import axios from 'axios';
 
 class User extends Component {
   constructor() {
@@ -10,10 +13,22 @@ class User extends Component {
     }
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeItem: name });
+  }
+
+  axiosGetLiked = (email) => {
+    axios.get('localhost:3000/api/user?email=' + email + '&type=liked').then(
+      res => {
+        let likedList = res.data;
+        
+      }
+
+    );
+  }
 
   render() {
-    const { activeItem } = this.state
+    const { activeItem } = this.state;
 
     return (
       <div className='container'>
@@ -28,6 +43,11 @@ class User extends Component {
             <Menu.Item color='blue' name='recommended' active={activeItem === 'recommended'} onClick={this.handleItemClick} />
             <Menu.Item color='blue' name='history' active={activeItem === 'history'} onClick={this.handleItemClick} />
           </Menu>
+          <div className='userBoxWrapper'>
+            <Segment id='likedBox'>
+
+            </Segment>
+          </div>
         </div>
       </div>
     );
