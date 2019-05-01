@@ -22,6 +22,10 @@ Please call the API as follows:
 ### `/api/song?name=NAME GET`
 
   Returns song with specified name. Case insensitive but punctuation and whitespace sensitive. 
+
+### `/api/song?all="true" GET`
+
+  Returns all songs in database. 
   
 ### `/api/user?email=EMAILHERE&type=liked GET`
 
