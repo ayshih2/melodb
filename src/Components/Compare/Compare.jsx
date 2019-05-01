@@ -5,7 +5,7 @@ import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 
 import './Compare.scss';
 import '../../variables.scss';
 
-class Compare extends Component { 
+class Compare extends Component {
   constructor(props) {
     super(props);
 		this.state = {
@@ -80,8 +80,8 @@ class Compare extends Component {
 			console.log('In the viewport!');
 	    this.setState({
 				barData: [{x: 'Waste It On Me', y: 30}, {x: 'Free Spirit', y: 60}]
-	    });		
-		} 
+	    });
+		}
 		// else {
 		// 	console.log('Not in the viewport... whomp whomp');
 		// 	this.setState({barData: [{x: 'Waste It On Me', y: 5, y0: 1}, {x: 'Free Spirit', y: 10, y0: 1}]});
@@ -91,7 +91,7 @@ class Compare extends Component {
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
     return (
-    	<div className='gridLayout'>	
+    	<div className='gridLayout'>
 				<Grid textAlign='center' columns='equal'>
 			    <Grid.Row>
 			      <Grid.Column>
@@ -154,16 +154,16 @@ class Compare extends Component {
 								So if love is nothing more<br />
 								Than just a waste of your time<br />
 								Waste it on me<br />
-								Waste it on me		        
+								Waste it on me
 			        </p>
 			      </Grid.Column>
 			      <Grid.Column width={7}>
-			        
+
      						<svg viewBox="0 0 400 400">
-				        	<VictoryPie 
+				        	<VictoryPie
 										animate={{ duration: 1000, onLoad: { duration: 1500 } }}
 					          standalone={false}
-					          width={400} height={400}			        	
+					          width={400} height={400}
 				        		innerRadius={68}
 				        		// labelComponent={
 				          //     <VictoryTooltip/>
@@ -177,17 +177,17 @@ class Compare extends Component {
 								            	// clear all colors
 								              target: "data",
 								              eventKey: "all",
-								              mutation: () => { 
+								              mutation: () => {
 								              	return { style: undefined };
 								              }
-								            }, 
+								            },
 								            {
 								            	// highlight clicked section
 								              target: "data",
 								              mutation: (props) => {
 								                const fill = props.style && props.style.fill;
-								                return fill === "#005b96" ? null : { style: { fill: "#005b96" } };					              	
-								              }							            	
+								                return fill === "#005b96" ? null : { style: { fill: "#005b96" } };
+								              }
 								            }
 								          ];
 								        },
@@ -204,7 +204,7 @@ class Compare extends Component {
 								              }
 								            }
 								          ];
-								        },								        
+								        },
 								        onMouseOut: () => {
 								          return [
 								            {
@@ -218,26 +218,26 @@ class Compare extends Component {
 								              }
 								            }
 								          ];
-								        },								        								        
+								        },
 								      }
-								    }]}			        		
-				        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT 
+								    }]}
+				        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT
 									  data={this.state.pieData}
 									  padAngle={2}
 									  labelRadius={100}
-									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Comfortaa" } }}	        	
-								  /> 
+									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Comfortaa" } }}
+								  />
 					        <VictoryLabel
 					          textAnchor="middle"
 					          style={{ fontSize: 20, fontFamily: "Comfortaa" }}
 					          x={200} y={200}
 					          text={['Top 5', 'Common', 'Words']}
 					        />
-				      	</svg> 	
-			        
+				      	</svg>
+
 			      </Grid.Column>
 			      <Grid.Column>
-			        <p className="lyrics">	
+			        <p className="lyrics">
 								We were runnin' onto something<br />
 								And we didn't say forever but it's all we wanted<br />
 								You were so in love with simple things<br />
@@ -276,13 +276,13 @@ class Compare extends Component {
 								Free spirits<br />
 								Free spirit<br />
 								Free spirit<br />
-								Free spirit		        	
+								Free spirit
 			        </p>
 			      </Grid.Column>
 			    </Grid.Row>
 			    <Grid.Row>
 			    	<Grid.Column>
-						  <VictoryChart 
+						  <VictoryChart
 						  style={{ parent: { maxWidth: "100%" } }}
 						  height={150}>
 								<VictoryBar horizontal
@@ -292,10 +292,10 @@ class Compare extends Component {
 							    labels={(d) => d.x + ': ' + Math.round(d.y)}
 							    y0={0}
 							    domain={ {y: [0, 100]} }
-							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#005b96" } }}	
+							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#005b96" } }}
 							    animate={{ duration: 2000 }}
-								/> 
-						    <VictoryAxis dependentAxis 
+								/>
+						    <VictoryAxis dependentAxis
 						    	standalone={false}
 						    	offsetY={25}
 						      style={{
@@ -308,8 +308,8 @@ class Compare extends Component {
 						  </VictoryChart >
 			    	</Grid.Column>
 			    </Grid.Row>
-			  </Grid>				
-			</div>	
+			  </Grid>
+			</div>
     );
   }
 }

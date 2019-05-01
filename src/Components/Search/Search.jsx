@@ -1,54 +1,54 @@
 import React, { Component } from 'react';
 import { Input } from 'semantic-ui-react';
-import './Search.css';
-import Display from './Display/Display'
+import './Search.scss';
+import axios from 'axios';
+import List from './List/List';
 
-class SearchBar extends Component {
-  constructor(props) {
-    super(props);
+class Search extends Component {
+  constructor() {
+    super();
+
     this.state = {
       value: '',
-      first: true
-    };
-    this.out = React.createRef();
-    this.searchRef = React.createRef();
-    this.inputChangehandler = this.inputChangehandler.bind(this);
-    this.changeHeight = this.changeHeight.bind(this);
+      result: {}
+    }
+
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
-  changeHeight(elem) {
-    if (this.state.first) {
-      elem.style.transform = '';
-      elem.style.transition = '';
-      this.out.current.style.height = '100%';
+  clickHandler() {
+    const config = {
+      baseURL: 'localhost:5000/api',
+      url: `song?name=${this.state.value}`
     }
-    this.setState({
-      first: false
+    axios(config).then((response) => {
+      this.setState({
+        result: response.data
+      });
+    }).catch((error) => {
+      this.setState({
+        result: ''
+      });
     });
   }
 
-  inputChangehandler(e) {
-    if (this.state.first) {
-      var elem = this.searchRef.current;
-      elem.style.transform = 'translateY(-40vh)';
-      elem.style.transition = "all 1000ms";
-    }
+  inputChangeHandler(e) {
     this.setState({
       value: e.target.value
-    })
-    setTimeout(this.changeHeight, 800, elem);
+    }, this.clickHandler);
   }
 
   render() {
     return (
-      <div>
-        <div className='searchBar' ref={this.out}>
-          <div ref={this.searchRef} ><Input onChange={this.inputChangehandler} value={this.state.value} /></div>
+      <div className='parent'>
+        <div className='container'>
+          <Input className='containerinput' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
         </div>
-        <Display query={this.state.value} />
+        <List query={this.state.result} />
       </div>
     );
   }
 }
 
-export default SearchBar;
+export default Search;
