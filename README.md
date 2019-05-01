@@ -23,7 +23,7 @@ Please call the API as follows:
 
   Returns song with specified name. Case insensitive but punctuation and whitespace sensitive. 
 
-### `/api/song?all="true" GET`
+### `/api/song?all=true GET`
 
   Returns all songs in database. 
   
