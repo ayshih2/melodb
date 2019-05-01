@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './User.css'
+import './User.scss'
 import { Header, Icon, Menu } from 'semantic-ui-react';
 
 class User extends Component {
