@@ -1,6 +1,11 @@
 .searchBar {
 	display: flex;
+<<<<<<< HEAD
 	height: 100vh;
+=======
+	height: 90vh;
+	padding: 0;
+>>>>>>> jeremy
 	justify-content: center;
 	align-items: center;
 }
