@@ -43,13 +43,13 @@ class Compare extends Component {
 	}
 
 	_onLeftFocus() {
-    var leftSearchElem = this.leftSearchRef.current;
-    leftSearchElem.parentElement.classList.add('active');
+    	var leftSearchElem = this.leftSearchRef.current;
+    	leftSearchElem.parentElement.classList.add('active');
 	}
 
 	_onRightFocus() {
 		var rightSearchElem = this.rightSearchRef.current;
-    rightSearchElem.parentElement.classList.add('active');
+    	rightSearchElem.parentElement.classList.add('active');
 	}
 
 	componentDidMount() {
