@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var secrets = require('./secrets');
 
 var app = express();
 var port = process.env.PORT || 5000;
@@ -10,7 +9,7 @@ var port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(secrets.mongo_connection, { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://admin:9FQjUhlvDdBaix8P@melodb-6qtzl.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
 
 var allowCrossDomain = function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
