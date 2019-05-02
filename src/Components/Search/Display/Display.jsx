@@ -20,9 +20,9 @@ class Display extends Component {
 
   render() {
     if (!this.state.liked) {
-      var heart = <Icon name='heart outline' size='small' onClick={this.toggleLike} className='Unliked' />
+      var heart = <Icon name='heart outline' size='large' onClick={this.toggleLike} className='Unliked' />
     } else {
-      heart = <Icon name='heart' size='small' onClick={this.toggleLike} className='Liked' />
+      heart = <Icon name='heart' size='large' onClick={this.toggleLike} className='Liked' />
     }
     //if (this.props.query) {
       return (
@@ -42,8 +42,8 @@ class Display extends Component {
                         subheader='Baek Yerin'
                       />
                     </div>
-                    <div>{heart}</div>
                   </div>
+                  <div className='heart'>{heart}</div>
                 </div>
               </Grid.Column>
             </Grid.Row>
