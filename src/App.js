@@ -7,6 +7,7 @@ import {checkedAxiosGet} from './utils.js';
 import Search from './Components/Search/Search';
 import Header from './Components/Header/Header';
 import Compare from './Components/Compare/Compare';
+import CompareDisplay from './Components/Compare/CompareDisplay';
 import User from './Components/User/User';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -95,6 +96,12 @@ class App extends Component {
               <User />
             </div>
           } />
+          <Route exact path={process.env.PUBLIC_URL + '/CompareDisplay'} render = {props =>
+            <div>
+              <Header />
+              <User />
+            </div>
+          } />          
         </Switch>
       </Router>
     );
