@@ -19,6 +19,9 @@ You will also see any lint errors in the console.
 ## API Calls
 
 Please call the API as follows:
+
+https://melodb-uiuc.herokuapp.com
+
 ### `/api/song?name=NAME GET`
 
   Returns song with specified name. Case insensitive but punctuation and whitespace sensitive. 
