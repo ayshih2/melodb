@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import '../User.scss'
-import './Liked.scss';
+import './Recommended.scss';
 import { Header, Icon, Menu, Table, Image } from 'semantic-ui-react';
 
-export default class LikedTable extends React.Component {
+export default class RecommendedTable extends React.Component {
   render() {
 
-    var rows = this.props.likedSongs.map((liked) => {
+    var rows = this.props.recommendedSongs.map((recommended) => {
 
       return (
-        <LikedRow
-          liked = { liked }
-          key = { liked.songName }
+        <RecommendedRow
+          recommended = { recommended }
+          key = { recommended.song.songTitle }
         />
       );
     });
@@ -24,15 +24,14 @@ export default class LikedTable extends React.Component {
   }
 }
 
-class LikedRow extends React.Component {
+class RecommendedRow extends React.Component {
 
   render() {
-    const liked = this.props.liked;
+    const recommended = this.props.recommended;
     return (
       <Table.Row>
-        <Table.Cell className="album-cell"><Image className="img-album" size="tiny" src={ liked.songArt }></Image></Table.Cell>
-        <Table.Cell className="name-cell">{ liked.songName } by { liked.artist }</Table.Cell>
-        <Table.Cell className="date-cell">{ liked.likedDate }</Table.Cell>
+        <Table.Cell className="album-cell"><Image className="img-album" size="tiny" src={ recommended.song.albumImgUrl }></Image></Table.Cell>
+        <Table.Cell className="name-cell">{ recommended.song.songTitle } by { recommended.song.artist }</Table.Cell>
       </Table.Row>
     );
   }
