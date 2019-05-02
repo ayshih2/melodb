@@ -75,53 +75,6 @@ class App extends Component {
 
   render() {
     return (
-      // <div className="App">
-      //   <header className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <p>
-      //       Edit <code>src/App.js</code> and save to reload.
-      //     </p>
-      //     <a
-      //       className="App-link"
-      //       href="https://reactjs.org"
-      //       target="_blank"
-      //       rel="noopener noreferrer"
-      //     >
-      //       Learn React
-      //     </a>
-      //   </header>
-
-      //   <p>{this.state.response}</p>
-      //   <form onSubmit={this.handleSubmit}>
-      //     <p>
-      //       <strong>Post to Server:</strong>
-      //     </p>
-      //     <input
-      //       type="text"
-      //       value={this.state.post}
-      //       onChange={e => this.setState({ post: e.target.value })}
-      //     />
-      //     <button type="submit">Submit</button>
-      //   </form>
-      //   <p>{this.state.responseToPost}</p>
-
-      //   {this.state.isSignedIn ? (
-      //     <span>
-      //       <div>Signed In!</div>
-      //       <button onClick={() => auth.signOut()}>Sign out!</button>
-      //       <h1>Welcome {auth.currentUser.displayName}</h1>
-      //       <img
-      //         alt="profile picture"
-      //         src={auth.currentUser.photoURL}
-      //       />
-      //     </span>
-      //   ) : (
-      //     <StyledFirebaseAuth
-      //       uiConfig={this.uiConfig}
-      //       firebaseAuth={auth}
-      //     />
-      //   )}
-      // </div>
       <Router>
         <Switch>
           <Route exact path={process.env.PUBLIC_URL + '/'} render = {props =>

@@ -83,9 +83,9 @@ class User extends Component {
 
   render() {
     const { activeItem } = this.state;
-  
+
     return (
-      <div className='container'>
+      <div className='user-container'>
         <Header as='h2' icon>
           <Icon name='settings' />
           Account Settings
