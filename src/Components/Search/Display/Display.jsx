@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, List, Image, Icon, Segment, Item, Grid, Label } from 'semantic-ui-react';
+import { Header, List, Image, Icon, Segment, Grid, Label } from 'semantic-ui-react';
 import './Display.scss';
 import logo from './musical-note.svg';
 
@@ -50,7 +50,7 @@ class Display extends Component {
             <Grid.Row>
               <Grid.Column>
                 <Segment raised>
-                  <Label style={{fontFamily:'Lato', fontSize:'15px'}} as='a' color='red' ribbon>
+                  <Label style={{fontFamily:'Lato', fontSize:'15px'}} as='a' color='purple' ribbon>
                     Lyrics
                   </Label> 
                   <div className='lyrics'>
