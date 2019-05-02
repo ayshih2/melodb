@@ -146,9 +146,113 @@ module.exports = function(router) {
 							error: err
 		                });
 					} else {
-						res.status(200).send({
-							message: "OK",
-							data: res_user.history
+						let history = res_user.history[0];
+						let lenSongs = res_user.history[0].songs.length;
+						let lenComps = res_user.history[0].comparisons.length;
+						let songTitles = [];
+						let compTitles = [];
+
+						for (var i = 0; i < lenSongs; i++) {
+							if (!songIn(songTitles, history.songs[i].songId)) {
+								songTitles.push(history.songs[i].songId);
+							}
+						}
+
+						for (var i = 0; i < lenComps; i++) {
+							if (!songIn(compTitles, history.comparisons[i].songId1)) {
+								compTitles.push(history.comparisons[i].songId1);
+							}
+
+							if (!songIn(compTitles, history.comparisons[i].songId2)) {
+								compTitles.push(history.comparisons[i].songId2);
+							}
+						}
+
+						Song.find({'songTitle': {$in : songTitles}}, (errs, res_songs) => {
+							if (errs == null) {
+								let retSongs = [];
+								for (var song in res_songs) {
+									let keepLikedDate = new Date();
+									for (var hist in history.songs) {
+										if (history.songs[hist].songId === res_songs[song].songTitle) {
+											keepLikedDate = history.songs[hist].searchDate;
+											break;
+										}
+									}
+
+									let fullDate = keepLikedDate.toDateString();
+
+									let songObj = {
+										songName : res_songs[song].songTitle,
+										songArt : res_songs[song].albumImgUrl,
+										artist : res_songs[song].artist,
+										likedDate : fullDate
+									};
+
+									retSongs.push(songObj);
+								}
+
+								Song.find({'songTitle': {$in : compTitles}}, (errc, res_comps) => {
+									if (errc == null) {
+										let compSongs = [];
+										for (var i = 0; i < history.comparisons.length; i++) {
+											let numMatched = 0;
+											let song1 = {};
+											let song2 = {};
+											let compObj = {
+												song1: song1,
+												song2: song2,
+												compareDate: new Date()
+											};
+
+											for (var song in res_comps) {
+												if (history.comparisons[i].songId1 === res_comps[song].songTitle) {
+													song1 = {
+														songName : history.comparisons[i].songId1,
+														songArt : res_comps[song].albumImgUrl,
+														artist : res_comps[song].artist,
+													};
+													numMatched += 1;
+												} else if (history.comparisons[i].songId2 === res_comps[song].songTitle) {
+													song2 = {
+														songName : history.comparisons[i].songId2,
+														songArt : res_comps[song].albumImgUrl,
+														artist : res_comps[song].artist,
+													};
+													numMatched += 1;
+												}
+
+												if (numMatched == 2) {
+													compObj = {
+														song1: song1,
+														song2: song2,
+														compareDate: history.comparisons[i].compareDate.toDateString()
+													}
+													compSongs.push(compObj);
+													break;
+												}
+											}
+										}
+
+										res.status(200).send({
+											message: "OK",
+											data: [retSongs, compSongs]
+										});
+									} else {
+										res.status(500).send({
+											message: "There was an error finding comparisons in history.",
+											data: {},
+											error: errc
+										})
+									}
+								});	
+							} else {
+								res.status(500).send({
+									message: "There was an error finding songs in history.",
+									data: {},
+									error: errs
+								});
+							}
 						});
 					}
 				});
@@ -166,9 +270,49 @@ module.exports = function(router) {
 							error: err
 		                });
 					} else {
-						res.status(200).send({
-							message: "OK",
-							data: res_user.likedSongs
+						let orderedLikedSongs = [];
+						let lenSongs = res_user.likedSongs.length;
+
+						let songTitles = [];
+						for (var i = 0; i < lenSongs; i++) {
+							songTitles.push(res_user.likedSongs[i].songId);
+						}
+
+						Song.find({'songTitle': {$in : songTitles}}, (errs, res_songs) => {
+							if (errs == null) {
+								let retSongs = [];
+								for (var song in res_songs) {
+									let keepLikedDate = new Date();
+									for (var liked in res_user.likedSongs) {
+										if (res_user.likedSongs[liked].songId === res_songs[song].songTitle) {
+											keepLikedDate = res_user.likedSongs[liked].likedDate;
+											break;
+										}
+									}
+
+									let fullDate = keepLikedDate.toDateString();
+
+									let songObj = {
+										songName : res_songs[song].songTitle,
+										songArt : res_songs[song].albumImgUrl,
+										artist : res_songs[song].artist,
+										likedDate : fullDate
+									};
+
+									retSongs.push(songObj);
+								}	
+
+								res.status(200).send({
+									message: "OK",
+									data: retSongs
+								});
+							} else {
+								res.status(500).send({
+									message: "There was an error finding songs.",
+									data: {},
+									error: errs
+								})
+							}
 						});
 					}
 				});
