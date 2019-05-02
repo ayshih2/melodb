@@ -18,8 +18,7 @@ class User extends Component {
       liked: [],
       recommended: [],
       songHistory: [],
-      compHistory: [],
-      isSignedIn: false
+      compHistory: []
     }
   }
 
@@ -77,17 +76,17 @@ class User extends Component {
   }
 
   componentWillMount() {
-    if (this.state.isSignedIn) {
-      //is it good that it does this every time? no probably not
-      //does it affect anything that it does this every time? no so who cares
-      this.axiosGetLiked(firebase.auth().currentUser.email);
-      this.axiosGetRecommended(firebase.auth().currentUser.email);
-      this.axiosGetHistory(firebase.auth().currentUser.email);
-    }
 
-    auth.onAuthStateChanged(user => {
-			this.setState({ isSignedIn: !!user })
-		});
+    let saveThis = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        saveThis.axiosGetLiked(user.email);
+        saveThis.axiosGetRecommended(user.email);
+        saveThis.axiosGetHistory(user.email);
+      } else {
+        // No user is signed in.
+      }
+    });
   }
 
   render() {
