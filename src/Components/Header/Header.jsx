@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
 class Header extends Component {
-  state = {}
+  state = { activeItem: 'search' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -11,10 +11,10 @@ class Header extends Component {
     const { activeItem } = this.state
 
     return (
-      <Menu stackable borderless>
+      <Menu stackable borderless size='large'>
       <Menu.Menu>
-        <Menu.Item>
-          <img src='/logo.png' />
+        <Menu.Item header>
+          MeloDB: Top 100 Songs
         </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position='right'>

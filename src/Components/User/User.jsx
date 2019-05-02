@@ -83,7 +83,7 @@ class User extends Component {
 
   render() {
     const { activeItem } = this.state;
-  
+
     return (
       <div className='user-container'>
         <Header as='h2' icon>
