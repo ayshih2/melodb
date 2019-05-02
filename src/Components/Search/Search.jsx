@@ -1,31 +1,60 @@
 import React, { Component } from 'react';
 import { Input } from 'semantic-ui-react';
-import './Search.css';
+import './Search.scss';
+import axios from 'axios';
+import Listview from './Listview/Listview';
 
-class SearchBar extends Component {
-  constructor(props) {
-    super(props);
+class Search extends Component {
+  constructor() {
+    super();
+
     this.state = {
+      value: '',
+      result: {}
+    }
 
-    };
-
-    this.searchRef = React.createRef();
-    this.inputChangehandler = this.inputChangehandler.bind(this);
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
-  inputChangehandler(e) {
-    var elem = this.searchRef.current;
-    elem.style.transform = 'translateY(-46vh)';
-    elem.style.transition = "all 1000ms";
+  clickHandler() {
+    if (this.state.value) {
+      const config = {
+        baseURL: 'http://localhost:5000/api',
+        url: `song?name=${this.state.value}`
+      }
+      axios(config).then((response) => {
+        this.setState({
+          result: response.data.data
+        });
+      }).catch((error) => {
+        this.setState({
+          result: ''
+        });
+      });
+    } else {
+      this.setState({
+        result: ''
+      });
+    }
+  }
+
+  inputChangeHandler(e) {
+    this.setState({
+      value: e.target.value
+    }, this.clickHandler);
   }
 
   render() {
     return (
-      <div ref={this.searchRef} className='searchBar'>
-        <Input onChange={this.inputChangehandler} />
+      <div className='parent'>
+        <div className='search-container'>
+          <Input className='input' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
+        </div>
+        <Listview query={this.state.result} />
       </div>
     );
   }
 }
 
-export default SearchBar;
+export default Search;

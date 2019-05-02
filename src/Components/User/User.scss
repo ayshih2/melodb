@@ -1,0 +1,21 @@
+.user-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.menuWrapper {
+  width: 75%;
+}
+
+#lbox {
+	display: none;
+}
+
+#rbox {
+	display: none;
+}
+
+#hbox {
+	display: none;
+}
