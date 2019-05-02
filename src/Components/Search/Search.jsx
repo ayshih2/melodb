@@ -3,6 +3,8 @@ import { Input } from 'semantic-ui-react';
 import './Search.scss';
 import axios from 'axios';
 import Listview from './Listview/Listview';
+import firebase from 'firebase';
+import Login from '../Login/Login.jsx';
 
 class Search extends Component {
   constructor() {
@@ -20,7 +22,7 @@ class Search extends Component {
   clickHandler() {
     if (this.state.value) {
       const config = {
-        baseURL: 'http://localhost:5000/api',
+        baseURL: 'https://melodb-uiuc.herokuapp.com/api/',
         url: `song?name=${this.state.value}`
       }
       axios(config).then((response) => {
@@ -46,6 +48,10 @@ class Search extends Component {
   }
 
   render() {
+    if (!firebase.auth().currentUser) {
+      return <Login redirectUrl='/'/>
+    }
+
     return (
       <div className='parent'>
         <div className='search-container'>

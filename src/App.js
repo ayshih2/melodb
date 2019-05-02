@@ -38,7 +38,7 @@ class App extends Component {
           } />
           <Route exact path={process.env.PUBLIC_URL + '/Login'} render = {props =>
             <div>
-              <Login />
+              <Login redirectUrl={'/'}/>
             </div>
           } />
         </Switch>

@@ -4,6 +4,8 @@ import { Grid, Segment } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
+import firebase from 'firebase';
+import Login from '../Login/Login.jsx';
 
 class Compare extends Component {
   constructor(props) {
@@ -84,6 +86,10 @@ class Compare extends Component {
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
+		if (!firebase.auth().currentUser) {
+      return <Login redirectUrl='/compare'/>
+    }
+
     return (
     	<div className='gridLayout'>
 				<Grid textAlign='center' columns='equal'>

@@ -8,6 +8,8 @@ import LikedTable from './Liked/Liked.jsx';
 import RecommendedTable from './Recommended/Recommended.jsx';
 import HistorySongTable from './History/HistorySong.jsx';
 import HistoryCompTable from './History/HistoryComp.jsx';
+import firebase from 'firebase';
+import Login from '../Login/Login.jsx';
 
 class User extends Component {
   constructor() {
@@ -16,7 +18,8 @@ class User extends Component {
       liked: [],
       recommended: [],
       songHistory: [],
-      compHistory: []
+      compHistory: [],
+      isSignedIn: false
     }
   }
 
@@ -74,21 +77,31 @@ class User extends Component {
   }
 
   componentWillMount() {
-    //is it good that it does this every time? no probably not
-    //does it affect anything that it does this every time? no so who cares
-    this.axiosGetLiked('testEmail');
-    this.axiosGetRecommended('testEmail');
-    this.axiosGetHistory('testEmail');
+    if (this.state.isSignedIn) {
+      //is it good that it does this every time? no probably not
+      //does it affect anything that it does this every time? no so who cares
+      this.axiosGetLiked(firebase.auth().currentUser.email);
+      this.axiosGetRecommended(firebase.auth().currentUser.email);
+      this.axiosGetHistory(firebase.auth().currentUser.email);
+    }
+
+    auth.onAuthStateChanged(user => {
+			this.setState({ isSignedIn: !!user })
+		});
   }
 
   render() {
     const { activeItem } = this.state;
 
+    if (!firebase.auth().currentUser) {
+      return <Login redirectUrl='/user'/>
+    }
+
     return (
       <div className='user-container'>
         <Header as='h2' icon>
           <Icon name='settings' />
-          Account Settings
+          <p>{firebase.auth().currentUser.displayName}</p>
           <Header.Subheader>Manage your account settings and set e-mail preferences.</Header.Subheader>
         </Header>
         <div className='menuWrapper'>

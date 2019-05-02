@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 import { auth } from '../../firebase.js';
 
-
 class Header extends Component {
   state = { activeItem: 'search' }
 
