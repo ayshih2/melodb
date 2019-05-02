@@ -12,24 +12,24 @@ class Display extends Component {
     this.toggleLike = this.toggleLike.bind(this);
   }
 
-  toggleLike() {
-    this.setState({
-      liked: !this.state.liked
-    }, () => {
-      const config = {
-        method: 'post',
-        baseURL: 'http://localhost:5000/api',
-        url: `user?email=${auth.currentUser.email}&type=liked`,
-        data: {
-          songName: {this.props.query.songTitle}
-        }
-      axios(config).then((res) => {
-        console.log('Success');
-      }).catch(err => {
-        console.log(err);
-      });
-    });
-  }
+  // toggleLike() {
+  //   this.setState({
+  //     liked: !this.state.liked
+  //   }, () => {
+  //     const config = {
+  //       method: 'post',
+  //       baseURL: 'http://localhost:5000/api',
+  //       url: `user?email=${auth.currentUser.email}&type=liked`,
+  //       data: {
+  //         songName: {this.props.query.songTitle}
+  //       }
+  //     axios(config).then((res) => {
+  //       console.log('Success');
+  //     }).catch(err => {
+  //       console.log(err);
+  //     });
+  //   });
+  // }
 
   render() {
     if (!this.state.liked) {

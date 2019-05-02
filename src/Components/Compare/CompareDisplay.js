@@ -57,8 +57,9 @@ class CompareDisplay extends Component {
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
-    return (
-
+  	console.log("COMPARE " + this.props.query)
+  	if (this.props.query == true) {
+	    return (
 				<Grid textAlign='center' columns='equal'>
 			    <Grid.Row>
 			      <Grid.Column>
@@ -109,8 +110,7 @@ class CompareDisplay extends Component {
 			        </p>
 			      </Grid.Column>
 			      <Grid.Column width={7}>
-
-     						<svg viewBox="0 0 400 400">
+	   						<svg viewBox="0 0 400 400">
 				        	<VictoryPie
 										animate={{ duration: 1000, onLoad: { duration: 1500 } }}
 					          standalone={false}
@@ -232,12 +232,12 @@ class CompareDisplay extends Component {
 			    		<Segment padded>
 				    		<Label attached='top' className='sentimentRatingText'>
 				    		  <Header as='h3' >
-                    <Header.Content>Lyrics Sentiment Rating</Header.Content>
-                  </Header>
+	                  <Header.Content>Lyrics Sentiment Rating</Header.Content>
+	                </Header>
 				    		</Label>
 							  <VictoryChart
-							  style={{ parent: { maxWidth: "100%" } }}
-							  height={150}>
+								  style={{ parent: { maxWidth: "100%" } }}
+								  height={150}>
 									<VictoryBar horizontal
 										height={125}
 										ref={this.bars}
@@ -266,7 +266,11 @@ class CompareDisplay extends Component {
 			    	</Grid.Column>
 			    </Grid.Row>
 			  </Grid>
-    );
+	    );
+  	} else {
+  		return null;
+  	}
+
   }
 }
 

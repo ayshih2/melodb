@@ -4,7 +4,7 @@ import CompareDisplay from './CompareDisplay'
 import { Grid, Segment } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import axios from 'axios';
-import Listview from '../Search/Listview/Listview.jsx';
+import CompareListview from './CompareListview.jsx';
 import '../Search/Listview/Listview.scss';
 
 
@@ -23,7 +23,10 @@ class Compare extends Component {
             valueLeft: '',
             valueRight: '',
       		resultLeft: {},
-      		resultRight: {}
+      		resultRight: {},
+      		boolLeft: false,
+  				boolRight: false,
+
     }
 
     this.leftSearchRef = React.createRef();
@@ -38,6 +41,16 @@ class Compare extends Component {
     this.inputChangeHandlerRight = this.inputChangeHandlerRight.bind(this);
     this.clickHandlerRight = this.clickHandlerRight.bind(this);
   }
+
+  clickedLeftSong(event) {
+  	console.log("here");
+    this.setState({boolLeft: !this.state.boolLeft})
+	}
+
+	clickedRightSong(event) {
+		console.log("there");
+    this.setState({boolRight: !this.state.boolRight})
+	}
 
   clickHandlerLeft() {
     if (this.state.valueLeft) {
@@ -130,6 +143,8 @@ class Compare extends Component {
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
+  	var toRender = this.state.boolLeft === true && this.state.boolRight === true
+  	console.log("????? " + toRender)
     return (
     	<div className='gridLayout'>
 				<Grid textAlign='center' columns='equal'>
@@ -140,7 +155,7 @@ class Compare extends Component {
 									<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandlerLeft} value={this.state.valueLeft}/>
 								</label>
 							</Segment>
-						<Listview query={this.state.resultLeft} />
+						<CompareListview query={this.state.resultLeft} buttonClick={this.clickedLeftSong.bind(this)} />
 			      </Grid.Column>
 			      <Grid.Column>
 				      <Segment>
@@ -149,10 +164,13 @@ class Compare extends Component {
 								</label>
 							</Segment>
 
-						<Listview query={this.state.resultRight} />
+						<CompareListview query={this.state.resultRight} buttonClick={this.clickedRightSong.bind(this)} />
 			      </Grid.Column>
 			    </Grid.Row>   
 			  </Grid>
+			  {console.log("LEFT " + this.state.boolLeft)}
+			  {console.log("RIGHT " + this.state.boolRight)}
+			  <CompareDisplay query={toRender} />
 			</div>
     );
   }
