@@ -85,7 +85,7 @@ class User extends Component {
     const { activeItem } = this.state;
   
     return (
-      <div className='container'>
+      <div className='user-container'>
         <Header as='h2' icon>
           <Icon name='settings' />
           Account Settings
@@ -93,9 +93,9 @@ class User extends Component {
         </Header>
         <div className='menuWrapper'>
           <Menu borderless fluid widths={3} size="tiny">
-            <Menu.Item color='blue' name='liked' id='liked' active={activeItem === 'liked'} onClick={this.handleItemClick} />
-            <Menu.Item color='blue' name='recommended' id='recommended' active={activeItem === 'recommended'} onClick={this.handleItemClick} />
-            <Menu.Item color='blue' name='history' id='history' active={activeItem === 'history'} onClick={this.handleItemClick} />
+            <Menu.Item color='purple' name='liked' className='user-menu-item' active={activeItem === 'liked'} onClick={this.handleItemClick} />
+            <Menu.Item color='purple' name='recommended' className='user-menu-item' active={activeItem === 'recommended'} onClick={this.handleItemClick} />
+            <Menu.Item color='purple' name='history' className='user-menu-item' active={activeItem === 'history'} onClick={this.handleItemClick} />
           </Menu>
           <div className='userBoxWrapper'>
             <Segment id='lbox' className='liked-box'>

@@ -1,4 +1,4 @@
-.album-cell {
+.h-album-cell {
 	text-align: center !important;
 }
 
@@ -8,11 +8,27 @@
 	border: solid 2px #c3c3c3;
 }
 
-.name-cell {
+.h-name-cell {
 	text-align: center !important;
 	font-family: lato;
 }
 
-.date-cell {
+.h-comp-cell {
+	text-align: center !important;
+	font-family: lato;
+	font-weight: bold;
+}
+
+.h-firstsong-cell {
+	text-align: right !important;
+	font-family: lato;
+}
+
+.h-secondsong-cell {
+	text-align: left !important;
+	font-family: lato;
+}
+
+.h-date-cell {
 	font-family: lato;
 }
