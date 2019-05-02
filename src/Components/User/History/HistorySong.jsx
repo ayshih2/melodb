@@ -17,7 +17,7 @@ export default class HistorySongTable extends React.Component {
 
     return (
       <Table basic='very'>
-        <Table.Header>Songs</Table.Header>
+        <Table.Header className="h-header">Songs</Table.Header>
         <Table.Body>{ rows }</Table.Body>
       </Table>
     );

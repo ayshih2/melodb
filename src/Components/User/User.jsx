@@ -45,7 +45,7 @@ class User extends Component {
   }
 
   axiosGetLiked = (email) => {
-    axios.get('http://localhost:5000/api/user/?email=' + email + '&type=liked')
+    axios.get('https://melodb-uiuc.herokuapp.com/api/user/?email=' + email + '&type=liked')
     .then(
       res => {
         let info = res.data;
@@ -55,7 +55,7 @@ class User extends Component {
   }
 
   axiosGetRecommended = (email) => {
-    axios.get('http://localhost:5000/api/user/?email=' + email + '&type=recommended')
+    axios.get('https://melodb-uiuc.herokuapp.com/api/user/?email=' + email + '&type=recommended')
     .then(
       res => {
         let info = res.data;
@@ -65,7 +65,7 @@ class User extends Component {
   }
 
   axiosGetHistory = (email) => {
-    axios.get('http://localhost:5000/api/user/?email=' + email + '&type=history')
+    axios.get('https://melodb-uiuc.herokuapp.com/api/user/?email=' + email + '&type=history')
     .then(
       res => {
         let info = res.data;
