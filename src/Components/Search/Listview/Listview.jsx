@@ -24,7 +24,8 @@ class Listview extends Component {
       });
       return(
         <div className='list'>
-          <List divided animated relaxed='very' verticalAlign='middle' >
+          <List divided animated relaxed='very'
+          verticalAlign='middle' >
             {listview}
           </List>
         </div>

@@ -4,8 +4,9 @@ import CompareDisplay from './CompareDisplay'
 import { Grid, Segment } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import axios from 'axios';
-import Listview from '../Search/Listview/Listview';
-import '../../variables.scss';
+import Listview from '../Search/Listview/Listview.jsx';
+import '../Search/Listview/Listview.scss';
+
 
 class Compare extends Component {
   constructor(props) {
@@ -19,8 +20,10 @@ class Compare extends Component {
 					    { x: "Dunno", y: 100, label: "click me" }
             ],
             barData: [{x: 'Waste It On Me', y: 5}, {x: 'Free Spirit', y: 5}],
-            value: '',
-      			result: {}
+            valueLeft: '',
+            valueRight: '',
+      		resultLeft: {},
+      		resultRight: {}
     }
 
     this.leftSearchRef = React.createRef();
@@ -30,37 +33,67 @@ class Compare extends Component {
     this._onLeftFocus = this._onLeftFocus.bind(this);
     this._onRightFocus = this._onRightFocus.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.inputChangeHandler = this.inputChangeHandler.bind(this);
-    this.clickHandler = this.clickHandler.bind(this);
+    this.inputChangeHandlerLeft = this.inputChangeHandlerLeft.bind(this);
+    this.clickHandlerLeft = this.clickHandlerLeft.bind(this);
+    this.inputChangeHandlerRight = this.inputChangeHandlerRight.bind(this);
+    this.clickHandlerRight = this.clickHandlerRight.bind(this);
   }
 
-  clickHandler() {
-    if (this.state.value) {
+  clickHandlerLeft() {
+    if (this.state.valueLeft) {
       const config = {
-        baseURL: 'http://localhost:5000/api',
-        url: `song?name=${this.state.value}`
+        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
+        url: `song?name=${this.state.valueLeft}`
       }
       axios(config).then((response) => {
         this.setState({
-          result: response.data.data
+          resultLeft: response.data.data
         });
       }).catch((error) => {
         this.setState({
-          result: ''
+          resultLeft: ''
         });
       });
     } else {
       this.setState({
-        result: ''
+        resultLeft: ''
       });
     }
   }
 
-  inputChangeHandler(e) {
-    this.setState({
-      value: e.target.value
-    }, this.clickHandler);
+	inputChangeHandlerLeft(e) {
+	    this.setState({
+	      valueLeft: e.target.value
+	    }, this.clickHandlerLeft);
+  	}
+
+  	clickHandlerRight() {
+	    if (this.state.valueRight) {
+	      const config = {
+	        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
+	        url: `song?name=${this.state.valueRight}`
+	      }
+	      axios(config).then((response) => {
+	        this.setState({
+	          resultRight: response.data.data
+	        });
+	      }).catch((error) => {
+	        this.setState({
+	          resultRight: ''
+	        });
+	      });
+	    } else {
+	      this.setState({
+	        resultRight: ''
+	      });
+	    }
   }
+
+	inputChangeHandlerRight(e) {
+	    this.setState({
+	      valueRight: e.target.value
+	    }, this.clickHandlerRight);
+  	}
 
 	_onBlur() {
 		var leftSearchElem = this.leftSearchRef.current;
@@ -104,21 +137,22 @@ class Compare extends Component {
 			      <Grid.Column>
 				      <Segment>
 					      <label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
-									<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandler} value={this.state.value}/>
+									<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandlerLeft} value={this.state.valueLeft}/>
 								</label>
 							</Segment>
+						<Listview query={this.state.resultLeft} />
 			      </Grid.Column>
 			      <Grid.Column>
 				      <Segment>
 								<label className="search" htmlFor="right_inpt_search" onFocus={this._onRightFocus} onBlur={this._onBlur}>
-									<input ref={this.rightSearchRef} id="right_inpt_search" type="text" />
+									<input ref={this.rightSearchRef} id="right_inpt_search" type="text" onChange={this.inputChangeHandlerRight} value={this.state.valueRight}/>
 								</label>
 							</Segment>
+
+						<Listview query={this.state.resultRight} />
 			      </Grid.Column>
 			    </Grid.Row>   
 			  </Grid>
-			  
-			  <Listview query={this.state.result} />
 			</div>
     );
   }
