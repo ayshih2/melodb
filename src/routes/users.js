@@ -587,7 +587,14 @@ module.exports = function(router) {
 							data: {}
 						});
 					} else {
-						let user = new User(req.body);
+						let user = new User({
+							name: req.body.name,
+							email: req.body.email,
+							pictureUrl: "",
+							likedSongs: [],
+							history: [{songs: [], comparisons: []}],
+							recommended: []
+						});
 						user.save();
 						res.status(201).send({
 							message: "User created",
