@@ -44,7 +44,7 @@ class App extends Component {
           } />
           <Route exact path={process.env.PUBLIC_URL + '/Display'} render = {props =>
             <div>
-              <Header initialActiveItem={'compare'}/>
+              <Header initialActiveItem={'search'}/>
               <User />
             </div>
           } />  
