@@ -3,7 +3,6 @@ import { Input } from 'semantic-ui-react';
 import './Search.scss';
 import axios from 'axios';
 import Listview from './Listview/Listview';
-import Display from './Display/Display';
 
 class Search extends Component {
   constructor() {
