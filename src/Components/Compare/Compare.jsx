@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import CompareDisplay from './CompareDisplay'
 import { Grid, Segment } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
+import axios from 'axios';
+import Listview from '../Search/Listview/Listview';
 import '../../variables.scss';
 
 class Compare extends Component {
@@ -10,13 +12,15 @@ class Compare extends Component {
     super(props);
 		this.state = {
             pieData: [
-									    { x: "I", y: 0, label: "click me" },
-									    { x: "You", y: 0, label: "click me" },
-									    { x: "Me", y:  0, label: "click me"},
-									    { x: "Word", y: 0, label: "click me" },
-									    { x: "Dunno", y: 100, label: "click me" }
+					    { x: "I", y: 0, label: "click me" },
+					    { x: "You", y: 0, label: "click me" },
+					    { x: "Me", y:  0, label: "click me"},
+					    { x: "Word", y: 0, label: "click me" },
+					    { x: "Dunno", y: 100, label: "click me" }
             ],
-            barData: [{x: 'Waste It On Me', y: 5}, {x: 'Free Spirit', y: 5}]
+            barData: [{x: 'Waste It On Me', y: 5}, {x: 'Free Spirit', y: 5}],
+            value: '',
+      			result: {}
     }
 
     this.leftSearchRef = React.createRef();
@@ -27,6 +31,36 @@ class Compare extends Component {
     this._onRightFocus = this._onRightFocus.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
+  }
+
+  clickHandler() {
+    if (this.state.value) {
+      const config = {
+        baseURL: 'http://localhost:5000/api',
+        url: `song?name=${this.state.value}`
+      }
+      axios(config).then((response) => {
+        this.setState({
+          result: response.data.data
+        });
+      }).catch((error) => {
+        this.setState({
+          result: ''
+        });
+      });
+    } else {
+      this.setState({
+        result: ''
+      });
+    }
+  }
+
+  inputChangeHandler(e) {
+    this.setState({
+      value: e.target.value
+    }, this.clickHandler);
   }
 
 	_onBlur() {
@@ -54,11 +88,11 @@ class Compare extends Component {
 	componentDidMount() {
 	  this.setState({
 	      pieData: [
-							    { x: "I", y: 15},
-							    { x: "You", y: 15},
-							    { x: "Me", y:  40},
-							    { x: "running", y: 10},
-							    { x: "Dunno", y:  20}
+			    { x: "I", y: 15},
+			    { x: "You", y: 15},
+			    { x: "Me", y:  40},
+			    { x: "running", y: 10},
+			    { x: "Dunno", y:  20}
 	  ]})
   }
 
@@ -87,6 +121,7 @@ class Compare extends Component {
 			      </Grid.Column>
 			    </Grid.Row>   
 			  </Grid>
+			  
 			  <CompareDisplay />
 			</div>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Label, Header } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
@@ -19,38 +19,11 @@ class CompareDisplay extends Component {
             barData: [{x: 'Waste It On Me', y: 5}, {x: 'Free Spirit', y: 5}]
     }
 
-    this.leftSearchRef = React.createRef();
-    this.rightSearchRef = React.createRef();
     this.bars = React.createRef();
-    this._onBlur = this._onBlur.bind(this);
-    this._onLeftFocus = this._onLeftFocus.bind(this);
-    this._onRightFocus = this._onRightFocus.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
   }
-
-	_onBlur() {
-		var leftSearchElem = this.leftSearchRef.current;
-		if (leftSearchElem.value.length === 0) {
-			leftSearchElem.parentElement.classList.remove('active');
-		}
-
-		var rightSearchElem = this.rightSearchRef.current;
-		if (rightSearchElem.value.length === 0) {
-			rightSearchElem.parentElement.classList.remove('active');
-		}
-	}
-
-	_onLeftFocus() {
-    var leftSearchElem = this.leftSearchRef.current;
-    leftSearchElem.parentElement.classList.add('active');
-	}
-
-	_onRightFocus() {
-		var rightSearchElem = this.rightSearchRef.current;
-    rightSearchElem.parentElement.classList.add('active');
-	}
 
 	componentDidMount() {
 		window.addEventListener('scroll', this.handleScroll, { passive: true })
@@ -256,32 +229,40 @@ class CompareDisplay extends Component {
 			    </Grid.Row>
 			    <Grid.Row>
 			    	<Grid.Column>
-						  <VictoryChart
-						  style={{ parent: { maxWidth: "100%" } }}
-						  height={150}>
-								<VictoryBar horizontal
-									height={125}
-									ref={this.bars}
-							    data={this.state.barData}
-							    labels={(d) => d.x + ': ' + Math.round(d.y)}
-							    y0={0}
-							    domain={ {y: [0, 100]} }
-							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"}, 
-							    // #003366 is dark blue, #800000 is maroon
-							    data: { fill: data => (data.x === this.state.barData[0].x ? "#003366" : "#800000")  } }}
-							    animate={{ duration: 2000 }}
-								/>
-						    <VictoryAxis dependentAxis
-						    	standalone={false}
-						    	offsetY={25}
-						      style={{
-								    axis: {stroke: "#756f6a"},
-								    ticks: {stroke: "grey", size: 5},
-								    tickLabels: {fontSize: 7, padding: 5, fontFamily: "Lato"}
-								  }}
-								  tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
-						    />
-						  </VictoryChart >
+			    		<Segment padded>
+				    		<Label attached='top' className='sentimentRatingText'>
+				    		  <Header as='h3' >
+                    <Header.Content>Lyrics Sentiment Rating</Header.Content>
+                  </Header>
+				    		</Label>
+							  <VictoryChart
+							  style={{ parent: { maxWidth: "100%" } }}
+							  height={150}>
+									<VictoryBar horizontal
+										height={125}
+										ref={this.bars}
+								    data={this.state.barData}
+								    labels={(d) => d.x + ': ' + Math.round(d.y)}
+								    y0={0}
+								    domain={ {y: [0, 100]} }
+								    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"}, 
+								    // #003366 is dark blue, #800000 is maroon
+								    data: { fill: data => (data.x === this.state.barData[0].x ? "#003366" : "#800000")  } }}
+								    animate={{ duration: 2000 }}
+									/>
+							    <VictoryAxis dependentAxis
+							      style={{
+									    axis: {stroke: "#756f6a"},
+									    axisLabel: {fontSize: 1, padding: 30},
+									    ticks: {stroke: "grey", size: 5},
+									    tickLabels: {fontSize: 7, padding: 5, fontFamily: "Lato"}
+									  }}
+									  tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+									  standalone={false}
+							    	offsetY={30}
+							    />
+							  </VictoryChart >
+						  </Segment>
 			    	</Grid.Column>
 			    </Grid.Row>
 			  </Grid>
