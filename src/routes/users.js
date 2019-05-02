@@ -581,7 +581,7 @@ module.exports = function(router) {
 		} else {
 			if (req.body.email) {
 				User.find({"email": req.body.email}, (err, docs) => {
-					if (docs.length) {
+					if (docs.length != 0) {
 						res.status(500).send({
 							message: "User with this email already exists",
 							data: {}
