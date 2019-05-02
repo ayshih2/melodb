@@ -3,25 +3,34 @@ import { auth, googleAuthProvider } from '../../firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import axios from 'axios';
 import './Login.scss';
-import {checkedAxiosGet} from '../../utils.js';
-
 
 class Login extends Component {
 	state = {
-	    response: '',
-	    post: '',
-	    responseToPost: '',
-	    isSignedIn: false
-  	};
+			isSignedIn: false,
+			redirectUrl: process.env.PUBLIC_URL + '/'
+  };
 
 	uiConfig = {
-	    signInFlow: "popup",
+			signInFlow: "popup",
+			signInSuccessUrl: process.env.PUBLIC_URL + '/',
 	    signInOptions: [
 	      googleAuthProvider.PROVIDER_ID
-	    ],
-	    callbacks: {
-	      signInSuccess: () => false
-	    }
+	    ]
+	}
+
+	componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user })
+      if (user) {
+        // Add user to database if new user
+        axios.post("https://melodb-uiuc.herokuapp.com/api/user/", {
+          name: user.displayName,
+          email: user.email
+        }).catch(err => {
+          console.log(err);
+        });
+			}
+		});
 	}
 
 	render() {
