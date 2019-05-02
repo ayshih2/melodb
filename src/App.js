@@ -8,6 +8,7 @@ import Search from './Components/Search/Search';
 import Header from './Components/Header/Header';
 import Compare from './Components/Compare/Compare';
 import User from './Components/User/User';
+import Display from './Components/Display/Display';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
@@ -83,16 +84,22 @@ class App extends Component {
               <Search />
             </div>
           } />
-          <Route exact path={process.env.PUBLIC_URL + '/Compare'} render = {props =>
+          <Route exact path={process.env.PUBLIC_URL + '/compare'} render = {props =>
             <div>
               <Header />
               <Compare />
             </div>
           } />
-          <Route exact path={process.env.PUBLIC_URL + '/User'} render = {props =>
+          <Route exact path={process.env.PUBLIC_URL + '/user'} render = {props =>
             <div>
               <Header />
               <User />
+            </div>
+          } />
+          <Route exact path={process.env.PUBLIC_URL + '/display/:title'} render = {props =>
+            <div>
+              <Header />
+              <Display params={props} key={props.match.params.title}/>
             </div>
           } />
         </Switch>

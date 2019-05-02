@@ -11,7 +11,7 @@ class Listview extends Component {
         return(
           <List.Item key={idx}>
             <Link to={{
-              pathname: `${process.env.PUBLIC_URL}/Display`,
+              pathname: `${process.env.PUBLIC_URL}/display/${song.songTitle}`,
               state: {
                 query: song
                }
