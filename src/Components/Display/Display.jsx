@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './Display.scss';
 import axios from 'axios';
 import { auth } from '../../firebase.js';
+import firebase from 'firebase';
 import logo from './musical-note.svg';
 
 class Display extends Component {
@@ -17,7 +18,7 @@ class Display extends Component {
     this.toggleLike = this.toggleLike.bind(this);
     const config = {
       baseURL: 'http://localhost:5000/api',
-      url: `user?email=testEmail&type=liked`
+      url: `user?email=${firebase.auth().currentUser.email}&type=liked`
     }
     axios(config).then(res => {
       var idx = res.data.data.findIndex(elem => elem.songName.toLowerCase() === this.song.songTitle.toLowerCase());
@@ -52,7 +53,7 @@ class Display extends Component {
     const config = {
       method: 'put',
       baseURL: 'https://melodb-uiuc.herokuapp.com/api',
-      url: 'user?email=testEmail&type=history&add=song',
+      url: `user?email=${firebase.auth().currentUser.email}&type=history&add=song`,
       data: {
         songName: this.song.songTitle
       }
@@ -71,7 +72,7 @@ class Display extends Component {
       const config = {
         method: 'post',
         baseURL: 'https://melodb-uiuc.herokuapp.com/api',
-        url: `user?email=testEmail&type=liked`,
+        url: `user?email=${firebase.auth().currentUser.email}&type=liked`,
         data: {
           songName: this.song.songTitle
         }
@@ -85,7 +86,6 @@ class Display extends Component {
   }
 
   render() {
-    console.log(this.state.related);
     if (!this.state.liked) {
       var heart = <Icon name='heart outline' size='large' onClick={this.toggleLike} className='Unliked' />
     } else {
