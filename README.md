@@ -35,6 +35,75 @@ Please call the API as follows:
 
   Returns top 5 recommended songs of a specified user.
   
+  ```
+  {
+    "message": "OK",
+    "data": {
+        "top5RecommendedSongs": [
+            {
+                "recommendedScore": 2.6492907230444787,
+                "song": {
+                    "_id": "5cc6318b1c9d440000f5fd2b",
+                    "songTitle": "Last Time That I Checc'd",
+                    "artist": "Nipsey Hussle",
+                    "genre": "rap",
+                    "albumName": "",
+                    "albumImgUrl": "https://lastfm-img2.akamaized.net/i/u/ar0/4ae65269e4faaa5f572643ba397532df",
+                    "sentiment": 0.062329353772549
+                }
+            },
+            {
+                "recommendedScore": 2.6483398874019715,
+                "song": {
+                    "_id": "5cc62c0d1c9d440000f5fd23",
+                    "songTitle": "Big Ole Freak",
+                    "artist": "Megan Thee Stallion",
+                    "genre": "rap",
+                    "albumImgUrl": "https://lastfm-img2.akamaized.net/i/u/174s/8ff167442ca0b6af567ded6bdadf795b.png",
+                    "sentiment": 0.044213688754491
+                }
+            },
+            {
+                "recommendedScore": 2.6090027729173286,
+                "song": {
+                    "_id": "5cc62ce71c9d440000f5fd24",
+                    "songTitle": "Put a Date On It",
+                    "artist": "Yo Gotti",
+                    "genre": "rap",
+                    "albumName": "",
+                    "albumImgUrl": "https://lastfm-img2.akamaized.net/i/u/174s/a8b224e37b642b91c60d09d9837da2aa.png",
+                    "sentiment": -0.031776984259542
+                }
+            },
+            {
+                "recommendedScore": 2.3107893324385964,
+                "song": {
+                    "_id": "5cc368f31c9d4400005f44b9",
+                    "songTitle": "KILL THIS LOVE",
+                    "artist": "BLACKPINK",
+                    "genre": "kpop",
+                    "albumName": "KILL THIS LOVE",
+                    "albumImgUrl": "https://lastfm-img2.akamaized.net/i/u/174s/e1bcfd173a3e4331184d755171ce5114.jpg",
+                    "sentiment": 0.0571612965
+                }
+            },
+            {
+                "recommendedScore": 2.2885695325468602,
+                "song": {
+                    "_id": "5cc633fb1c9d440000f5fd2e",
+                    "songTitle": "Make It Right",
+                    "artist": "BTS",
+                    "genre": "kpop",
+                    "albumName": "Map of the Soul: Persona",
+                    "albumImgUrl": "https://lastfm-img2.akamaized.net/i/u/174s/3a5a697440684a684a67feab1e7ea091.png",
+                    "sentiment": 0.12446909818121
+                }
+            }
+        ]
+    }
+}
+  ```
+  
 ### `/api/user?email=EMAILHERE&type=history GET`
 
   Returns the history of searches and song comparisons of a specified user.
