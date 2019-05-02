@@ -44,7 +44,7 @@ class Search extends Component {
     return (
       <div>
         <div className='parent'>
-          <div className='container'>
+          <div className='inputContainer'>
             <Input className='containerinput' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
           </div>
           <List query={this.state.result} />

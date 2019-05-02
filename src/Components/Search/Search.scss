@@ -5,11 +5,12 @@
   margin: 0 auto;
 }
 
-.container {
+.inputContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 15px;
+  /*border-bottom: 2px solid black;*/
 
   input {
     font-family: $dosis !important;

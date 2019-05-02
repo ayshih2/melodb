@@ -50,7 +50,7 @@ class Display extends Component {
             <Grid.Row>
               <Grid.Column>
                 <Segment raised>
-                  <Label style={{fontFamily:'Lato'}} as='a' color='red' ribbon>
+                  <Label style={{fontFamily:'Lato', fontSize:'15px'}} as='a' color='red' ribbon>
                     Lyrics
                   </Label> 
                   <div className='lyrics'>
