@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-var secrets = require('./secrets');
+var secrets = require('./secrets.js');
 
 const config = {
     apiKey: secrets.firebaseApiKey,
