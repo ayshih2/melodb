@@ -33,7 +33,7 @@ Please call the API as follows:
   
 ### `/api/user?email=EMAILHERE&type=recommended GET`
 
-  Returns all recommended songs of a specified user.
+  Returns top 5 recommended songs of a specified user.
   
 ### `/api/user?email=EMAILHERE&type=history GET`
 

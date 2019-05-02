@@ -12,6 +12,70 @@ function songIn(arr, song) {
 	return false;
 }
 
+async function getLikedSearchedSongs(userObj) {
+	let songNames = [];
+	let userJson = JSON.parse(JSON.stringify(userObj));
+	userJson.likedSongs.forEach(s => {
+		let songName = s.songId.replace(/\"/g, '');
+		songNames.push(songName);
+	});
+	userJson.history[0].songs.forEach(s => {
+		let songName = s.songId.replace(/\"/g, '');
+		if (!songNames.includes(songName)) {
+			songNames.push(songName);
+		}
+	});
+
+	let songs = await Song.find({'songTitle': {'$in': songNames}}, (err, res) => {
+		let songObjs = res;
+		return songObjs.map(s => {
+			JSON.parse(JSON.stringify(s));
+		});
+	});
+	return songs;
+}
+
+async function getTop5RecommendedSongs(userObj) {
+	// Collect the sentiments and genres that the user prefers from their likes and history
+	let songsJsonArray = await getLikedSearchedSongs(userObj);
+	if (songsJsonArray.length == 0) {
+		return [];
+	}
+
+	let genreCountMap = []; // Get the number of genres that the user liked/searched
+	let sentiments = [];
+	let excludedSongIds = [];
+	songsJsonArray.forEach(s => {
+		if (genreCountMap.hasOwnProperty(s.genre)) {
+			genreCountMap[s.genre]++;
+		} else {
+			genreCountMap[s.genre] = 1;
+		}
+		sentiments.push(s.sentiment);
+		excludedSongIds.push(s._id);
+	});
+
+	// Don't recommend songs that the user liked or searched up before
+	let res = await Song.find({'_id': {'$nin': excludedSongIds}}).select('songTitle artist genre albumName albumImgUrl sentiment');
+	let recommendedSongs = [];
+	//Filter further by sentiment
+	res.forEach(s => {
+		let closestSentiment = sentiments.reduce(function(prev, curr) {
+			return (Math.abs(curr - s.sentiment) < Math.abs(prev - s.sentiment) ? curr : prev);
+		});
+		let sentimentDiff = Math.abs(closestSentiment - s.sentiment);
+		let genreRatio = genreCountMap.hasOwnProperty(s.genre) ? genreCountMap[s.genre]/songsJsonArray.length : 0;
+		let recommendedScore = genreRatio + (2-sentimentDiff); //2 because sentiment ranges from -1 to 1
+		recommendedSongs.push({
+			recommendedScore: recommendedScore,
+			song: s
+		});
+	})
+	recommendedSongs.sort((a, b) => (a.recommendedScore > b.recommendedScore) ? -1 : 1);
+	let minLen = Math.min(recommendedSongs.length, 5);
+	return recommendedSongs.slice(0, minLen);
+}
+
 module.exports = function(router) {
 	var userRoute = router.route('/user');
 
@@ -58,9 +122,13 @@ module.exports = function(router) {
 							error: err
 		                });
 					} else {
-						res.status(200).send({
-							message: "OK",
-							data: res_user.recommended
+						getTop5RecommendedSongs(res_user).then(res_recommendedSongs => {
+							res.status(200).send({
+								message: "OK",
+								data: {
+									top5RecommendedSongs: res_recommendedSongs
+								}
+							});
 						});
 					}
 				});
