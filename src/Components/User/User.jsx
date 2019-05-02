@@ -8,6 +8,8 @@ import LikedTable from './Liked/Liked.jsx';
 import RecommendedTable from './Recommended/Recommended.jsx';
 import HistorySongTable from './History/HistorySong.jsx';
 import HistoryCompTable from './History/HistoryComp.jsx';
+import firebase from 'firebase';
+import Login from '../Login/Login.jsx';
 
 class User extends Component {
   constructor() {
@@ -16,7 +18,8 @@ class User extends Component {
       liked: [],
       recommended: [],
       songHistory: [],
-      compHistory: []
+      compHistory: [],
+      isSignedIn: false
     }
   }
 
@@ -42,7 +45,7 @@ class User extends Component {
   }
 
   axiosGetLiked = (email) => {
-    axios.get('http://localhost:5000/api/user/?email=' + email + '&type=liked')
+    axios.get('https://melodb-uiuc.herokuapp.com/api/user/?email=' + email + '&type=liked')
     .then(
       res => {
         let info = res.data;
@@ -52,7 +55,7 @@ class User extends Component {
   }
 
   axiosGetRecommended = (email) => {
-    axios.get('http://localhost:5000/api/user/?email=' + email + '&type=recommended')
+    axios.get('https://melodb-uiuc.herokuapp.com/api/user/?email=' + email + '&type=recommended')
     .then(
       res => {
         let info = res.data;
@@ -62,7 +65,7 @@ class User extends Component {
   }
 
   axiosGetHistory = (email) => {
-    axios.get('http://localhost:5000/api/user/?email=' + email + '&type=history')
+    axios.get('https://melodb-uiuc.herokuapp.com/api/user/?email=' + email + '&type=history')
     .then(
       res => {
         let info = res.data;
@@ -74,28 +77,38 @@ class User extends Component {
   }
 
   componentWillMount() {
-    //is it good that it does this every time? no probably not
-    //does it affect anything that it does this every time? no so who cares
-    this.axiosGetLiked('testEmail');
-    this.axiosGetRecommended('testEmail');
-    this.axiosGetHistory('testEmail');
+    if (this.state.isSignedIn) {
+      //is it good that it does this every time? no probably not
+      //does it affect anything that it does this every time? no so who cares
+      this.axiosGetLiked(firebase.auth().currentUser.email);
+      this.axiosGetRecommended(firebase.auth().currentUser.email);
+      this.axiosGetHistory(firebase.auth().currentUser.email);
+    }
+
+    auth.onAuthStateChanged(user => {
+			this.setState({ isSignedIn: !!user })
+		});
   }
 
   render() {
     const { activeItem } = this.state;
 
+    if (!firebase.auth().currentUser) {
+      return <Login redirectUrl='/user'/>
+    }
+
     return (
       <div className='user-container'>
         <Header as='h2' icon>
           <Icon name='settings' />
-          Account Settings
+          <p>{firebase.auth().currentUser.displayName}</p>
           <Header.Subheader>Manage your account settings and set e-mail preferences.</Header.Subheader>
         </Header>
         <div className='menuWrapper'>
           <Menu borderless fluid widths={3} size="tiny">
-            <Menu.Item color='blue' name='liked' id='liked' active={activeItem === 'liked'} onClick={this.handleItemClick} />
-            <Menu.Item color='blue' name='recommended' id='recommended' active={activeItem === 'recommended'} onClick={this.handleItemClick} />
-            <Menu.Item color='blue' name='history' id='history' active={activeItem === 'history'} onClick={this.handleItemClick} />
+            <Menu.Item color='purple' name='liked' className='user-menu-item' active={activeItem === 'liked'} onClick={this.handleItemClick} />
+            <Menu.Item color='purple' name='recommended' className='user-menu-item' active={activeItem === 'recommended'} onClick={this.handleItemClick} />
+            <Menu.Item color='purple' name='history' className='user-menu-item' active={activeItem === 'history'} onClick={this.handleItemClick} />
           </Menu>
           <div className='userBoxWrapper'>
             <Segment id='lbox' className='liked-box'>

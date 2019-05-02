@@ -3,6 +3,8 @@ import { Input } from 'semantic-ui-react';
 import './Search.scss';
 import axios from 'axios';
 import Listview from './Listview/Listview';
+import firebase from 'firebase';
+import Login from '../Login/Login.jsx';
 
 class Search extends Component {
   constructor() {
@@ -46,6 +48,10 @@ class Search extends Component {
   }
 
   render() {
+    if (!firebase.auth().currentUser) {
+      return <Login redirectUrl='/'/>
+    }
+
     return (
       <div className='parent'>
         <div className='search-container'>

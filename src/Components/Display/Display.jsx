@@ -57,7 +57,9 @@ class Display extends Component {
         songName: this.song.songTitle
       }
     }
-    axios(config).catch(err => {
+    axios(config).then(res => {
+      console.log('Success');
+    }).catch(err => {
       console.log(err);
     })
   }
@@ -74,7 +76,9 @@ class Display extends Component {
           songName: this.song.songTitle
         }
       }
-      axios(config).catch(err => {
+      axios(config).then(res => {
+        console.log('Success');
+      }).catch(err => {
         console.log(err);
       });
     });

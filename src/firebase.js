@@ -1,9 +1,8 @@
 import firebase from 'firebase';
-var secrets = require('./secrets');
 
 const config = {
-    apiKey: secrets.firebaseApiKey,
-    authDomain: secrets.authDomain
+    apiKey: 'AIzaSyDF6p-r7atK_m-tA9ZEmrhLVB3eAHedqMo',
+    authDomain: 'melodb-1556480520882.firebaseapp.com'
 };
 firebase.initializeApp(config);
 

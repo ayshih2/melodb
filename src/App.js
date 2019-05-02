@@ -7,72 +7,14 @@ import {checkedAxiosGet} from './utils.js';
 import Search from './Components/Search/Search';
 import Header from './Components/Header/Header';
 import Compare from './Components/Compare/Compare';
+import CompareDisplay from './Components/Compare/CompareDisplay';
 import User from './Components/User/User';
 import Display from './Components/Display/Display';
+import Login from './Components/Login/Login.jsx';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
-    isSignedIn: false
-  };
-
-  uiConfig = {
-    signInFlow: "popup",
-    signInOptions: [
-      googleAuthProvider.PROVIDER_ID
-    ],
-    callbacks: {
-      signInSuccess: () => false
-    }
-  }
-
-  componentDidMount() {
-
-    // auth.onAuthStateChanged(user => {
-    //   this.setState({ isSignedIn: !!user })
-    //   if (user) {
-    //     // Add user to database if new user
-    //     axios.post("http://localhost:5000/api/user/", {
-    //       name: user.displayName,
-    //       email: user.email
-    //     }).catch(err => {
-    //       console.log(err);
-    //     });
-    //   }
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
-    // })
-  }
-
-  callApi = async () => {
-  //   checkedAxiosGet('http://localhost:5000/api/user/?email=testEmail', auth).then(res => {
-  //     this.setState({response: res.data.message});
-  //   }).catch(err => {
-  //     this.setState({response: err.response.data.message})
-  //   });
-  // };
-    const response = await fetch('/api/hello');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  };
-
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/api/world', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ post: this.state.post }),
-    });
-    const body = await response.text();
-    this.setState({ responseToPost: body });
-  };
+  state = {};
 
   render() {
     return (
@@ -80,26 +22,37 @@ class App extends Component {
         <Switch>
           <Route exact path={process.env.PUBLIC_URL + '/'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'search'}/>
               <Search />
             </div>
           } />
           <Route exact path={process.env.PUBLIC_URL + '/compare'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'compare'}/>
               <Compare />
             </div>
           } />
           <Route exact path={process.env.PUBLIC_URL + '/user'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'user'}/>
               <User />
+            </div>
+          } />
+          <Route exact path={process.env.PUBLIC_URL + '/Login'} render = {props =>
+            <div>
+              <Login redirectUrl={'/'}/>
             </div>
           } />
           <Route exact path={process.env.PUBLIC_URL + '/display/:title'} render = {props =>
             <div>
               <Header />
               <Display params={props} key={props.match.params.title}/>
+            </div>
+          } />
+          <Route exact path={process.env.PUBLIC_URL + '/CompareDisplay'} render = {props =>
+            <div>
+              <Header initialActiveItem={'compare'}/>
+              <User />
             </div>
           } />
         </Switch>
