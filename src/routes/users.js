@@ -65,7 +65,7 @@ async function getTop5RecommendedSongs(userObj) {
 		});
 		let sentimentDiff = Math.abs(closestSentiment - s.sentiment);
 		let genreRatio = genreCountMap.hasOwnProperty(s.genre) ? genreCountMap[s.genre]/songsJsonArray.length : 0;
-		let recommendedScore = genreRatio + (2-sentimentDiff); //2 because sentiment ranges from -1 to 1
+		let recommendedScore = genreRatio + (100-sentimentDiff); //100 because sentiment ranges from 0 to 100
 		recommendedSongs.push({
 			recommendedScore: recommendedScore,
 			song: s

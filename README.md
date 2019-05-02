@@ -19,6 +19,9 @@ You will also see any lint errors in the console.
 ## API Calls
 
 Please call the API as follows:
+
+https://melodb-uiuc.herokuapp.com
+
 ### `/api/song?name=NAME GET`
 
   Returns song with specified name. Case insensitive but punctuation and whitespace sensitive. 
@@ -30,6 +33,26 @@ Please call the API as follows:
 ### `/api/user?email=EMAILHERE&type=liked GET`
 
   Returns all liked songs of the specified user.
+
+```
+{
+    "message": "OK",
+    "data": [
+        {
+            "songName": "Old Town Road",
+            "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/c23e1f5f19d37f609dfe4aabf78b7480.jpg#c23e1f5f19d37f609dfe4aabf78b7480",
+            "artist": "Lil Nas X Featuring Billy Ray Cyrus",
+            "likedDate": "Sun Apr 28 2019"
+        },
+        {
+            "songName": "Better Now",
+            "songArt": "https://lastfm-img2.akamaized.net/i/u/174s/d5d8e6d12359656eb0579ce6bedf8199.png",
+            "artist": "Post Malone",
+            "likedDate": "Wed May 01 2019"
+        }
+    ]
+}
+```
   
 ### `/api/user?email=EMAILHERE&type=recommended GET`
 
@@ -107,6 +130,69 @@ Please call the API as follows:
 ### `/api/user?email=EMAILHERE&type=history GET`
 
   Returns the history of searches and song comparisons of a specified user.
+  
+```
+{
+    "message": "OK",
+    "data": [
+        [
+            {
+                "songName": "Old Town Road",
+                "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/c23e1f5f19d37f609dfe4aabf78b7480.jpg#c23e1f5f19d37f609dfe4aabf78b7480",
+                "artist": "Lil Nas X Featuring Billy Ray Cyrus",
+                "likedDate": "Sun Apr 28 2019"
+            },
+            {
+                "songName": "Boy With Luv",
+                "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/4172cfad0e4900cd93c961c33133ff1d.jpg#4172cfad0e4900cd93c961c33133ff1d",
+                "artist": "BTS, Halsey",
+                "likedDate": "Mon Apr 29 2019"
+            }
+        ],
+        [
+            {
+                "song1": {
+                    "songName": "Boy With Luv",
+                    "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/4172cfad0e4900cd93c961c33133ff1d.jpg#4172cfad0e4900cd93c961c33133ff1d",
+                    "artist": "BTS, Halsey"
+                },
+                "song2": {
+                    "songName": "God's Country",
+                    "songArt": "https://lastfm-img2.akamaized.net/i/u/174s/632bffe7d796821dd2eabb804474aaa6.png",
+                    "artist": "Blake Shelton"
+                },
+                "compareDate": "Sun Apr 28 2019"
+            },
+            {
+                "song1": {
+                    "songName": "Boy With Luv",
+                    "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/4172cfad0e4900cd93c961c33133ff1d.jpg#4172cfad0e4900cd93c961c33133ff1d",
+                    "artist": "BTS, Halsey"
+                },
+                "song2": {
+                    "songName": "Without Me",
+                    "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/aef570eee11e99f840fc958ded5a60b2.jpg#aef570eee11e99f840fc958ded5a60b2",
+                    "artist": "Halsey"
+                },
+                "compareDate": "Sun Apr 28 2019"
+            },
+            {
+                "song1": {
+                    "songName": "Boy With Luv",
+                    "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/4172cfad0e4900cd93c961c33133ff1d.jpg#4172cfad0e4900cd93c961c33133ff1d",
+                    "artist": "BTS, Halsey"
+                },
+                "song2": {
+                    "songName": "Better Now",
+                    "songArt": "https://lastfm-img2.akamaized.net/i/u/174s/d5d8e6d12359656eb0579ce6bedf8199.png",
+                    "artist": "Post Malone"
+                },
+                "compareDate": "Sun Apr 28 2019"
+            }
+        ]
+    ]
+}
+```
   
 ### `/api/user?email=EMAILHERE&type=liked POST`
 
