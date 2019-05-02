@@ -43,21 +43,19 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <Display />
+        <div className='parent'>
+          <div className='container'>
+            <Input className='containerinput' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
+          </div>
+          <List query={this.state.result} />
+        </div>      
+        <div>
+          <Display />
+        </div>
       </div>
     );
   }
 }
-
-/*
-      <div className='parent'>
-        <div className='container'>
-          <Input className='containerinput' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
-        </div>
-        <List query={this.state.result} />
-        <Display />
-      </div>
-*/
 
 
 export default Search;
