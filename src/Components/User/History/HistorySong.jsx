@@ -32,6 +32,7 @@ class SongHistoryRow extends React.Component {
       <Table.Row>
         <Table.Cell className="h-album-cell"><Image className="img-album" size="tiny" src={ history.songArt }></Image></Table.Cell>
         <Table.Cell className="h-name-cell">{ history.songName } by { history.artist}</Table.Cell>
+        <Table.Cell className="h-date-cell">{ history.likedDate }</Table.Cell>
       </Table.Row>
     );
   }
