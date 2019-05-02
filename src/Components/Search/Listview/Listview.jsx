@@ -9,24 +9,17 @@ class Listview extends Component {
     if (!empty) {
       const listview = this.props.query.map((song, idx) => {
         return(
-          <Link to = {{
-            pathname: `${process.env.PUBLIC_URL}`,
-            state: {
-              song: song
-            }
-          }}>
-            <List.Item key={idx}>
-              <div className='container'>
-                <div><Image size='tiny' src={song.albumImgUrl} /></div>
-                <div className='item'>
-                  <List.Content>
-                    <List.Header>{song.songTitle}</List.Header>
-                    <List.Description><i>{song.artist}</i></List.Description>
-                  </List.Content>
-                </div>
+          <List.Item key={idx}>
+            <div className='container'>
+              <div><Image size='tiny' src={song.albumImgUrl} /></div>
+              <div className='item'>
+                <List.Content>
+                  <List.Header>{song.songTitle}</List.Header>
+                  <List.Description><i>{song.artist}</i></List.Description>
+                </List.Content>
               </div>
-            </List.Item>
-          </Link>
+            </div>
+          </List.Item>
         )
       });
       return(
