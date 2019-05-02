@@ -30,8 +30,8 @@ class SongHistoryRow extends React.Component {
     const history = this.props.history;
     return (
       <Table.Row>
-        <Table.Cell className="album-cell"><Image className="img-album" size="tiny" src={ history.songArt }></Image></Table.Cell>
-        <Table.Cell className="name-cell">{ history.songName } by { history.artist}</Table.Cell>
+        <Table.Cell className="h-album-cell"><Image className="img-album" size="tiny" src={ history.songArt }></Image></Table.Cell>
+        <Table.Cell className="h-name-cell">{ history.songName } by { history.artist}</Table.Cell>
       </Table.Row>
     );
   }
