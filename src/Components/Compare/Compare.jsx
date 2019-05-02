@@ -30,7 +30,6 @@ class Compare extends Component {
     this._onLeftFocus = this._onLeftFocus.bind(this);
     this._onRightFocus = this._onRightFocus.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
   }
@@ -96,9 +95,6 @@ class Compare extends Component {
 	  ]})
   }
 
-  componentWillUnmount() {
-  }
-
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
     return (
@@ -108,7 +104,7 @@ class Compare extends Component {
 			      <Grid.Column>
 				      <Segment>
 					      <label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
-									<input ref={this.leftSearchRef} id="left_inpt_search" type="text" />
+									<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandler} value={this.state.value}/>
 								</label>
 							</Segment>
 			      </Grid.Column>
@@ -122,7 +118,7 @@ class Compare extends Component {
 			    </Grid.Row>   
 			  </Grid>
 			  
-			  <CompareDisplay />
+			  <Listview query={this.state.result} />
 			</div>
     );
   }
