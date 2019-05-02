@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Input } from 'semantic-ui-react';
 import './Search.scss';
 import axios from 'axios';
-import List from './List/List';
+import Listview from './Listview/Listview';
+import Display from './Display/Display';
 
 class Search extends Component {
   constructor() {
@@ -18,19 +19,25 @@ class Search extends Component {
   }
 
   clickHandler() {
-    const config = {
-      baseURL: 'localhost:5000/api',
-      url: `song?name=${this.state.value}`
-    }
-    axios(config).then((response) => {
-      this.setState({
-        result: response.data
+    if (this.state.value) {
+      const config = {
+        baseURL: 'http://localhost:5000/api',
+        url: `song?name=${this.state.value}`
+      }
+      axios(config).then((response) => {
+        this.setState({
+          result: response.data.data
+        });
+      }).catch((error) => {
+        this.setState({
+          result: ''
+        });
       });
-    }).catch((error) => {
+    } else {
       this.setState({
         result: ''
       });
-    });
+    }
   }
 
   inputChangeHandler(e) {
@@ -42,10 +49,10 @@ class Search extends Component {
   render() {
     return (
       <div className='parent'>
-        <div className='container'>
-          <Input className='containerinput' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
+        <div className='search-container'>
+          <Input className='input' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
         </div>
-        <List query={this.state.result} />
+        <Listview query={this.state.result} />
       </div>
     );
   }
