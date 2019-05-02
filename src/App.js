@@ -4,7 +4,6 @@ import './App.css';
 import { auth, googleAuthProvider } from './firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import axios from 'axios';
-import {checkedAxiosGet} from './utils.js';
 
 class App extends Component {
   state = {
@@ -43,10 +42,12 @@ class App extends Component {
   }
 
   callApi = async () => {
-    checkedAxiosGet('http://localhost:5000/api/user/?email=testEmail', auth).then(res => {
+    axios.get('http://localhost:5000/api/user/?email=testEmail').then(res => {
       this.setState({response: res.data.message});
+      console.log(res.data.message);
     }).catch(err => {
-      this.setState({response: err.response.data.message})
+      this.setState({response: err.response.data.message});
+      console.log(err.response.data.message);
     });
   }
 
