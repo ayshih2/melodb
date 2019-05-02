@@ -106,3 +106,13 @@ p {
 .sentimentRatingText {
   font-family: "Lato";
 }
+
+.compareContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compareHeader {
+  margin-left: 10px;
+}

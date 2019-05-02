@@ -48,7 +48,6 @@ class CompareDisplay extends Component {
         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
         rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
 		) {
-			console.log('In the viewport!');
 	    this.setState({
 				barData: [{x: 'Waste It On Me', y: 30}, {x: 'Free Spirit', y: 60}]
 	    });
@@ -59,6 +58,7 @@ class CompareDisplay extends Component {
   render() {
   	console.log("COMPARE " + this.props.query)
   	if (this.props.query == true) {
+  		console.log("here :(((((((")
 	    return (
 				<Grid textAlign='center' columns='equal'>
 			    <Grid.Row>
@@ -266,7 +266,7 @@ class CompareDisplay extends Component {
 			    	</Grid.Column>
 			    </Grid.Row>
 			  </Grid>
-	    );
+	    )
   	} else {
   		return null;
   	}

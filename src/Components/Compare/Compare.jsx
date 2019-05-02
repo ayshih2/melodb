@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import CompareDisplay from './CompareDisplay'
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Image, Header, Label, Icon } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import axios from 'axios';
 import CompareListview from './CompareListview.jsx';
@@ -40,22 +40,34 @@ class Compare extends Component {
     this.clickHandlerLeft = this.clickHandlerLeft.bind(this);
     this.inputChangeHandlerRight = this.inputChangeHandlerRight.bind(this);
     this.clickHandlerRight = this.clickHandlerRight.bind(this);
+    this.pressedLeftClose = this.pressedLeftClose.bind(this);
+    this.pressedRightClose = this.pressedRightClose.bind(this);
+  }
+
+  pressedLeftClose() {
+  	console.log("ALKFJDS");
+    this.setState({boolLeft: false, valueLeft: "", resultLeft: {}})
+  }
+
+  pressedRightClose() {
+    this.setState({boolRight: false, valueRight: "", resultRight: {}})
   }
 
   clickedLeftSong(event) {
   	console.log("here");
-    this.setState({boolLeft: !this.state.boolLeft})
+  	console.log(this.leftSearchRef.current);
+    this.setState({boolLeft: true})
 	}
 
 	clickedRightSong(event) {
 		console.log("there");
-    this.setState({boolRight: !this.state.boolRight})
+    this.setState({boolRight: true})
 	}
 
   clickHandlerLeft() {
     if (this.state.valueLeft) {
       const config = {
-        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
+        baseURL: 'http://localhost:5000/api',
         url: `song?name=${this.state.valueLeft}`
       }
       axios(config).then((response) => {
@@ -78,12 +90,12 @@ class Compare extends Component {
 	    this.setState({
 	      valueLeft: e.target.value
 	    }, this.clickHandlerLeft);
-  	}
+  }
 
-  	clickHandlerRight() {
+  clickHandlerRight() {
 	    if (this.state.valueRight) {
 	      const config = {
-	        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
+	        baseURL: 'http://localhost:5000/api',
 	        url: `song?name=${this.state.valueRight}`
 	      }
 	      axios(config).then((response) => {
@@ -109,25 +121,32 @@ class Compare extends Component {
   	}
 
 	_onBlur() {
-		var leftSearchElem = this.leftSearchRef.current;
-		if (leftSearchElem.value.length === 0) {
-			leftSearchElem.parentElement.classList.remove('active');
+		if (!(this.state.boolLeft)) {
+			var leftSearchElem = this.leftSearchRef.current;
+			if (leftSearchElem.value.length === 0) {
+				leftSearchElem.parentElement.classList.remove('active');
+			}
 		}
-
-		var rightSearchElem = this.rightSearchRef.current;
-		if (rightSearchElem.value.length === 0) {
-			rightSearchElem.parentElement.classList.remove('active');
+		if (!this.state.boolRight) {
+			var rightSearchElem = this.rightSearchRef.current;
+			if (rightSearchElem.value.length === 0) {
+				rightSearchElem.parentElement.classList.remove('active');
+			}
 		}
 	}
 
 	_onLeftFocus() {
+		if (!this.state.boolLeft) {
     	var leftSearchElem = this.leftSearchRef.current;
     	leftSearchElem.parentElement.classList.add('active');
+		}
 	}
 
 	_onRightFocus() {
-		var rightSearchElem = this.rightSearchRef.current;
+		if (!this.state.boolRight) {
+			var rightSearchElem = this.rightSearchRef.current;
     	rightSearchElem.parentElement.classList.add('active');
+		}
 	}
 
 	componentDidMount() {
@@ -151,20 +170,67 @@ class Compare extends Component {
 			    <Grid.Row>
 			      <Grid.Column>
 				      <Segment>
-					      <label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
-									<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandlerLeft} value={this.state.valueLeft}/>
-								</label>
+				      	{
+				      		(this.state.boolLeft == true) ? 
+				      		(
+						      	<div className='compareContainer'>
+		                  <div className='image'>
+		                    <Image size='tiny' src='https://images.genius.com/7dae2bd55960517e764f5194d2af0194.600x600x1.jpg' avatar />
+		                  </div>
+		                  <div className='compareHeader'>
+		                    <div>
+		                      <Header
+		                        as='h2'
+		                        content='Our Love is Great'
+		                        subheader='Baek Yerin'
+		                      />
+		                    </div>
+		                  </div>
+		                  <Label floating onClick={this.pressedLeftClose}>
+        								<Icon name='delete' />
+     	 								</Label>			                  
+		                </div>	
+				      		) : (
+							      <label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
+											<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandlerLeft} value={this.state.valueLeft}/>
+										</label>
+				      		)
+				      	}
 							</Segment>
-						<CompareListview query={this.state.resultLeft} buttonClick={this.clickedLeftSong.bind(this)} />
+							<CompareListview query={this.state.resultLeft} toDisplay={!this.state.boolLeft} buttonClick={this.clickedLeftSong.bind(this)} />
 			      </Grid.Column>
 			      <Grid.Column>
 				      <Segment>
-								<label className="search" htmlFor="right_inpt_search" onFocus={this._onRightFocus} onBlur={this._onBlur}>
-									<input ref={this.rightSearchRef} id="right_inpt_search" type="text" onChange={this.inputChangeHandlerRight} value={this.state.valueRight}/>
-								</label>
+				      	{
+				      		(this.state.boolRight == true) ? 
+				      		(
+						      	<div className='compareContainer'>
+		                  <div className='image'>
+		                    <Image size='tiny' src='https://images.genius.com/7dae2bd55960517e764f5194d2af0194.600x600x1.jpg' avatar />
+		                  </div>
+		                  <div className='compareHheader'>
+		                    <div>
+		                      <Header
+		                        as='h2'
+		                        content='Our Love is Great'
+		                        subheader='Baek Yerin'
+		                      />
+		                    </div>
+		                  </div>
+		                  <Label floating onClick={this.pressedRightClose}>
+        								<Icon name='delete' />
+     	 								</Label>			                  
+		                </div>
+				      		) : (
+										<label className="search" htmlFor="right_inpt_search" onFocus={this._onRightFocus} onBlur={this._onBlur}>
+											<input ref={this.rightSearchRef} id="right_inpt_search" type="text" onChange={this.inputChangeHandlerRight} value={this.state.valueRight}/>
+										</label>
+				      		)
+				      	}				      
+
 							</Segment>
 
-						<CompareListview query={this.state.resultRight} buttonClick={this.clickedRightSong.bind(this)} />
+						<CompareListview query={this.state.resultRight} toDisplay={!this.state.boolRight} buttonClick={this.clickedRightSong.bind(this)} />
 			      </Grid.Column>
 			    </Grid.Row>   
 			  </Grid>

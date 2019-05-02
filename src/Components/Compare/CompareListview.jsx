@@ -6,7 +6,7 @@ import '../Search/Listview/Listview.scss';
 class CompareListview extends Component {
   render() {
     const empty = Object.entries(this.props.query).length === 0;
-    if (!empty) {
+    if (!empty && this.props.toDisplay) {
       const listview = this.props.query.map((song, idx) => {
         return(
           <List.Item key={idx} onClick={this.props.buttonClick}>
