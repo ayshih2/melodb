@@ -166,9 +166,49 @@ module.exports = function(router) {
 							error: err
 		                });
 					} else {
-						res.status(200).send({
-							message: "OK",
-							data: res_user.likedSongs
+						let orderedLikedSongs = [];
+						let lenSongs = res_user.likedSongs.length;
+
+						let songTitles = [];
+						for (var i = 0; i < lenSongs; i++) {
+							songTitles.push(res_user.likedSongs[i].songId);
+						}
+
+						Song.find({'songTitle': {$in : songTitles}}, (errs, res_songs) => {
+							if (errs == null) {
+								let retSongs = [];
+								for (var song in res_songs) {
+									let keepLikedDate = new Date();
+									for (var liked in res_user.likedSongs) {
+										if (res_user.likedSongs[liked].songId === res_songs[song].songTitle) {
+											keepLikedDate = res_user.likedSongs[liked].likedDate;
+											break;
+										}
+									}
+
+									let fullDate = keepLikedDate.toDateString();
+
+									let songObj = {
+										songName : res_songs[song].songTitle,
+										songArt : res_songs[song].albumImgUrl,
+										artist : res_songs[song].artist,
+										likedDate : fullDate
+									};
+
+									retSongs.push(songObj);
+								}	
+
+								res.status(200).send({
+									message: "OK",
+									data: retSongs
+								});
+							} else {
+								res.status(500).send({
+									message: "There was an error finding songs.",
+									data: {},
+									error: errs
+								})
+							}
 						});
 					}
 				});

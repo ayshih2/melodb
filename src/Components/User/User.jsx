@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import './User.scss'
 import { Header, Icon, Menu, Segment } from 'semantic-ui-react';
-import { auth, googleAuthProvider } from './firebase.js';
+import { auth, googleAuthProvider } from '../../firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import axios from 'axios';
+import LikedTable from './Liked/Liked.jsx';
 
 class User extends Component {
   constructor() {
     super();
     this.state = {
-
+      liked: [],
     }
   }
 
@@ -18,17 +19,34 @@ class User extends Component {
   }
 
   axiosGetLiked = (email) => {
-    axios.get('localhost:3000/api/user?email=' + email + '&type=liked').then(
+    axios.get('http://localhost:5000/api/user?email=' + email + '&type=liked')
+    .then(
       res => {
-        let likedList = res.data;
+        let info = res.data;
+        let likedList = info.data;
+        this.setState({liked: likedList});
+      });
+  }
+
+  axiosGetRecommended = (email) => {
+    axios.get('http://localhost:5000/api/user?email=' + email + '&type=recommended')
+    .then(
+      res => {
         
       }
+    });
+  }
 
-    );
+  componentDidMount() {
+    this.axiosGetLiked('testEmail');
   }
 
   render() {
     const { activeItem } = this.state;
+    
+    const touched = this.state.touched;
+    const liked = this.state.liked;
+
 
     return (
       <div className='container'>
@@ -44,8 +62,11 @@ class User extends Component {
             <Menu.Item color='blue' name='history' active={activeItem === 'history'} onClick={this.handleItemClick} />
           </Menu>
           <div className='userBoxWrapper'>
-            <Segment id='likedBox'>
-
+            <Segment className='likedBox'>
+              <LikedTable likedSongs={this.state.liked}/>
+            </Segment>
+            <Segment className='recommended-box'>
+              hello friends and family
             </Segment>
           </div>
         </div>

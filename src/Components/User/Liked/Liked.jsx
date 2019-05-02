@@ -1,37 +1,40 @@
 import React, { Component } from 'react';
-import './User.scss'
-import { Header, Icon, Menu } from 'semantic-ui-react';
+import '../User.scss'
+import './Liked.scss';
+import { Header, Icon, Menu, Table, Image } from 'semantic-ui-react';
 
-class User extends Component {
-  constructor() {
-    super();
-    this.state = {
-
-    }
-  }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-  
+export default class LikedTable extends React.Component {
   render() {
-    const { activeItem } = this.state;
+
+    var rows = this.props.likedSongs.map((liked) => {
+
+      return (
+        <LikedRow
+          liked = { liked }
+          key = { liked.songName }
+        />
+      );
+    });
 
     return (
-      <div className='container'>
-        <Header as='h2' icon>
-          <Icon name='settings' />
-          Account Settings
-          <Header.Subheader>Manage your account settings and set e-mail preferences.</Header.Subheader>
-        </Header>
-        <div className='menuWrapper'>
-          <Menu borderless fluid widths={3} size="tiny">
-            <Menu.Item color='blue' name='liked' active={activeItem === 'liked'} onClick={this.handleItemClick} />
-            <Menu.Item color='blue' name='recommended' active={activeItem === 'recommended'} onClick={this.handleItemClick} />
-            <Menu.Item color='blue' name='history' active={activeItem === 'history'} onClick={this.handleItemClick} />
-          </Menu>
-        </div>
-      </div>
+      <Table basic='very'>
+        <Table.Body>{ rows }</Table.Body>
+      </Table>
     );
   }
 }
 
-export default User;
+class LikedRow extends React.Component {
+
+  render() {
+    const liked = this.props.liked;
+    return (
+      <Table.Row>
+        <Table.Cell className="album-cell"><Image className="img-album" size="tiny" src={ liked.songArt }></Image></Table.Cell>
+        <Table.Cell className="name-cell">{ liked.songName } by { liked.artist }</Table.Cell>
+        <Table.Cell className="date-cell">{ liked.likedDate }</Table.Cell>
+      </Table.Row>
+    );
+  }
+}
+
