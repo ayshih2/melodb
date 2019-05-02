@@ -47,6 +47,26 @@ Please call the API as follows:
   
   Adds song name to liked songs if the song is not in the likedSongs array, removes song name from liked songs if the song is in the likedSongs array.
   
+```
+{
+    "message": "OK",
+    "data": [
+        {
+            "songName": "Old Town Road",
+            "songArt": "https://lastfm-img2.akamaized.net/i/u/770x0/c23e1f5f19d37f609dfe4aabf78b7480.jpg#c23e1f5f19d37f609dfe4aabf78b7480",
+            "artist": "Lil Nas X Featuring Billy Ray Cyrus",
+            "likedDate": "Sun Apr 28 2019"
+        },
+        {
+            "songName": "Better Now",
+            "songArt": "https://lastfm-img2.akamaized.net/i/u/174s/d5d8e6d12359656eb0579ce6bedf8199.png",
+            "artist": "Post Malone",
+            "likedDate": "Wed May 01 2019"
+        }
+    ]
+}
+```
+  
 ### `/api/user POST`
   
   Creates a new user. Should only be called on login by a user. The endpoint will check if the user is already in the database and will add/ignore the user accordingly. Must have `email` in the body of the request.
