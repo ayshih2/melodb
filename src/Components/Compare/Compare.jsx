@@ -225,11 +225,11 @@ class Compare extends Component {
 									  data={this.state.pieData}
 									  padAngle={2}
 									  labelRadius={100}
-									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Comfortaa" } }}
+									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Lato" } }}
 								  />
 					        <VictoryLabel
 					          textAnchor="middle"
-					          style={{ fontSize: 20, fontFamily: "Comfortaa" }}
+					          style={{ fontSize: 20, fontFamily: "Lato" }}
 					          x={200} y={200}
 					          text={['Top 5', 'Common', 'Words']}
 					        />
@@ -292,7 +292,7 @@ class Compare extends Component {
 							    labels={(d) => d.x + ': ' + Math.round(d.y)}
 							    y0={0}
 							    domain={ {y: [0, 100]} }
-							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Comfortaa"}, data: { fill: "#005b96" } }}
+							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"}, data: { fill: "#005b96" } }}
 							    animate={{ duration: 2000 }}
 								/>
 						    <VictoryAxis dependentAxis
@@ -301,7 +301,7 @@ class Compare extends Component {
 						      style={{
 								    axis: {stroke: "#756f6a"},
 								    ticks: {stroke: "grey", size: 5},
-								    tickLabels: {fontSize: 7, padding: 5}
+								    tickLabels: {fontSize: 7, padding: 5, fontFamily: "Lato"}
 								  }}
 								  tickValues={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
 						    />

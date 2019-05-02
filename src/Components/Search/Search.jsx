@@ -3,6 +3,7 @@ import { Input } from 'semantic-ui-react';
 import './Search.scss';
 import axios from 'axios';
 import List from './List/List';
+import Display from './Display/Display';
 
 class Search extends Component {
   constructor() {
@@ -19,7 +20,7 @@ class Search extends Component {
 
   clickHandler() {
     const config = {
-      baseURL: 'localhost:5000/api',
+      baseURL: 'http://localhost:5000/api',
       url: `song?name=${this.state.value}`
     }
     axios(config).then((response) => {
@@ -41,14 +42,22 @@ class Search extends Component {
 
   render() {
     return (
+      <div>
+        <Display />
+      </div>
+    );
+  }
+}
+
+/*
       <div className='parent'>
         <div className='container'>
           <Input className='containerinput' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
         </div>
         <List query={this.state.result} />
+        <Display />
       </div>
-    );
-  }
-}
+*/
+
 
 export default Search;
