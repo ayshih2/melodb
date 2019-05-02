@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, List, Image, Icon, Segment, Item, Grid, Label } from 'semantic-ui-react';
+import { Header, List, Image, Icon, Segment, Grid, Label } from 'semantic-ui-react';
 import './Display.scss';
 import logo from './musical-note.svg';
 
@@ -33,9 +33,9 @@ class Display extends Component {
 
   render() {
     if (!this.state.liked) {
-      var heart = <Icon name='heart outline' size='small' onClick={this.toggleLike} className='Unliked' />
+      var heart = <Icon name='heart outline' size='large' onClick={this.toggleLike} className='Unliked' />
     } else {
-      heart = <Icon name='heart' size='small' onClick={this.toggleLike} className='Liked' />
+      heart = <Icon name='heart' size='large' onClick={this.toggleLike} className='Liked' />
     }
     //if (this.props.query) {
       return (
@@ -55,15 +55,15 @@ class Display extends Component {
                         subheader='Baek Yerin'
                       />
                     </div>
-                    <div>{heart}</div>
                   </div>
+                  <div className='heart'>{heart}</div>
                 </div>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column>
                 <Segment raised>
-                  <Label style={{fontFamily:'Lato'}} as='a' color='red' ribbon>
+                  <Label style={{fontFamily:'Lato', fontSize:'15px'}} as='a' color='purple' ribbon>
                     Lyrics
                   </Label>
                   <div className='lyrics'>

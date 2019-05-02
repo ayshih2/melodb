@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Segment, Progress } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
@@ -69,9 +69,7 @@ class Compare extends Component {
   }
 
   handleScroll(event) {
-	  //console.log(this.bars)
 	  var rect = ReactDOM.findDOMNode(this.bars.current).getBoundingClientRect();
-	  //console.log(this.state.reloadedBars);
 		if (rect.top >= 0 &&
         rect.left >= 0 &&
         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
@@ -82,10 +80,6 @@ class Compare extends Component {
 				barData: [{x: 'Waste It On Me', y: 30}, {x: 'Free Spirit', y: 60}]
 	    });
 		}
-		// else {
-		// 	console.log('Not in the viewport... whomp whomp');
-		// 	this.setState({barData: [{x: 'Waste It On Me', y: 5, y0: 1}, {x: 'Free Spirit', y: 10, y0: 1}]});
-		// }
   }
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
@@ -165,9 +159,6 @@ class Compare extends Component {
 					          standalone={false}
 					          width={400} height={400}
 				        		innerRadius={68}
-				        		// labelComponent={
-				          //     <VictoryTooltip/>
-            		// 		}
 								    events={[{
 								      target: "data",
 								      eventHandlers: {
@@ -186,7 +177,7 @@ class Compare extends Component {
 								              target: "data",
 								              mutation: (props) => {
 								                const fill = props.style && props.style.fill;
-								                return fill === "#005b96" ? null : { style: { fill: "#005b96" } };
+								                return fill === "#800080" ? null : { style: { fill: "#800080" } };
 								              }
 								            }
 								          ];
@@ -196,10 +187,10 @@ class Compare extends Component {
 								            {
 								              target: "data",
 								              mutation: (props) => {
-								              	if ((props.style && props.style.fill) != "#005b96") {
-								              		return { style: { fill: "#6497b1" } }
+								              	if ((props.style && props.style.fill) !== "#800080") {
+								              		return { style: { fill: "#d896ff" } }
 								              	} else {
-								              		return { style: { fill: "#005b96" } }
+								              		return { style: { fill: "#800080" } }
 								              	}
 								              }
 								            }
@@ -210,10 +201,10 @@ class Compare extends Component {
 								            {
 								              target: "data",
 								              mutation: (props) => {
-								              	if ((props.style && props.style.fill) != "#005b96") {
+								              	if ((props.style && props.style.fill) !== "#800080") {
 								              		return {};
 								              	} else {
-								              		return { style: { fill: "#005b96" } }
+								              		return { style: { fill: "#800080" } }
 								              	}
 								              }
 								            }
@@ -234,7 +225,6 @@ class Compare extends Component {
 					          text={['Top 5', 'Common', 'Words']}
 					        />
 				      	</svg>
-
 			      </Grid.Column>
 			      <Grid.Column>
 			        <p className="lyrics">
@@ -292,7 +282,9 @@ class Compare extends Component {
 							    labels={(d) => d.x + ': ' + Math.round(d.y)}
 							    y0={0}
 							    domain={ {y: [0, 100]} }
-							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"}, data: { fill: "#005b96" } }}
+							    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"}, 
+							    // #003366 is dark blue, #800000 is maroon
+							    data: { fill: data => (data.x === this.state.barData[0].x ? "#003366" : "#800000")  } }}
 							    animate={{ duration: 2000 }}
 								/>
 						    <VictoryAxis dependentAxis
