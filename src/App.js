@@ -96,6 +96,12 @@ class App extends Component {
               <User />
             </div>
           } />
+          <Route exact path={process.env.PUBLIC_URL + '/Display'} render = {props =>
+            <div>
+              <Header />
+              <User />
+            </div>
+          } />  
           <Route exact path={process.env.PUBLIC_URL + '/CompareDisplay'} render = {props =>
             <div>
               <Header />
