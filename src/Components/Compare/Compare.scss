@@ -16,6 +16,16 @@ body {
 
 p {
   margin-top: 30px;
+  font-family: "Lato";
+  font-size: 15px;
+}
+
+.leftLyrics {
+  background-color: #FF6961;
+}
+
+.rightLyrics {
+  background-color: #779ECB;
 }
 
 .cntr {
@@ -105,4 +115,14 @@ p {
 
 .sentimentRatingText {
   font-family: "Lato";
+}
+
+.compareContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compareHeader {
+  margin-left: 10px;
 }

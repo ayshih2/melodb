@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  align-items: center;
+
+}
+
+.grid {
+  margin: 20px 100px;
+}
+
+.image {
+  margin-right: 10px;
+}
+
+.header {
+  margin-left: 10px;
+
+}
+
+.recommendedHeader {
+  margin-bottom: 9%;
+}
+
+.Unliked {
+  border-color: grey;
+}
+
+.Liked {
+  color: red;
+  border-color: red;
+}
+
+.Liked:hover, .Unliked:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.listContent {
+  font-family: "Lato";
+}
+
+.listHeader {
+  font-family: "Lato";
+}
+
+.lyrics {
+  font-family: "Lato";
+  margin-top: 10px;
+}
+
+.heart {
+  margin-left: 10px;
+  margin-top: -10px;
+}
+
+p {
+  font-family: "Lato";
+}

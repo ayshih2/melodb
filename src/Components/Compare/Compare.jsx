@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import CompareDisplay from './CompareDisplay'
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Image, Header, Label, Icon } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
 import firebase from 'firebase';
 import Login from '../Login/Login.jsx';
 import axios from 'axios';
-import Listview from '../Search/Listview/Listview.jsx';
+import CompareListview from './CompareListview.jsx';
 import '../Search/Listview/Listview.scss';
 
 class Compare extends Component {
@@ -26,7 +26,12 @@ class Compare extends Component {
             valueLeft: '',
             valueRight: '',
       		resultLeft: {},
-      		resultRight: {}
+      		resultRight: {},
+      		boolLeft: false,
+  				boolRight: false,
+  				leftSongData: {},
+  				rightSongData: {},
+
     }
 
     this.leftSearchRef = React.createRef();
@@ -35,12 +40,29 @@ class Compare extends Component {
     this._onBlur = this._onBlur.bind(this);
     this._onLeftFocus = this._onLeftFocus.bind(this);
     this._onRightFocus = this._onRightFocus.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
     this.inputChangeHandlerLeft = this.inputChangeHandlerLeft.bind(this);
     this.clickHandlerLeft = this.clickHandlerLeft.bind(this);
     this.inputChangeHandlerRight = this.inputChangeHandlerRight.bind(this);
     this.clickHandlerRight = this.clickHandlerRight.bind(this);
+    this.pressedLeftClose = this.pressedLeftClose.bind(this);
+    this.pressedRightClose = this.pressedRightClose.bind(this);
   }
+
+  pressedLeftClose() {
+    this.setState({boolLeft: false, valueLeft: "", resultLeft: {}})
+  }
+
+  pressedRightClose() {
+    this.setState({boolRight: false, valueRight: "", resultRight: {}})
+  }
+
+  clickedLeftSong(event) {
+    this.setState({boolLeft: true, leftSongData: event})
+	}
+
+	clickedRightSong(event) {
+    this.setState({boolRight: true, rightSongData: event})
+	}
 
   clickHandlerLeft() {
     if (this.state.valueLeft) {
@@ -68,9 +90,9 @@ class Compare extends Component {
 	    this.setState({
 	      valueLeft: e.target.value
 	    }, this.clickHandlerLeft);
-  	}
+  }
 
-  	clickHandlerRight() {
+  clickHandlerRight() {
 	    if (this.state.valueRight) {
 	      const config = {
 	        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
@@ -99,37 +121,33 @@ class Compare extends Component {
   	}
 
 	_onBlur() {
-		var leftSearchElem = this.leftSearchRef.current;
-		if (leftSearchElem.value.length === 0) {
-			leftSearchElem.parentElement.classList.remove('active');
+		if (!(this.state.boolLeft)) {
+			var leftSearchElem = this.leftSearchRef.current;
+			if (leftSearchElem.value.length === 0) {
+				leftSearchElem.parentElement.classList.remove('active');
+			}
 		}
-
-		var rightSearchElem = this.rightSearchRef.current;
-		if (rightSearchElem.value.length === 0) {
-			rightSearchElem.parentElement.classList.remove('active');
+		if (!this.state.boolRight) {
+			var rightSearchElem = this.rightSearchRef.current;
+			if (rightSearchElem.value.length === 0) {
+				rightSearchElem.parentElement.classList.remove('active');
+			}
 		}
 	}
 
 	_onLeftFocus() {
+		if (!this.state.boolLeft) {
     	var leftSearchElem = this.leftSearchRef.current;
     	leftSearchElem.parentElement.classList.add('active');
+		}
 	}
 
 	_onRightFocus() {
-		var rightSearchElem = this.rightSearchRef.current;
+		if (!this.state.boolRight) {
+			var rightSearchElem = this.rightSearchRef.current;
     	rightSearchElem.parentElement.classList.add('active');
+		}
 	}
-
-	componentDidMount() {
-	  this.setState({
-	      pieData: [
-			    { x: "I", y: 15},
-			    { x: "You", y: 15},
-			    { x: "Me", y:  40},
-			    { x: "running", y: 10},
-			    { x: "Dunno", y:  20}
-	  ]})
-  }
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
@@ -137,29 +155,76 @@ class Compare extends Component {
       return <Login redirectUrl='/compare'/>
     }
 
+    var toRender = this.state.boolLeft === true && this.state.boolRight === true
     return (
     	<div className='gridLayout'>
 				<Grid textAlign='center' columns='equal'>
 			    <Grid.Row>
 			      <Grid.Column>
 				      <Segment>
-					      <label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
-									<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandlerLeft} value={this.state.valueLeft}/>
-								</label>
+				      	{
+				      		(this.state.boolLeft == true) ? 
+				      		(
+						      	<div className='compareContainer'>
+		                  <div className='image'>
+		                    <Image size='tiny' src={this.state.leftSongData.albumImgUrl} avatar />
+		                  </div>
+		                  <div className='compareHeader'>
+		                    <div>
+		                      <Header
+		                        as='h2'
+		                        content={this.state.leftSongData.songTitle}
+		                        subheader={this.state.leftSongData.artist}
+		                      />
+		                    </div>
+		                  </div>
+		                  <Label floating onClick={this.pressedLeftClose}>
+        								<Icon name='delete' />
+     	 								</Label>			                  
+		                </div>	
+				      		) : (
+							      <label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
+											<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandlerLeft} value={this.state.valueLeft}/>
+										</label>
+				      		)
+				      	}
 							</Segment>
-						<Listview query={this.state.resultLeft} />
+							<CompareListview sendSong={this.getLeftSong} query={this.state.resultLeft} toDisplay={!this.state.boolLeft} buttonClick={this.clickedLeftSong.bind(this)} />
 			      </Grid.Column>
 			      <Grid.Column>
 				      <Segment>
-								<label className="search" htmlFor="right_inpt_search" onFocus={this._onRightFocus} onBlur={this._onBlur}>
-									<input ref={this.rightSearchRef} id="right_inpt_search" type="text" onChange={this.inputChangeHandlerRight} value={this.state.valueRight}/>
-								</label>
+				      	{
+				      		(this.state.boolRight == true) ? 
+				      		(
+						      	<div className='compareContainer'>
+		                  <div className='image'>
+		                    <Image size='tiny' src={this.state.rightSongData.albumImgUrl} avatar />
+		                  </div>
+		                  <div className='compareHheader'>
+		                    <div>
+		                      <Header
+		                        as='h2'
+		                        content={this.state.rightSongData.songTitle}
+		                        subheader={this.state.rightSongData.artist}
+		                      />
+		                    </div>
+		                  </div>
+		                  <Label floating onClick={this.pressedRightClose}>
+        								<Icon name='delete' />
+     	 								</Label>			                  
+		                </div>
+				      		) : (
+										<label className="search" htmlFor="right_inpt_search" onFocus={this._onRightFocus} onBlur={this._onBlur}>
+											<input ref={this.rightSearchRef} id="right_inpt_search" type="text" onChange={this.inputChangeHandlerRight} value={this.state.valueRight}/>
+										</label>
+				      		)
+				      	}				      
 							</Segment>
-
-						<Listview query={this.state.resultRight} />
+						<CompareListview sendSong={this.getRightSong} query={this.state.resultRight} toDisplay={!this.state.boolRight} buttonClick={this.clickedRightSong.bind(this)} />
 			      </Grid.Column>
 			    </Grid.Row>   
 			  </Grid>
+			  <CompareDisplay query={toRender} leftSong={this.state.leftSongData} rightSong={this.state.rightSongData} />
 			</div>
     );
   }
