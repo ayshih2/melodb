@@ -8,7 +8,7 @@ import Header from './Components/Header/Header';
 import Compare from './Components/Compare/Compare';
 import CompareDisplay from './Components/Compare/CompareDisplay';
 import User from './Components/User/User';
-import Display from './Components/Search/Display/Display'
+import Display from './Components/Display/Display'
 import Login from './Components/Login/Login.jsx';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
