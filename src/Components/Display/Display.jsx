@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, List, Image, Icon, Segment, Grid, Label } from 'semantic-ui-react';
+import { Button, Header, List, Image, Icon, Segment, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './Display.scss';
 import axios from 'axios';
@@ -100,11 +100,13 @@ class Display extends Component {
               query: elem
             }
           }}>
+          <div className='list-wrapper'>
             <Image size='tiny' circular src={elem.albumImgUrl} />
             <List.Content className="listContent">
               <List.Header className="listHeader" as='a'>{elem.songTitle}</List.Header>
               <List.Description>{elem.artist}</List.Description>
             </List.Content>
+            </div>
           </Link>
         </List.Item>
       );
@@ -119,6 +121,9 @@ class Display extends Component {
     });
     return (
         <div className='grid'>
+          <Link to={`${process.env.PUBLIC_URL}/`}>
+            <Button icon='arrow left' />
+          </Link>
           <Grid columns='equal'>
             <Grid.Row>
               <Grid.Column>
