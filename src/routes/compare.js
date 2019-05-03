@@ -45,7 +45,7 @@ function getCommonWords (wordCountMap1, wordCountMap2) {
     ]*/
 
     Object.entries(wordCountMap1).forEach(entry => {
-        let word = entry[0].toLowerCase();
+        let word = entry[0];
         if (wordCountMap2.hasOwnProperty(word) && !stopWords.includes(word)) {
             let count1 = entry[1];
             let count2 = wordCountMap2[word];
@@ -59,6 +59,13 @@ function getCommonWords (wordCountMap1, wordCountMap2) {
 
     // Order commonWords, higher count = higher precedence
     commonWords.sort((a, b) => (a.count > b.count) ? -1 : 1);
+
+    for (var i = 0; i < commonWords.length; i++) {
+        if (commonWords[i].word === "") {
+            commonWords.splice( i, 1 );
+            break;
+        }
+    }
     return commonWords;
 }
 
@@ -69,6 +76,14 @@ function getCommonWordPhrases(song1Lyrics, song2Lyrics) {
 
     let song1WordsArray = song1LyricsFiltered.split(' ');
     let song2WordsArray = song2LyricsFiltered.split(' ');
+
+    for (var i = 0; i < song1WordsArray.length; i++) {
+        song1WordsArray[i] = song1WordsArray[i].toLowerCase();
+    }
+
+    for (var i = 0; i < song2WordsArray.length; i++) {
+        song2WordsArray[i] = song2WordsArray[i].toLowerCase();
+    }
 
     let song1WordCountMap = createWordCountMap(song1WordsArray);
     let song2WordCountMap = createWordCountMap(song2WordsArray);
@@ -118,7 +133,7 @@ module.exports = function(router) {
             // Search for both songs, not case sensitive
             var song1 = await Song.findOne({'songTitle': { $regex : new RegExp(req.query.song1, "i") }});
             var song2 = await Song.findOne({'songTitle': { $regex : new RegExp(req.query.song2, "i") }});
-            var commonWordPhrases = getCommonWordPhrases(song1.lyrics, song2.lyrics)
+            var commonWordPhrases = getCommonWordPhrases(song1.lyrics, song2.lyrics);
             if (song1 && song2) {
                 res.status(200).send({
                     message: "OK",
