@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import { auth, googleAuthProvider } from './firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import axios from 'axios';
-import {checkedAxiosGet} from './utils.js';
 import Search from './Components/Search/Search';
 import Header from './Components/Header/Header';
 import Compare from './Components/Compare/Compare';
@@ -21,19 +20,19 @@ class App extends Component {
         <Switch>
           <Route exact path={process.env.PUBLIC_URL + '/'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'search'}/>
               <Search />
             </div>
           } />
           <Route exact path={process.env.PUBLIC_URL + '/Compare'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'compare'}/>
               <Compare />
             </div>
           } />
           <Route exact path={process.env.PUBLIC_URL + '/User'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'user'}/>
               <User />
             </div>
           } />
@@ -44,13 +43,13 @@ class App extends Component {
           } />
           <Route exact path={process.env.PUBLIC_URL + '/Display'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'search'}/>
               <User />
             </div>
           } />  
           <Route exact path={process.env.PUBLIC_URL + '/CompareDisplay'} render = {props =>
             <div>
-              <Header />
+              <Header initialActiveItem={'compare'}/>
               <User />
             </div>
           } />          

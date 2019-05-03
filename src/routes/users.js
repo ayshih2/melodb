@@ -1,7 +1,6 @@
 var models = require('../database');
 var Song = models.songModel;
 var User = models.userModel;
-var utils = require('../utils.js');
 
 function songIn(arr, song) {
 	for (var i = 0; i < arr.length; i++) {

@@ -32,7 +32,7 @@ class Login extends Component {
 			this.setState({ isSignedIn: !!user })
       if (user) {
         // Add user to database if new user
-        axios.post("http://localhost:5000/api/user/", {
+        axios.post("https://melodb-uiuc.herokuapp.com/api/user/", {
           name: user.displayName,
           email: user.email
         }).catch(err => {

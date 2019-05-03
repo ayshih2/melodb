@@ -14,6 +14,12 @@ class Header extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.initialActiveItem) {
+      this.setState({activeItem: this.props.initialActiveItem});
+    }
+  }
+
   render() {
     const { activeItem } = this.state
 
@@ -66,5 +72,10 @@ class Header extends Component {
     )
   }
 }
+
+Header.defaultProps = {
+  // for when we navigate to another menu item from a url instead of clicking
+  initialActiveItem: 'search'
+};
 
 export default Header;
