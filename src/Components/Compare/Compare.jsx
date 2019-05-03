@@ -49,11 +49,26 @@ class Compare extends Component {
   }
 
   pressedLeftClose() {
-    this.setState({boolLeft: false, valueLeft: "", resultLeft: {}})
+    this.setState({pieData: [
+						    { x: "", y: 0 },
+						    { x: "", y: 0 },
+						    { x: "", y:  0 },
+						    { x: "", y: 0 },
+						    { x: "", y: 100 }
+      ],
+      barData: [{x: '', y: 0}, {x: '', y: 0}]
+            , boolLeft: false, valueLeft: "", resultLeft: {}, leftSongData: {}});
   }
 
   pressedRightClose() {
-    this.setState({boolRight: false, valueRight: "", resultRight: {}})
+    this.setState({      pieData: [
+						    { x: "", y: 0 },
+						    { x: "", y: 0 },
+						    { x: "", y:  0 },
+						    { x: "", y: 0 },
+						    { x: "", y: 100 }
+      ],
+      barData: [{x: '', y: 0}, {x: '', y: 0}], boolRight: false, valueRight: "", resultRight: {}, rightSongData: {}});
   }
 
   clickedLeftSong(event) {

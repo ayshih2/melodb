@@ -17,7 +17,7 @@ class Display extends Component {
     this.song = this.props.params.location.state.query;
     this.toggleLike = this.toggleLike.bind(this);
     const config = {
-      baseURL: 'http://localhost:5000/api',
+      baseURL: 'https://melodb-uiuc.herokuapp.com/api',
       url: `user?email=${firebase.auth().currentUser.email}&type=liked`
     }
     axios(config).then(res => {

@@ -192,7 +192,7 @@ module.exports = function(router) {
 								Song.find({'songTitle': {$in : compTitles}}, (errc, res_comps) => {
 									if (errc == null) {
 										let compSongs = [];
-										for (var i = 0; i < history.comparisons.length; i++) {
+										for (var i = history.comparisons.length - 1; i >= 0; i--) {
 											let numMatched = 0;
 											let song1 = {};
 											let song2 = {};
@@ -278,25 +278,22 @@ module.exports = function(router) {
 						Song.find({'songTitle': {$in : songTitles}}, (errs, res_songs) => {
 							if (errs == null) {
 								let retSongs = [];
-								for (var song in res_songs) {
-									let keepLikedDate = new Date();
-									for (var liked in res_user.likedSongs) {
+								for (var liked in res_user.likedSongs) {
+									for (var song in res_songs) {
 										if (res_user.likedSongs[liked].songId === res_songs[song].songTitle) {
-											keepLikedDate = res_user.likedSongs[liked].likedDate;
+											let fullDate = res_user.likedSongs[liked].likedDate.toDateString();
+
+											let songObj = {
+												songName : res_songs[song].songTitle,
+												songArt : res_songs[song].albumImgUrl,
+												artist : res_songs[song].artist,
+												likedDate : fullDate
+											};
+
+											retSongs.push(songObj);
 											break;
 										}
 									}
-
-									let fullDate = keepLikedDate.toDateString();
-
-									let songObj = {
-										songName : res_songs[song].songTitle,
-										songArt : res_songs[song].albumImgUrl,
-										artist : res_songs[song].artist,
-										likedDate : fullDate
-									};
-
-									retSongs.push(songObj);
 								}	
 
 								res.status(200).send({

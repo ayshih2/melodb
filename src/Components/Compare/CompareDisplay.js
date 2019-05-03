@@ -46,8 +46,8 @@ class CompareDisplay extends Component {
 			if (firebase.auth().currentUser) {
 		    const config = {
 		      method: 'put',
-		      baseURL: 'http://localhost:5000/api',
-		      url: `user?email=${firebase.auth().currentUser.email}&type=history&add=song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`,
+		      baseURL: 'https://melodb-uiuc.herokuapp.com/api',
+		      url: `user?email=${firebase.auth().currentUser.email}&type=history&add=comparison`,
 		      data: {
 		        songName1: nextProps.leftSong.songTitle,
 		        songName2: nextProps.rightSong.songTitle,
@@ -61,7 +61,7 @@ class CompareDisplay extends Component {
 			}	    
 
 	    // get data
-	    axios.get(`http://localhost:5000/api/compare/?song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`)
+	    axios.get(`https://melodb-uiuc.herokuapp.com/api/compare/?song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`)
       .then(res => {
         console.log(res);
 
@@ -69,10 +69,8 @@ class CompareDisplay extends Component {
         var sumOfRounded = 0;
         var roundedNums = [];
         res.data.data.topFiveCommonWords.forEach(elem => {
-        	console.log(elem.percentage);
         	roundedNums.push(Math.floor(elem.percentage * 100));
         	sumOfRounded += Math.floor(elem.percentage * 100);
-        	console.log(Math.floor(elem.percentage * 100))
         });
 
         var diff = 100 - sumOfRounded;
@@ -95,7 +93,20 @@ class CompareDisplay extends Component {
 	    }).catch(error => {
 	    	console.log(error);
 	    }); 
-		}  	
+		} else {
+			this.setState({
+			    pieData: [{ x: "", y: 0 }, { x: "", y: 0 }, { x: "", y:  0 },
+							{ x: "", y: 0 },
+							{ x: "", y: 100 }
+			      ],
+			      barData: [{x: '', y: 0}, {x: '', y: 0}],
+			      commonData: {},
+			      leftSong: {},
+			      rightSong: {},
+			      selectedCommonWord: '',
+			      selectedCommonWordNum: 0
+			});
+		}
    }
 
   componentWillUnmount() {
@@ -269,7 +280,7 @@ class CompareDisplay extends Component {
 			    		<Segment padded>
 				    		<Label attached='top' className='sentimentRatingText'>
 				    		  <Header as='h3' >
-	                  <Header.Content>Lyrics Sentiment Rating</Header.Content>
+	                  <Header.Content>Lyrics Positive Sentiment Rating</Header.Content>
 	                </Header>
 				    		</Label>
 							  <VictoryChart
