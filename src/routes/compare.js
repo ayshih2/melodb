@@ -104,12 +104,12 @@ function getCommonWordPhrases(song1Lyrics, song2Lyrics) {
         let lyrics2 = [];
 
         song1LyricLines.forEach(l => {
-            if(l.replace(/\,|\?|\!|\(|\)/g, '').split(' ').includes(word)) {
+            if(l.toLowerCase().replace(/\,|\?|\!|\(|\)/g, '').split(' ').includes(word)) {
                 lyrics1.push(l);
             }
         });
         song2LyricLines.forEach(l => {
-            if(l.replace(/\,|\?|\!|\(|\)/g, '').split(' ').includes(word)) {
+            if(l.toLowerCase().replace(/\,|\?|\!|\(|\)/g, '').split(' ').includes(word)) {
                 lyrics2.push(l);
             }
         });
