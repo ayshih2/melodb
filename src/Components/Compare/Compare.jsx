@@ -37,24 +37,12 @@ class Compare extends Component {
     this._onBlur = this._onBlur.bind(this);
     this._onLeftFocus = this._onLeftFocus.bind(this);
     this._onRightFocus = this._onRightFocus.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
     this.inputChangeHandlerLeft = this.inputChangeHandlerLeft.bind(this);
     this.clickHandlerLeft = this.clickHandlerLeft.bind(this);
     this.inputChangeHandlerRight = this.inputChangeHandlerRight.bind(this);
     this.clickHandlerRight = this.clickHandlerRight.bind(this);
     this.pressedLeftClose = this.pressedLeftClose.bind(this);
     this.pressedRightClose = this.pressedRightClose.bind(this);
-    this.getLeftSong = this.getLeftSong.bind(this);
-    this.getRightSong = this.getRightSong.bind(this);
-  }
-
-  getLeftSong(value) {
-  	//console.log(value);
-  	//console.log("HEREERER");
-  }
-
-  getRightSong() {
-
   }
 
   pressedLeftClose() {
@@ -158,17 +146,6 @@ class Compare extends Component {
 		}
 	}
 
-	componentDidMount() {
-	  this.setState({
-	      pieData: [
-			    { x: "I", y: 15},
-			    { x: "You", y: 15},
-			    { x: "Me", y:  40},
-			    { x: "running", y: 10},
-			    { x: "Dunno", y:  20}
-	  ]})
-  }
-
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
   	var toRender = this.state.boolLeft === true && this.state.boolRight === true
@@ -235,9 +212,7 @@ class Compare extends Component {
 										</label>
 				      		)
 				      	}				      
-
 							</Segment>
-
 						<CompareListview sendSong={this.getRightSong} query={this.state.resultRight} toDisplay={!this.state.boolRight} buttonClick={this.clickedRightSong.bind(this)} />
 			      </Grid.Column>
 			    </Grid.Row>   

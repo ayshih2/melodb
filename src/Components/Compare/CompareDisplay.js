@@ -10,17 +10,19 @@ class CompareDisplay extends Component {
   constructor(props) {
     super(props);
 		this.state = {
-            pieData: [
-									    { x: "", y: 0 },
-									    { x: "", y: 0 },
-									    { x: "", y:  0 },
-									    { x: "", y: 0 },
-									    { x: "", y: 100 }
-            ],
-            barData: [{x: '', y: 0}, {x: '', y: 0}],
-            commonData: {},
-            leftSong: {},
-            rightSong: {},
+      pieData: [
+						    { x: "", y: 0 },
+						    { x: "", y: 0 },
+						    { x: "", y:  0 },
+						    { x: "", y: 0 },
+						    { x: "", y: 100 }
+      ],
+      barData: [{x: '', y: 0}, {x: '', y: 0}],
+      commonData: {},
+      leftSong: {},
+      rightSong: {},
+      selectedCommonWord: '',
+      commonWordNum: 0,
     }
 
     this.bars = React.createRef();
@@ -32,28 +34,13 @@ class CompareDisplay extends Component {
 
 	componentDidMount() {
 		window.addEventListener('scroll', this.handleScroll, { passive: true })
-		console.log(this.state.rightSong)
-
-	 //  this.setState({
-	 //      pieData: [
-		// 	    { x: "I", y: 15},
-		// 	    { x: "You", y: 15},
-		// 	    { x: "Me", y:  40},
-		// 	    { x: "running", y: 10},
-		// 	    { x: "Dunno", y:  20}
-	 //  		]
-		// })
   }
 
    componentWillReceiveProps(nextProps) {
 		if (nextProps.leftSong.songTitle && nextProps.rightSong.songTitle) {
-	      //http://localhost:5000/api/compare/?song1=envy me&song2=old town roAD
-	      console.log("this  " + nextProps.leftSong.songTitle)
-	      console.log("next " + nextProps.rightSong.songTitle)
-
+			console.log("new props " + nextProps);
 	    axios.get(`http://localhost:5000/api/compare/?song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`)
       .then(res => {
-        console.log("YEeEEEE");
         console.log(res);
         this.setState({
         	commonData: res.data.data,
@@ -68,7 +55,6 @@ class CompareDisplay extends Component {
 		  		]        	
         });
 	    }).catch(error => {
-	    	console.log("NOOOOO");
 	    	console.log(error);
 	    }); 
 		}  	
@@ -83,8 +69,8 @@ class CompareDisplay extends Component {
 		  var rect = ReactDOM.findDOMNode(this.bars.current).getBoundingClientRect();
 			if (rect.top >= 0 &&
 	        rect.left >= 0 &&
-	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) 
 			) {
 		    this.setState({
 					barData: [{x: this.state.leftSong.songTitle, y: this.state.commonData.song1Sentiment}, 
@@ -98,24 +84,53 @@ class CompareDisplay extends Component {
   render() {
   	if (this.props.query == true) {
   		// format left song lyrics
-  		var leftLyric = this.props.leftSong.lyrics.split('\\n');
-	    var displayLeftLyrics = [];
-	    leftLyric.forEach((elem, i) => {
-	      displayLeftLyrics.push(elem);
-	      if (i !== leftLyric.length - 1) {
-	        displayLeftLyrics.push(<br />);
-	      }
-	    });
+  		var commonWordIdx = -1;
+  		if (this.state.commonData.topFiveCommonWords) {
+	  		// find index of selected word in commonData to get associated lyrics
+	  		for (var i = 0; i < this.state.commonData.topFiveCommonWords.length; i++) {
+	  			if (this.state.commonData.topFiveCommonWords[i].word === this.state.selectedCommonWord) {
+	  				commonWordIdx = i;
+	  				break;
+	  			}
+	  		}
 
-	    // format right song lyrics
-	    var rightLyric = this.props.rightSong.lyrics.split('\\n');
-	    var displayRightLyrics = [];
-	    rightLyric.forEach((elem, i) => {
-	      displayRightLyrics.push(elem);
-	      if (i !== leftLyric.length - 1) {
-	        displayRightLyrics.push(<br />);
-	      }
-	    });
+	  		// format left song lyrics
+	  		var leftLyric = this.props.leftSong.lyrics.split('\\n');
+	  		var leftToHighlight = (commonWordIdx != -1) ? this.state.commonData.topFiveCommonWords[commonWordIdx].song1Lyrics : [];
+	  		var leftIdx = 0;
+		    var displayLeftLyrics = [];
+		    leftLyric.forEach((elem, i) => {
+		    	if (elem === leftToHighlight[leftIdx] && i !== leftLyric.length - 1) {
+		    		displayLeftLyrics.push(<span className="leftLyrics">{elem}</span>);
+		    		displayLeftLyrics.push(<br />);
+		    		leftIdx += 1;
+		    	} else if (i !== leftLyric.length - 1) {
+		    		displayLeftLyrics.push(elem);
+		    		displayLeftLyrics.push(<br />);
+		    	} else {
+						displayLeftLyrics.push(elem);
+		    	}
+		    });
+
+			  // format right song lyrics
+		    var rightLyric = this.props.rightSong.lyrics.split('\\n');
+	  		var rightToHighlight = (commonWordIdx != -1) ? this.state.commonData.topFiveCommonWords[commonWordIdx].song2Lyrics : [];
+	  		var rightIdx = 0;	    
+		    var displayRightLyrics = [];
+		    rightLyric.forEach((elem, i) => {
+		    	if (elem === rightToHighlight[rightIdx] && i !== rightLyric.length - 1) {
+		    		displayRightLyrics.push(<span className="rightLyrics">{elem}</span>);
+		    		displayRightLyrics.push(<br />);
+		    		rightIdx += 1;
+		    	} else if (i !== rightLyric.length - 1) {
+		    		displayRightLyrics.push(elem);
+		    		displayRightLyrics.push(<br />);
+		    	} else {
+						displayRightLyrics.push(elem);
+		    	}
+		    });
+
+  		}
 
 	    return (
 				<Grid textAlign='center' columns='equal'>
@@ -152,6 +167,12 @@ class CompareDisplay extends Component {
 								                const fill = props.style && props.style.fill;
 								                return fill === "#800080" ? null : { style: { fill: "#800080" } };
 								              }
+								            },
+								            {
+								            	target: "labels",
+								            	mutation: (props) => {
+								         				this.setState({selectedCommonWord: props.text});					            		
+								            	}
 								            }
 								          ];
 								        },
@@ -185,7 +206,7 @@ class CompareDisplay extends Component {
 								        },
 								      }
 								    }]}
-				        		// TO DO!!!!!!!!!!!! LONGER WORDS like Armageddon WILL NOT FIT
+								    // longer words won't fit
 									  data={this.state.pieData}
 									  padAngle={2}
 									  labelRadius={100}
@@ -225,7 +246,7 @@ class CompareDisplay extends Component {
 								    domain={ {y: [0, 100]} }
 								    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"}, 
 								    // #003366 is dark blue, #800000 is maroon
-								    data: { fill: data => (data.x === this.state.barData[0].x ? "#003366" : "#800000")  } }}
+								    data: { fill: data => (data.x === this.state.barData[0].x ? "#800000": "#003366")  } }}
 								    animate={{ duration: 2000 }}
 									/>
 							    <VictoryAxis dependentAxis
