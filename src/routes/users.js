@@ -170,25 +170,23 @@ module.exports = function(router) {
 						Song.find({'songTitle': {$in : songTitles}}, (errs, res_songs) => {
 							if (errs == null) {
 								let retSongs = [];
-								for (var song in res_songs) {
-									let keepLikedDate = new Date();
-									for (var hist in history.songs) {
+								for (var hist = history.songs.length - 1; hist >= 0; hist--) {
+									for (var song in res_songs) {
 										if (history.songs[hist].songId === res_songs[song].songTitle) {
-											keepLikedDate = history.songs[hist].searchDate;
+											let fullDate = history.songs[hist].searchDate.toDateString();
+
+											let songObj = {
+												songName : res_songs[song].songTitle,
+												songArt : res_songs[song].albumImgUrl,
+												artist : res_songs[song].artist,
+												likedDate : fullDate
+											};
+
+											retSongs.push(songObj);
 											break;
 										}
 									}
 
-									let fullDate = keepLikedDate.toDateString();
-
-									let songObj = {
-										songName : res_songs[song].songTitle,
-										songArt : res_songs[song].albumImgUrl,
-										artist : res_songs[song].artist,
-										likedDate : fullDate
-									};
-
-									retSongs.push(songObj);
 								}
 
 								Song.find({'songTitle': {$in : compTitles}}, (errc, res_comps) => {
