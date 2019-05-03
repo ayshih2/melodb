@@ -39,6 +39,7 @@ class CompareDisplay extends Component {
    componentWillReceiveProps(nextProps) {
 		if (nextProps.leftSong.songTitle && nextProps.rightSong.songTitle) {
 			console.log("new props " + nextProps);
+			var test = Math.round(Math.random() * 20);
 	    axios.get(`http://localhost:5000/api/compare/?song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`)
       .then(res => {
         console.log(res);
@@ -47,8 +48,8 @@ class CompareDisplay extends Component {
         	leftSong: nextProps.leftSong,
         	rightSong: nextProps.rightSong,
 		      pieData: [
-				    { x: res.data.data.topFiveCommonWords[0].word, y: 20},
-				    { x: res.data.data.topFiveCommonWords[1].word, y: 20},
+				    { x: res.data.data.topFiveCommonWords[0].word, y: test},
+				    { x: res.data.data.topFiveCommonWords[1].word, y: 100 - test},
 				    { x: res.data.data.topFiveCommonWords[2].word, y: 20},
 				    { x: res.data.data.topFiveCommonWords[3].word, y: 20},
 				    { x: res.data.data.topFiveCommonWords[4].word, y: 20}
