@@ -1,7 +1,6 @@
 var models = require('../database');
 var Song = models.songModel;
 var User = models.userModel;
-var utils = require('../utils.js');
 
 function songIn(arr, song) {
 	for (var i = 0; i < arr.length; i++) {
@@ -171,25 +170,23 @@ module.exports = function(router) {
 						Song.find({'songTitle': {$in : songTitles}}, (errs, res_songs) => {
 							if (errs == null) {
 								let retSongs = [];
-								for (var song in res_songs) {
-									let keepLikedDate = new Date();
-									for (var hist in history.songs) {
+								for (var hist = history.songs.length - 1; hist >= 0; hist--) {
+									for (var song in res_songs) {
 										if (history.songs[hist].songId === res_songs[song].songTitle) {
-											keepLikedDate = history.songs[hist].searchDate;
+											let fullDate = history.songs[hist].searchDate.toDateString();
+
+											let songObj = {
+												songName : res_songs[song].songTitle,
+												songArt : res_songs[song].albumImgUrl,
+												artist : res_songs[song].artist,
+												likedDate : fullDate
+											};
+
+											retSongs.push(songObj);
 											break;
 										}
 									}
 
-									let fullDate = keepLikedDate.toDateString();
-
-									let songObj = {
-										songName : res_songs[song].songTitle,
-										songArt : res_songs[song].albumImgUrl,
-										artist : res_songs[song].artist,
-										likedDate : fullDate
-									};
-
-									retSongs.push(songObj);
 								}
 
 								Song.find({'songTitle': {$in : compTitles}}, (errc, res_comps) => {
@@ -581,13 +578,20 @@ module.exports = function(router) {
 		} else {
 			if (req.body.email) {
 				User.find({"email": req.body.email}, (err, docs) => {
-					if (docs.length) {
+					if (docs.length != 0) {
 						res.status(500).send({
 							message: "User with this email already exists",
 							data: {}
 						});
 					} else {
-						let user = new User(req.body);
+						let user = new User({
+							name: req.body.name,
+							email: req.body.email,
+							pictureUrl: "",
+							likedSongs: [],
+							history: [{songs: [], comparisons: []}],
+							recommended: []
+						});
 						user.save();
 						res.status(201).send({
 							message: "User created",

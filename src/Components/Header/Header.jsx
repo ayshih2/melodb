@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
+import { auth } from '../../firebase.js';
 
 class Header extends Component {
   state = { activeItem: 'search' }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (e, { name }) => { 
+    this.setState({ activeItem: name }) 
+
+    if (name === 'sign-out') {
+      auth.signOut();
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.initialActiveItem) {
+      this.setState({activeItem: this.props.initialActiveItem});
+    }
+  }
 
   render() {
     const { activeItem } = this.state
@@ -45,17 +58,24 @@ class Header extends Component {
               User
             </Menu.Item>
           </Link>
-          <Menu.Item
-            name='sign-out'
-            active={activeItem === 'sign-out'}
-            onClick={this.handleItemClick}
-          >
-            Sign Out
-          </Menu.Item>
+          <Link to={process.env.PUBLIC_URL + '/login'}>
+            <Menu.Item
+              name='sign-out'
+              active={activeItem === 'sign-out'}
+              onClick={this.handleItemClick}
+            >
+              Sign Out
+            </Menu.Item>
+          </Link>
         </Menu.Menu>
       </Menu>
     )
   }
 }
+
+Header.defaultProps = {
+  // for when we navigate to another menu item from a url instead of clicking
+  initialActiveItem: 'search'
+};
 
 export default Header;

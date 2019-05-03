@@ -8,6 +8,8 @@ import LikedTable from './Liked/Liked.jsx';
 import RecommendedTable from './Recommended/Recommended.jsx';
 import HistorySongTable from './History/HistorySong.jsx';
 import HistoryCompTable from './History/HistoryComp.jsx';
+import firebase from 'firebase';
+import Login from '../Login/Login.jsx';
 
 class User extends Component {
   constructor() {
@@ -74,21 +76,31 @@ class User extends Component {
   }
 
   componentWillMount() {
-    //is it good that it does this every time? no probably not
-    //does it affect anything that it does this every time? no so who cares
-    this.axiosGetLiked('testEmail');
-    this.axiosGetRecommended('testEmail');
-    this.axiosGetHistory('testEmail');
+
+    let saveThis = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        saveThis.axiosGetLiked(user.email);
+        saveThis.axiosGetRecommended(user.email);
+        saveThis.axiosGetHistory(user.email);
+      } else {
+        // No user is signed in.
+      }
+    });
   }
 
   render() {
     const { activeItem } = this.state;
 
+    if (!firebase.auth().currentUser) {
+      return <Login redirectUrl='/user'/>
+    }
+
     return (
       <div className='user-container'>
         <Header as='h2' icon>
           <Icon name='settings' />
-          Account Settings
+          <p>{firebase.auth().currentUser.displayName}</p>
           <Header.Subheader>Manage your account settings and set e-mail preferences.</Header.Subheader>
         </Header>
         <div className='menuWrapper'>
