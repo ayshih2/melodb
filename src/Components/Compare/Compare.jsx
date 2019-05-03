@@ -26,6 +26,8 @@ class Compare extends Component {
       		resultRight: {},
       		boolLeft: false,
   				boolRight: false,
+  				leftSongData: {},
+  				rightSongData: {},
 
     }
 
@@ -42,10 +44,20 @@ class Compare extends Component {
     this.clickHandlerRight = this.clickHandlerRight.bind(this);
     this.pressedLeftClose = this.pressedLeftClose.bind(this);
     this.pressedRightClose = this.pressedRightClose.bind(this);
+    this.getLeftSong = this.getLeftSong.bind(this);
+    this.getRightSong = this.getRightSong.bind(this);
+  }
+
+  getLeftSong(value) {
+  	//console.log(value);
+  	//console.log("HEREERER");
+  }
+
+  getRightSong() {
+
   }
 
   pressedLeftClose() {
-  	console.log("ALKFJDS");
     this.setState({boolLeft: false, valueLeft: "", resultLeft: {}})
   }
 
@@ -54,20 +66,17 @@ class Compare extends Component {
   }
 
   clickedLeftSong(event) {
-  	console.log("here");
-  	console.log(this.leftSearchRef.current);
-    this.setState({boolLeft: true})
+    this.setState({boolLeft: true, leftSongData: event})
 	}
 
 	clickedRightSong(event) {
-		console.log("there");
-    this.setState({boolRight: true})
+    this.setState({boolRight: true, rightSongData: event})
 	}
 
   clickHandlerLeft() {
     if (this.state.valueLeft) {
       const config = {
-        baseURL: 'http://localhost:5000/api',
+        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
         url: `song?name=${this.state.valueLeft}`
       }
       axios(config).then((response) => {
@@ -95,7 +104,7 @@ class Compare extends Component {
   clickHandlerRight() {
 	    if (this.state.valueRight) {
 	      const config = {
-	        baseURL: 'http://localhost:5000/api',
+	        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
 	        url: `song?name=${this.state.valueRight}`
 	      }
 	      axios(config).then((response) => {
@@ -163,7 +172,6 @@ class Compare extends Component {
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
   	var toRender = this.state.boolLeft === true && this.state.boolRight === true
-  	console.log("????? " + toRender)
     return (
     	<div className='gridLayout'>
 				<Grid textAlign='center' columns='equal'>
@@ -175,14 +183,14 @@ class Compare extends Component {
 				      		(
 						      	<div className='compareContainer'>
 		                  <div className='image'>
-		                    <Image size='tiny' src='https://images.genius.com/7dae2bd55960517e764f5194d2af0194.600x600x1.jpg' avatar />
+		                    <Image size='tiny' src={this.state.leftSongData.albumImgUrl} avatar />
 		                  </div>
 		                  <div className='compareHeader'>
 		                    <div>
 		                      <Header
 		                        as='h2'
-		                        content='Our Love is Great'
-		                        subheader='Baek Yerin'
+		                        content={this.state.leftSongData.songTitle}
+		                        subheader={this.state.leftSongData.artist}
 		                      />
 		                    </div>
 		                  </div>
@@ -197,7 +205,7 @@ class Compare extends Component {
 				      		)
 				      	}
 							</Segment>
-							<CompareListview query={this.state.resultLeft} toDisplay={!this.state.boolLeft} buttonClick={this.clickedLeftSong.bind(this)} />
+							<CompareListview sendSong={this.getLeftSong} query={this.state.resultLeft} toDisplay={!this.state.boolLeft} buttonClick={this.clickedLeftSong.bind(this)} />
 			      </Grid.Column>
 			      <Grid.Column>
 				      <Segment>
@@ -206,14 +214,14 @@ class Compare extends Component {
 				      		(
 						      	<div className='compareContainer'>
 		                  <div className='image'>
-		                    <Image size='tiny' src='https://images.genius.com/7dae2bd55960517e764f5194d2af0194.600x600x1.jpg' avatar />
+		                    <Image size='tiny' src={this.state.rightSongData.albumImgUrl} avatar />
 		                  </div>
 		                  <div className='compareHheader'>
 		                    <div>
 		                      <Header
 		                        as='h2'
-		                        content='Our Love is Great'
-		                        subheader='Baek Yerin'
+		                        content={this.state.rightSongData.songTitle}
+		                        subheader={this.state.rightSongData.artist}
 		                      />
 		                    </div>
 		                  </div>
@@ -230,13 +238,11 @@ class Compare extends Component {
 
 							</Segment>
 
-						<CompareListview query={this.state.resultRight} toDisplay={!this.state.boolRight} buttonClick={this.clickedRightSong.bind(this)} />
+						<CompareListview sendSong={this.getRightSong} query={this.state.resultRight} toDisplay={!this.state.boolRight} buttonClick={this.clickedRightSong.bind(this)} />
 			      </Grid.Column>
 			    </Grid.Row>   
 			  </Grid>
-			  {console.log("LEFT " + this.state.boolLeft)}
-			  {console.log("RIGHT " + this.state.boolRight)}
-			  <CompareDisplay query={toRender} />
+			  <CompareDisplay query={toRender} leftSong={this.state.leftSongData} rightSong={this.state.rightSongData} />
 			</div>
     );
   }

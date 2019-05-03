@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom';
 import '../Search/Listview/Listview.scss';
 
 class CompareListview extends Component {
+
+
   render() {
     const empty = Object.entries(this.props.query).length === 0;
     if (!empty && this.props.toDisplay) {
       const listview = this.props.query.map((song, idx) => {
+        // this.props.sendSong(song);
         return(
-          <List.Item key={idx} onClick={this.props.buttonClick}>
+          <List.Item key={idx} onClick={() => this.props.buttonClick(song)}>
             <div className='container'>
               <div><Image size='tiny' src={song.albumImgUrl} /></div>
               <div className='item'>
