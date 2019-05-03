@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'semantic-ui-react';
+import { Input, Dimmer, Loader, Image} from 'semantic-ui-react';
 import './Search.scss';
 import axios from 'axios';
 import Listview from './Listview/Listview';
@@ -12,7 +12,8 @@ class Search extends Component {
 
     this.state = {
       value: '',
-      result: {}
+      result: {},
+      isLoading: true
     }
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
@@ -47,7 +48,22 @@ class Search extends Component {
     }, this.clickHandler);
   }
 
+  componentWillMount() {
+		firebase.auth().onAuthStateChanged(user => {
+			// After getting the user information, if available
+      this.setState({isLoading: false});
+    });
+	}
+
   render() {
+    if(this.state.isLoading) {
+      return (
+        <div>
+					<Loader active inlined='centered'/>
+        </div>
+      )
+    }
+
     if (!firebase.auth().currentUser) {
       return <Login redirectUrl='/'/>
     }
