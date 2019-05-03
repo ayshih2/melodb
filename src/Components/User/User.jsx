@@ -118,6 +118,9 @@ class User extends Component {
           </Menu>
           <div className='userBoxWrapper'>
             <Segment id='rbox'className='recommended-box'>
+              <div id="r-info">
+              Recommended songs are based off of songs you've liked and searched.
+              </div>
               <RecommendedTable recommendedSongs={this.state.recommended} />
             </Segment>
             <Segment id='lbox' className='liked-box'>
