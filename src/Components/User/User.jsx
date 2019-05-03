@@ -98,7 +98,7 @@ class User extends Component {
 
     return (
       <div className='user-container'>
-        <div className='header'>
+        <div className='user-header'>
           <Image circular size='small' src={firebase.auth().currentUser.photoURL} />
           <h2>{firebase.auth().currentUser.displayName}</h2>
         </div>

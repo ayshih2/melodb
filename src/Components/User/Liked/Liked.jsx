@@ -37,4 +37,3 @@ class LikedRow extends React.Component {
     );
   }
 }
-

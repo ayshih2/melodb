@@ -3,7 +3,6 @@ import { Button, Header, List, Image, Icon, Segment, Grid, Label } from 'semanti
 import { Link } from 'react-router-dom';
 import './Display.scss';
 import axios from 'axios';
-import { auth } from '../../firebase.js';
 import firebase from 'firebase';
 import logo from './musical-note.svg';
 
