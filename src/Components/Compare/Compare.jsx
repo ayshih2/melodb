@@ -151,9 +151,9 @@ class Compare extends Component {
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
-		// if (!firebase.auth().currentUser) {
-  //     return <Login redirectUrl='/compare'/>
-  //   }
+		if (!firebase.auth().currentUser) {
+      return <Login redirectUrl='/compare'/>
+    }
 
     var toRender = this.state.boolLeft === true && this.state.boolRight === true
     return (

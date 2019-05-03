@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Segment, Label, Header } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
+import { auth } from '../../firebase.js';
+import firebase from 'firebase';
 import './Compare.scss';
 import axios from 'axios';
 import '../../variables.scss';
@@ -39,7 +41,26 @@ class CompareDisplay extends Component {
    componentWillReceiveProps(nextProps) {
 		if (nextProps.leftSong.songTitle && nextProps.rightSong.songTitle) {
 			console.log("new props " + nextProps);
-			var test = Math.round(Math.random() * 20);
+			
+			// put comparison into user history
+			if (firebase.auth().currentUser) {
+		    const config = {
+		      method: 'put',
+		      baseURL: 'http://localhost:5000/api',
+		      url: `user?email=${firebase.auth().currentUser.email}&type=history&add=song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`,
+		      data: {
+		        songName1: nextProps.leftSong.songTitle,
+		        songName2: nextProps.rightSong.songTitle,
+		      }
+		    }
+		    axios(config).then(res => {
+		      console.log('Success');
+		    }).catch(err => {
+		      console.log(err);
+		    })
+			}	    
+
+	    // get data
 	    axios.get(`http://localhost:5000/api/compare/?song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`)
       .then(res => {
         console.log(res);

@@ -50,7 +50,7 @@ class App extends Component {
           } />
           <Route exact path={process.env.PUBLIC_URL + '/CompareDisplay'} render = {props =>
             <div>
-              <Header /*initialActiveItem={'compare'}*//>
+              <Header initialActiveItem={'compare'}/>
               <CompareDisplay />
             </div>
           } />
