@@ -6,10 +6,11 @@ import { Table, Image } from 'semantic-ui-react';
 export default class HistorySongTable extends Component {
   render() {
 
-    var rows = this.props.historySongs.map((shistory) => {
+    var rows = this.props.historySongs.map((shistory, idx) => {
 
       return (
         <SongHistoryRow
+          key={idx}
           history = { shistory }
         />
       );
