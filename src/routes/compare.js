@@ -45,8 +45,8 @@ function getCommonWords (wordCountMap1, wordCountMap2) {
     ]*/
 
     Object.entries(wordCountMap1).forEach(entry => {
-        let word = entry[0];
-        if (wordCountMap2.hasOwnProperty(word) && !stopWords.includes(word.toLowerCase())) {
+        let word = entry[0].toLowerCase();
+        if (wordCountMap2.hasOwnProperty(word) && !stopWords.includes(word)) {
             let count1 = entry[1];
             let count2 = wordCountMap2[word];
 
@@ -79,6 +79,10 @@ function getCommonWordPhrases(song1Lyrics, song2Lyrics) {
     let song1LyricLines = song1Lyrics.split(/\\n/);
     let song2LyricLines = song2Lyrics.split(/\\n/);
     let numResults = Math.min(5, commonWords.length);
+    let top5TotalCount = 0;
+    for (let i = 0; i < numResults; i++) {
+        top5TotalCount += commonWords[i].count;
+    }
     for (let i = 0; i < numResults; i++) {
         let word = commonWords[i].word;
         let lyrics1 = [];
@@ -97,6 +101,7 @@ function getCommonWordPhrases(song1Lyrics, song2Lyrics) {
 
         results.push({
             word: word,
+            percentage: commonWords[i].count/top5TotalCount,
             song1Lyrics: lyrics1,
             song2Lyrics: lyrics2
         });

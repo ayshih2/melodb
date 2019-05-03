@@ -1,7 +1,7 @@
-.container {
+.display-container {
   display: flex;
   align-items: center;
-
+  justify-content: center;
 }
 
 .grid {
@@ -55,4 +55,5 @@
 
 p {
   font-family: "Lato";
+  line-height: 30px;
 }

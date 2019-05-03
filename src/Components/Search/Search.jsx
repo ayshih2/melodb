@@ -22,7 +22,7 @@ class Search extends Component {
   clickHandler() {
     if (this.state.value) {
       const config = {
-        baseURL: 'https://melodb-uiuc.herokuapp.com/api/',
+        baseURL: 'https://melodb-uiuc.herokuapp.com/api',
         url: `song?name=${this.state.value}`
       }
       axios(config).then((response) => {

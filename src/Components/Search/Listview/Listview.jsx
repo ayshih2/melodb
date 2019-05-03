@@ -7,11 +7,14 @@ class Listview extends Component {
   render() {
     const empty = Object.entries(this.props.query).length === 0;
     if (!empty) {
+      this.props.query.sort((a, b) => {
+        return a.songTitle.toLowerCase().localeCompare(b.songTitle.toLowerCase());
+      });
       const listview = this.props.query.map((song, idx) => {
         return(
           <List.Item key={idx}>
             <Link to={{
-              pathname: `${process.env.PUBLIC_URL}/Display`,
+              pathname: `${process.env.PUBLIC_URL}/display/${song.songTitle}`,
               state: {
                 query: song
                }

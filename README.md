@@ -255,9 +255,14 @@ Compares two songs and returns the results. The song name arguments are case ins
         "topFiveCommonWords": [
             {
                 "word": "got",
+                "percentage": 0.3333333333333333,
                 "song1Lyrics": [
                     " Like a locksmith, I got the keys (yeah)",
                     " I got water like overseas, yeah (aye)",
+                    " I got money, they envy me",
+                    " Like a locksmith, I got the keys (yeah)",
+                    " I got water like overseas, yeah (aye)",
+                    " I got money, they envy me"
                 ],
                 "song2Lyrics": [
                     " I got the horses in the back",
@@ -266,6 +271,7 @@ Compares two songs and returns the results. The song name arguments are case ins
             },
             {
                 "word": "back",
+                "percentage": 0.20833333333333334,
                 "song1Lyrics": [
                     " But I gave her back, why you tweaking?",
                     " If he run, blow his back down",
@@ -277,7 +283,19 @@ Compares two songs and returns the results. The song name arguments are case ins
                 ]
             },
             {
+                "word": "take",
+                "percentage": 0.20833333333333334,
+                "song1Lyrics": [],
+                "song2Lyrics": [
+                    "Yeah, I'm gonna take my horse to the old town road",
+                    " I'm gonna take my horse to the old town road",
+                    " Yeah, I'm gonna take my horse to the old town road",
+                    " I'm gonna take my horse to the old town road"
+                ]
+            },
+            {
                 "word": "black",
+                "percentage": 0.125,
                 "song1Lyrics": [
                     " Hit that smoke and I black out"
                 ],
@@ -288,25 +306,17 @@ Compares two songs and returns the results. The song name arguments are case ins
             },
             {
                 "word": "now",
+                "percentage": 0.125,
                 "song1Lyrics": [
                     " I was gone but I'm back now"
                 ],
                 "song2Lyrics": [
                     " You ain't been up off that porch, now"
                 ]
-            },
-            {
-                "word": "ain't",
-                "song1Lyrics": [
-                    " With the gang, we ain't playing fair"
-                ],
-                "song2Lyrics": [
-                    " You ain't been up off that porch, now"
-                ]
             }
         ],
-        "song1Sentiment": 0.019357744127451,
-        "song2Sentiment": -0.16960166757377
+        "song1Sentiment": 50.96788720637255,
+        "song2Sentiment": 41.5199166213115
     }
 }
 ```
