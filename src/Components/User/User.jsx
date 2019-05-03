@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './User.scss'
-import { Image, Menu, Segment } from 'semantic-ui-react';
+import { Image, Menu, Segment, Loader } from 'semantic-ui-react';
 import axios from 'axios';
 import LikedTable from './Liked/Liked.jsx';
 import RecommendedTable from './Recommended/Recommended.jsx';
@@ -17,7 +17,8 @@ class User extends Component {
       recommended: [],
       songHistory: [],
       compHistory: [],
-      activeItem: 'recommended'
+      activeItem: 'recommended',
+      isLoading: true
     }
   }
 
@@ -76,7 +77,7 @@ class User extends Component {
   componentWillMount() {
 
     let saveThis = this;
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         saveThis.axiosGetLiked(user.email);
         saveThis.axiosGetRecommended(user.email);
@@ -84,11 +85,20 @@ class User extends Component {
       } else {
         // No user is signed in.
       }
+      this.setState({isLoading: false});
     });
   }
 
   render() {
     const { activeItem } = this.state;
+
+    if(this.state.isLoading) {
+      return (
+        <div>
+					<Loader active inlined='centered'/>
+        </div>
+      )
+    }
 
     if (!firebase.auth().currentUser) {
       return <Login redirectUrl='/user'/>

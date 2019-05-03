@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import CompareDisplay from './CompareDisplay'
-import { Grid, Segment, Image, Header, Label, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Image, Header, Label, Icon, Loader } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
@@ -30,8 +30,8 @@ class Compare extends Component {
       		boolLeft: false,
   				boolRight: false,
   				leftSongData: {},
-  				rightSongData: {},
-
+					rightSongData: {},
+					isLoading: true
     }
 
     this.leftSearchRef = React.createRef();
@@ -164,8 +164,23 @@ class Compare extends Component {
 		}
 	}
 
+	componentWillMount() {
+		firebase.auth().onAuthStateChanged(user => {
+			// After getting the user information, if available
+      this.setState({isLoading: false});
+    });
+	}
+
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
+		if(this.state.isLoading) {
+      return (
+        <div>
+					<Loader active inlined='centered'/>
+        </div>
+      )
+    }
+
 		if (!firebase.auth().currentUser) {
       return <Login redirectUrl='/compare'/>
     }
