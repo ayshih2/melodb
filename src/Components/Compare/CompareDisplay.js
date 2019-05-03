@@ -13,12 +13,13 @@ class CompareDisplay extends Component {
     super(props);
 		this.state = {
       pieData: [
+						    { x: "", y: 100 },
 						    { x: "", y: 0 },
 						    { x: "", y: 0 },
-						    { x: "", y:  0 },
 						    { x: "", y: 0 },
-						    { x: "", y: 100 }
+						    { x: "", y: 0 }
       ],
+      animateData: false,
       barData: [{x: '', y: 0}, {x: '', y: 0}],
       commonData: {},
       leftSong: {},
@@ -26,6 +27,7 @@ class CompareDisplay extends Component {
       selectedCommonWord: '',
       commonWordNum: 0,
     }
+		    
 
     this.bars = React.createRef();
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -68,36 +70,64 @@ class CompareDisplay extends Component {
         // since percentages are decimals, make sure they add up to 100
         var sumOfRounded = 0;
         var roundedNums = [];
-        res.data.data.topFiveCommonWords.forEach(elem => {
-        	roundedNums.push(Math.floor(elem.percentage * 100));
-        	sumOfRounded += Math.floor(elem.percentage * 100);
-        });
+
+        var fuck = [];
+        var sharedWords = [];
+        for (var i = 0; i < 5; i++) {
+        	if (res.data.data.topFiveCommonWords[i]) {
+        		console.log("shared words " + i + " " + res.data.data.topFiveCommonWords[i].word);
+        		sharedWords.push(res.data.data.topFiveCommonWords[i].word);
+        		roundedNums.push(Math.floor(res.data.data.topFiveCommonWords[i].percentage * 100));
+        		sumOfRounded += Math.floor(res.data.data.topFiveCommonWords[i].percentage * 100);
+        		fuck.push({x: sharedWords[i], y: roundedNums[i]})
+        	} else {
+        		sharedWords.push("");
+        		roundedNums.push(0);
+        	}
+        }
+
+        console.log("----------")
+        for (var i = 0; i < 5; i++) {
+        	console.log(sharedWords + " " + roundedNums);
+        }
+        console.log("---------")
 
         var diff = 100 - sumOfRounded;
         for (var i = 0; i < diff; i++) {
         	roundedNums[i] += 1;
         }
 
+        // if (fuck.length != 5) {
+        // 	this.setState()
+        // }
+        var animate = true;
+        
+        if (fuck.length != 5) {
+        	animate = false;
+        }
+        console.log("alkfsdj " + fuck.length + " " + animate);
         this.setState({
         	commonData: res.data.data,
         	leftSong: nextProps.leftSong,
         	rightSong: nextProps.rightSong,
-		      pieData: [
-				    { x: res.data.data.topFiveCommonWords[0].word, y: roundedNums[0]},
-				    { x: res.data.data.topFiveCommonWords[1].word, y: roundedNums[1]},
-				    { x: res.data.data.topFiveCommonWords[2].word, y: roundedNums[2]},
-				    { x: res.data.data.topFiveCommonWords[3].word, y: roundedNums[3]},
-				    { x: res.data.data.topFiveCommonWords[4].word, y: roundedNums[4]}
-		  		]        	
+        	pieData: fuck,
+        	animateData: animate,
+		    //   pieData: [
+				  //   { x: sharedWords[0], y: roundedNums[0]},
+				  //   { x: sharedWords[1], y: roundedNums[1]},
+				  //   { x: sharedWords[2], y: roundedNums[2]},
+				  //   { x: sharedWords[3], y: roundedNums[3]},
+				  //   { x: sharedWords[4], y: roundedNums[4]}
+		  		// ],	
         });
 	    }).catch(error => {
 	    	console.log(error);
 	    }); 
 		} else {
 			this.setState({
-			    pieData: [{ x: "", y: 0 }, { x: "", y: 0 }, { x: "", y:  0 },
+			    pieData: [{ x: "", y: 100 }, { x: "", y: 0 }, { x: "", y:  0 },
 							{ x: "", y: 0 },
-							{ x: "", y: 100 }
+							{ x: "", y: 0 }
 			      ],
 			      barData: [{x: '', y: 0}, {x: '', y: 0}],
 			      commonData: {},
@@ -107,7 +137,7 @@ class CompareDisplay extends Component {
 			      selectedCommonWordNum: 0
 			});
 		}
-   }
+  }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -149,7 +179,7 @@ class CompareDisplay extends Component {
 	  		var leftIdx = 0;
 		    var displayLeftLyrics = [];
 		    leftLyric.forEach((elem, i) => {
-		    	if (elem === leftToHighlight[leftIdx] && i !== leftLyric.length - 1) {
+		    	if (leftToHighlight[leftIdx] && elem.toLowerCase() === leftToHighlight[leftIdx].toLowerCase() && i !== leftLyric.length - 1) {
 		    		displayLeftLyrics.push(<span className="leftLyrics">{elem}</span>);
 		    		displayLeftLyrics.push(<br />);
 		    		leftIdx += 1;
@@ -167,7 +197,7 @@ class CompareDisplay extends Component {
 	  		var rightIdx = 0;	    
 		    var displayRightLyrics = [];
 		    rightLyric.forEach((elem, i) => {
-		    	if (elem === rightToHighlight[rightIdx] && i !== rightLyric.length - 1) {
+		    	if (rightToHighlight[rightIdx] && elem.toLowerCase() === rightToHighlight[rightIdx].toLowerCase() && i !== rightLyric.length - 1) {
 		    		displayRightLyrics.push(<span className="rightLyrics">{elem}</span>);
 		    		displayRightLyrics.push(<br />);
 		    		rightIdx += 1;
@@ -191,8 +221,12 @@ class CompareDisplay extends Component {
 			      </Grid.Column>
 			      <Grid.Column width={7}>
 	   						<svg viewBox="0 0 400 400">
+
 				        	<VictoryPie
-										animate={{ duration: 1000, onLoad: { duration: 1500 } }}
+										animate={(this.state.animateData) ? { duration: 1000, onLoad: { duration: 1500 } } : false }
+										// {
+										// 	(this.state.animateData) ? {animate={{duration: 1000, onLoad: {duration: 1500}}}} : {}
+										// }
 					          standalone={false}
 					          width={400} height={400}
 				        		innerRadius={68}
@@ -257,8 +291,10 @@ class CompareDisplay extends Component {
 								    }]}
 								    // longer words won't fit
 									  data={this.state.pieData}
-									  padAngle={2}
+									  // only have padding between slices if there's more than one slice
+									  padAngle={(this.state.pieData.length <= 1) ? 0 : 2}
 									  labelRadius={100}
+									  //labels={(d) => d.x}
 									  style={{ labels: { fill: "white", fontSize: 10, fontWeight: "bold", fontFamily: "Lato" } }}
 								  />
 					        <VictoryLabel

@@ -114,6 +114,7 @@ class User extends Component {
               <LikedTable likedSongs={this.state.liked}/>
             </Segment>
             <Segment id='rbox'className='recommended-box'>
+              <p align="center"> Recommended songs here are suggested based on previously searched songs as well as songs you have liked. </p>            
               <RecommendedTable recommendedSongs={this.state.recommended} />
             </Segment>
             <Segment id='hbox' className='history-box'>
