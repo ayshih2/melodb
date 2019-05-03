@@ -12,41 +12,64 @@ function songIn(arr, song) {
 }
 
 async function getLikedSearchedSongs(userObj) {
-	let songNames = [];
+	let likedSongNames = [];
+	let searchedSongNames = [];
 	let userJson = JSON.parse(JSON.stringify(userObj));
 	userJson.likedSongs.forEach(s => {
 		let songName = s.songId.replace(/\"/g, '');
-		songNames.push(songName);
+		likedSongNames.push(songName);
 	});
 	userJson.history[0].songs.forEach(s => {
 		let songName = s.songId.replace(/\"/g, '');
-		if (!songNames.includes(songName)) {
-			songNames.push(songName);
+		if (!searchedSongNames.includes(songName) && !likedSongNames.includes(songName)) {
+			searchedSongNames.push(songName);
 		}
 	});
 
-	let songs = await Song.find({'songTitle': {'$in': songNames}}, (err, res) => {
+	let likedSongs = await Song.find({'songTitle': {'$in': likedSongNames}}, (err, res) => {
 		let songObjs = res;
 		return songObjs.map(s => {
 			JSON.parse(JSON.stringify(s));
 		});
 	});
-	return songs;
+	let searchedSongs = await Song.find({'songTitle': {'$in': searchedSongNames}}, (err, res) => {
+		let songObjs = res;
+		return songObjs.map(s => {
+			JSON.parse(JSON.stringify(s));
+		});
+	});
+
+	return {
+		likedSongNames: likedSongs,
+		searchedSongNames: searchedSongs
+	};
 }
 
 async function getTop5RecommendedSongs(userObj) {
 	// Collect the sentiments and genres that the user prefers from their likes and history
 	let songsJsonArray = await getLikedSearchedSongs(userObj);
-	if (songsJsonArray.length == 0) {
+	if ((songsJsonArray.likedSongNames.length + songsJsonArray.searchedSongNames.length) == 0) {
 		return [];
 	}
 
 	let genreCountMap = []; // Get the number of genres that the user liked/searched
 	let sentiments = [];
 	let excludedSongIds = [];
-	songsJsonArray.forEach(s => {
+
+	// Liked songs (weight of 5, more than searched)
+	songsJsonArray.likedSongNames.forEach(s => {
 		if (genreCountMap.hasOwnProperty(s.genre)) {
-			genreCountMap[s.genre]++;
+			genreCountMap[s.genre] += 5;
+		} else {
+			genreCountMap[s.genre] = 5;
+		}
+		sentiments.push(s.sentiment);
+		excludedSongIds.push(s._id);
+	});
+	//Searched songs
+	songsJsonArray.searchedSongNames.forEach(s => {
+		if (genreCountMap.hasOwnProperty(s.genre)) {
+			genreCountMap[s.genre] += 1;
 		} else {
 			genreCountMap[s.genre] = 1;
 		}
@@ -63,8 +86,11 @@ async function getTop5RecommendedSongs(userObj) {
 			return (Math.abs(curr - s.sentiment) < Math.abs(prev - s.sentiment) ? curr : prev);
 		});
 		let sentimentDiff = Math.abs(closestSentiment - s.sentiment);
-		let genreRatio = genreCountMap.hasOwnProperty(s.genre) ? genreCountMap[s.genre]/songsJsonArray.length : 0;
+		let genreRatio = genreCountMap.hasOwnProperty(s.genre) ? genreCountMap[s.genre]/(excludedSongIds.length) : 0;
 		let recommendedScore = genreRatio + (100-sentimentDiff); //100 because sentiment ranges from 0 to 100
+		if (!recommendedScore) {
+			console.log(genreRatio, sentimentDiff);
+		}
 		recommendedSongs.push({
 			recommendedScore: recommendedScore,
 			song: s
