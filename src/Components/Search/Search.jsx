@@ -71,7 +71,7 @@ class Search extends Component {
     return (
       <div className='parent'>
         <div className='search-container'>
-          <Input className='input' size='massive' transparent placeholder='FIND A SONG...' onChange={this.inputChangeHandler} value={this.state.value} />
+          <Input className='input' size='massive' transparent placeholder='SEARCH FOR A SONG...' onChange={this.inputChangeHandler} value={this.state.value} />
         </div>
         <Listview query={this.state.result} />
       </div>
