@@ -21,7 +21,7 @@ class Display extends Component {
     }
     axios(config).then(res => {
       var idx = res.data.data.findIndex(elem => elem.songName.toLowerCase() === this.song.songTitle.toLowerCase());
-      if (idx != -1) {
+      if (idx !== -1) {
         this.setState({
           liked: true
         });

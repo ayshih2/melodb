@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import { auth, googleAuthProvider } from './firebase.js';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import axios from 'axios';
 import Search from './Components/Search/Search';
 import Header from './Components/Header/Header';
 import Compare from './Components/Compare/Compare';

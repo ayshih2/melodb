@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../User.scss'
 import './Liked.scss';
-import { Header, Icon, Menu, Table, Image } from 'semantic-ui-react';
+import { Table, Image } from 'semantic-ui-react';
 
 export default class LikedTable extends React.Component {
   render() {

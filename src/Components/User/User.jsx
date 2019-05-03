@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './User.scss'
-import { Header, Image, Icon, Menu, Segment } from 'semantic-ui-react';
-import { auth, googleAuthProvider } from '../../firebase.js';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { Image, Menu, Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import LikedTable from './Liked/Liked.jsx';
 import RecommendedTable from './Recommended/Recommended.jsx';

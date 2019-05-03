@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import '../User.scss'
 import './History.scss';
-import { Header, Icon, Menu, Table, Image } from 'semantic-ui-react';
+import { Table, Image } from 'semantic-ui-react';
 
-export default class HistorySongTable extends React.Component {
+export default class HistorySongTable extends Component {
   render() {
 
     var rows = this.props.historySongs.map((shistory) => {
