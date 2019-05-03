@@ -59,9 +59,9 @@ async function getTop5RecommendedSongs(userObj) {
 	// Liked songs (weight of 5, more than searched)
 	songsJsonArray.likedSongNames.forEach(s => {
 		if (genreCountMap.hasOwnProperty(s.genre)) {
-			genreCountMap[s.genre] += 5;
+			genreCountMap[s.genre] += 50;
 		} else {
-			genreCountMap[s.genre] = 5;
+			genreCountMap[s.genre] = 50;
 		}
 		sentiments.push(s.sentiment);
 		excludedSongIds.push(s._id);
