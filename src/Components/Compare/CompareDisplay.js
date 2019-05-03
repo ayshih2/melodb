@@ -28,7 +28,6 @@ class CompareDisplay extends Component {
       commonWordNum: 0,
     }
 		    
-
     this.bars = React.createRef();
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
@@ -71,7 +70,7 @@ class CompareDisplay extends Component {
         var sumOfRounded = 0;
         var roundedNums = [];
 
-        var fuck = [];
+        var data = [];
         var sharedWords = [];
         for (var i = 0; i < 5; i++) {
         	if (res.data.data.topFiveCommonWords[i]) {
@@ -79,46 +78,30 @@ class CompareDisplay extends Component {
         		sharedWords.push(res.data.data.topFiveCommonWords[i].word);
         		roundedNums.push(Math.floor(res.data.data.topFiveCommonWords[i].percentage * 100));
         		sumOfRounded += Math.floor(res.data.data.topFiveCommonWords[i].percentage * 100);
-        		fuck.push({x: sharedWords[i], y: roundedNums[i]})
+        		data.push({x: sharedWords[i], y: roundedNums[i]})
         	} else {
         		sharedWords.push("");
         		roundedNums.push(0);
+        		data.push({x: "", y: 0})
         	}
         }
-
-        console.log("----------")
-        for (var i = 0; i < 5; i++) {
-        	console.log(sharedWords + " " + roundedNums);
-        }
-        console.log("---------")
 
         var diff = 100 - sumOfRounded;
         for (var i = 0; i < diff; i++) {
         	roundedNums[i] += 1;
         }
 
-        // if (fuck.length != 5) {
-        // 	this.setState()
-        // }
         var animate = true;
         
-        if (fuck.length != 5) {
+        if (data.length != 5) {
         	animate = false;
         }
-        console.log("alkfsdj " + fuck.length + " " + animate);
         this.setState({
         	commonData: res.data.data,
         	leftSong: nextProps.leftSong,
         	rightSong: nextProps.rightSong,
-        	pieData: fuck,
+        	pieData: data,
         	animateData: animate,
-		    //   pieData: [
-				  //   { x: sharedWords[0], y: roundedNums[0]},
-				  //   { x: sharedWords[1], y: roundedNums[1]},
-				  //   { x: sharedWords[2], y: roundedNums[2]},
-				  //   { x: sharedWords[3], y: roundedNums[3]},
-				  //   { x: sharedWords[4], y: roundedNums[4]}
-		  		// ],	
         });
 	    }).catch(error => {
 	    	console.log(error);
@@ -223,10 +206,7 @@ class CompareDisplay extends Component {
 	   						<svg viewBox="0 0 400 400">
 
 				        	<VictoryPie
-										animate={(this.state.animateData) ? { duration: 1000, onLoad: { duration: 1500 } } : false }
-										// {
-										// 	(this.state.animateData) ? {animate={{duration: 1000, onLoad: {duration: 1500}}}} : {}
-										// }
+										animate={{ duration: 1000, onLoad: { duration: 1500 } }}
 					          standalone={false}
 					          width={400} height={400}
 				        		innerRadius={68}
