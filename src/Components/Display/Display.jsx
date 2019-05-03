@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Header, List, Image, Icon, Segment, Grid, Label } from 'semantic-ui-react';
+import { Button, Header, List, Image, Icon, Segment, Grid, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './Display.scss';
 import axios from 'axios';
-import { auth } from '../../firebase.js';
 import firebase from 'firebase';
 import logo from './musical-note.svg';
 
@@ -22,7 +21,7 @@ class Display extends Component {
     }
     axios(config).then(res => {
       var idx = res.data.data.findIndex(elem => elem.songName.toLowerCase() === this.song.songTitle.toLowerCase());
-      if (idx != -1) {
+      if (idx !== -1) {
         this.setState({
           liked: true
         });
@@ -58,9 +57,7 @@ class Display extends Component {
         songName: this.song.songTitle
       }
     }
-    axios(config).then(res => {
-      console.log('Success');
-    }).catch(err => {
+    axios(config).catch(err => {
       console.log(err);
     })
   }
@@ -77,9 +74,7 @@ class Display extends Component {
           songName: this.song.songTitle
         }
       }
-      axios(config).then(res => {
-        console.log('Success');
-      }).catch(err => {
+      axios(config).catch(err => {
         console.log(err);
       });
     });
@@ -100,11 +95,13 @@ class Display extends Component {
               query: elem
             }
           }}>
+          <div className='list-wrapper'>
             <Image size='tiny' circular src={elem.albumImgUrl} />
             <List.Content className="listContent">
               <List.Header className="listHeader" as='a'>{elem.songTitle}</List.Header>
               <List.Description>{elem.artist}</List.Description>
             </List.Content>
+            </div>
           </Link>
         </List.Item>
       );
@@ -119,6 +116,9 @@ class Display extends Component {
     });
     return (
         <div className='grid'>
+          <Link to={`${process.env.PUBLIC_URL}/`}>
+            <Button icon='arrow left' />
+          </Link>
           <Grid columns='equal'>
             <Grid.Row>
               <Grid.Column>

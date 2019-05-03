@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import '../User.scss'
 import './Recommended.scss';
-import { Header, Icon, Menu, Table, Image } from 'semantic-ui-react';
+import { Table, Image } from 'semantic-ui-react';
 
-export default class RecommendedTable extends React.Component {
+export default class RecommendedTable extends Component {
   render() {
 
     var rows = this.props.recommendedSongs.map((recommended) => {

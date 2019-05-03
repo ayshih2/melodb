@@ -1,7 +1,17 @@
 .user-container {
+  margin-top: 4%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.user-header {
+  margin-bottom: 2%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .menuWrapper {
@@ -13,7 +23,7 @@
 }
 
 #rbox {
-	display: none;
+	display: block;
 }
 
 #hbox {

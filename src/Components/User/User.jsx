@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './User.scss'
-import { Header, Icon, Menu, Segment, Loader} from 'semantic-ui-react';
-import { auth, googleAuthProvider } from '../../firebase.js';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { Image, Menu, Segment, Loader } from 'semantic-ui-react';
 import axios from 'axios';
 import LikedTable from './Liked/Liked.jsx';
 import RecommendedTable from './Recommended/Recommended.jsx';
@@ -19,6 +17,7 @@ class User extends Component {
       recommended: [],
       songHistory: [],
       compHistory: [],
+      activeItem: 'recommended',
       isLoading: true
     }
   }
@@ -27,7 +26,6 @@ class User extends Component {
     var likedBox = document.getElementById('lbox');
     var recommendedBox = document.getElementById('rbox');
     var historyBox = document.getElementById('hbox');
-
     if (name === 'liked') {
       likedBox.style.display = "block";
       recommendedBox.style.display = "none";
@@ -108,23 +106,22 @@ class User extends Component {
 
     return (
       <div className='user-container'>
-        <Header as='h2' icon>
-          <Icon name='settings' />
-          <p>{firebase.auth().currentUser.displayName}</p>
-          <Header.Subheader>Manage your account settings and set e-mail preferences.</Header.Subheader>
-        </Header>
+        <div className='user-header'>
+          <Image circular size='small' src={firebase.auth().currentUser.photoURL} />
+          <h2>{firebase.auth().currentUser.displayName}</h2>
+        </div>
         <div className='menuWrapper'>
-          <Menu borderless fluid widths={3} size="tiny">
-            <Menu.Item color='purple' name='liked' className='user-menu-item' active={activeItem === 'liked'} onClick={this.handleItemClick} />
+          <Menu id='menu' borderless fluid widths={3} size="tiny">
             <Menu.Item color='purple' name='recommended' className='user-menu-item' active={activeItem === 'recommended'} onClick={this.handleItemClick} />
+            <Menu.Item color='purple' name='liked' className='user-menu-item' active={activeItem === 'liked'} onClick={this.handleItemClick} />
             <Menu.Item color='purple' name='history' className='user-menu-item' active={activeItem === 'history'} onClick={this.handleItemClick} />
           </Menu>
           <div className='userBoxWrapper'>
-            <Segment id='lbox' className='liked-box'>
-              <LikedTable likedSongs={this.state.liked}/>
-            </Segment>
             <Segment id='rbox'className='recommended-box'>
               <RecommendedTable recommendedSongs={this.state.recommended} />
+            </Segment>
+            <Segment id='lbox' className='liked-box'>
+              <LikedTable likedSongs={this.state.liked}/>
             </Segment>
             <Segment id='hbox' className='history-box'>
               <HistorySongTable historySongs={this.state.songHistory} />
