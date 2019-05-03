@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Image, List } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import '../Search/Listview/Listview.scss';
 
 class CompareListview extends Component {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import CompareDisplay from './CompareDisplay'
 import { Grid, Segment, Image, Header, Label, Icon, Loader } from 'semantic-ui-react';
-import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import './Compare.scss';
 import '../../variables.scss';
 import firebase from 'firebase';
@@ -191,12 +189,12 @@ class Compare extends Component {
 				<Grid textAlign='center' columns='equal'>
 					<Grid.Row>
 						<p> Compare two songs and their top five common words and sentiment. Sentiment is based on the overall meaning of the lyrics. </p>
-					</Grid.Row>				
+					</Grid.Row>
 			    <Grid.Row>
 			      <Grid.Column>
 				      <Segment>
 				      	{
-				      		(this.state.boolLeft == true) ? 
+				      		(this.state.boolLeft === true) ?
 				      		(
 						      	<div className='compareContainer'>
 		                  <div className='image'>
@@ -213,8 +211,8 @@ class Compare extends Component {
 		                  </div>
 		                  <Label floating onClick={this.pressedLeftClose}>
         								<Icon name='delete' />
-     	 								</Label>			                  
-		                </div>	
+     	 								</Label>
+		                </div>
 				      		) : (
 							      <label className="search" htmlFor="left_inpt_search" onFocus={this._onLeftFocus} onBlur={this._onBlur}>
 											<input ref={this.leftSearchRef} id="left_inpt_search" type="text" onChange={this.inputChangeHandlerLeft} value={this.state.valueLeft}/>
@@ -227,7 +225,7 @@ class Compare extends Component {
 			      <Grid.Column>
 				      <Segment>
 				      	{
-				      		(this.state.boolRight == true) ? 
+				      		(this.state.boolRight === true) ?
 				      		(
 						      	<div className='compareContainer'>
 		                  <div className='image'>
@@ -244,18 +242,18 @@ class Compare extends Component {
 		                  </div>
 		                  <Label floating onClick={this.pressedRightClose}>
         								<Icon name='delete' />
-     	 								</Label>			                  
+     	 								</Label>
 		                </div>
 				      		) : (
 										<label className="search" htmlFor="right_inpt_search" onFocus={this._onRightFocus} onBlur={this._onBlur}>
 											<input ref={this.rightSearchRef} id="right_inpt_search" type="text" onChange={this.inputChangeHandlerRight} value={this.state.valueRight}/>
 										</label>
 				      		)
-				      	}				      
+				      	}
 							</Segment>
 						<CompareListview sendSong={this.getRightSong} query={this.state.resultRight} toDisplay={!this.state.boolRight} buttonClick={this.clickedRightSong.bind(this)} />
 			      </Grid.Column>
-			    </Grid.Row>   
+			    </Grid.Row>
 			  </Grid>
 			  <CompareDisplay query={toRender} leftSong={this.state.leftSongData} rightSong={this.state.rightSongData} />
 			</div>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Segment, Label, Header } from 'semantic-ui-react';
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
-import { auth } from '../../firebase.js';
 import firebase from 'firebase';
 import './Compare.scss';
 import axios from 'axios';
@@ -27,7 +26,7 @@ class CompareDisplay extends Component {
       selectedCommonWord: '',
       commonWordNum: 0,
     }
-		    
+
     this.bars = React.createRef();
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
@@ -42,7 +41,7 @@ class CompareDisplay extends Component {
    componentWillReceiveProps(nextProps) {
 		if (nextProps.leftSong.songTitle && nextProps.rightSong.songTitle) {
 			console.log("new props " + nextProps);
-			
+
 			// put comparison into user history
 			if (firebase.auth().currentUser) {
 		    const config = {
@@ -59,7 +58,7 @@ class CompareDisplay extends Component {
 		    }).catch(err => {
 		      console.log(err);
 		    })
-			}	    
+			}
 
 	    // get data
 	    axios.get(`https://melodb-uiuc.herokuapp.com/api/compare/?song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`)
@@ -87,13 +86,13 @@ class CompareDisplay extends Component {
         }
 
         var diff = 100 - sumOfRounded;
-        for (var i = 0; i < diff; i++) {
-        	roundedNums[i] += 1;
+        for (var j = 0; j < diff; j++) {
+        	roundedNums[j] += 1;
         }
 
         var animate = true;
-        
-        if (data.length != 5) {
+
+        if (data.length !== 5) {
         	animate = false;
         }
         this.setState({
@@ -105,7 +104,7 @@ class CompareDisplay extends Component {
         });
 	    }).catch(error => {
 	    	console.log(error);
-	    }); 
+	    });
 		} else {
 			this.setState({
 			    pieData: [{ x: "", y: 100 }, { x: "", y: 0 }, { x: "", y:  0 },
@@ -132,10 +131,10 @@ class CompareDisplay extends Component {
 			if (rect.top >= 0 &&
 	        rect.left >= 0 &&
 	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) 
+	        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
 			) {
 		    this.setState({
-					barData: [{x: this.state.leftSong.songTitle, y: this.state.commonData.song1Sentiment}, 
+					barData: [{x: this.state.leftSong.songTitle, y: this.state.commonData.song1Sentiment},
 										{x: this.state.rightSong.songTitle, y: this.state.commonData.song2Sentiment}]
 		    });
 			}
@@ -144,7 +143,7 @@ class CompareDisplay extends Component {
 
 	/* icon to search bar animation from https://codepen.io/sebastianpopp/pen/myYmmy with tweaks to make it for react */
   render() {
-  	if (this.props.query == true) {
+  	if (this.props.query === true) {
   		// format left song lyrics
   		var commonWordIdx = -1;
   		if (this.state.commonData.topFiveCommonWords) {
@@ -158,7 +157,7 @@ class CompareDisplay extends Component {
 
 	  		// format left song lyrics
 	  		var leftLyric = this.props.leftSong.lyrics.split('\\n');
-	  		var leftToHighlight = (commonWordIdx != -1) ? this.state.commonData.topFiveCommonWords[commonWordIdx].song1Lyrics : [];
+	  		var leftToHighlight = (commonWordIdx !== -1) ? this.state.commonData.topFiveCommonWords[commonWordIdx].song1Lyrics : [];
 	  		var leftIdx = 0;
 		    var displayLeftLyrics = [];
 		    leftLyric.forEach((elem, i) => {
@@ -176,8 +175,8 @@ class CompareDisplay extends Component {
 
 			  // format right song lyrics
 		    var rightLyric = this.props.rightSong.lyrics.split('\\n');
-	  		var rightToHighlight = (commonWordIdx != -1) ? this.state.commonData.topFiveCommonWords[commonWordIdx].song2Lyrics : [];
-	  		var rightIdx = 0;	    
+	  		var rightToHighlight = (commonWordIdx !== -1) ? this.state.commonData.topFiveCommonWords[commonWordIdx].song2Lyrics : [];
+	  		var rightIdx = 0;
 		    var displayRightLyrics = [];
 		    rightLyric.forEach((elem, i) => {
 		    	if (rightToHighlight[rightIdx] && elem.toLowerCase() === rightToHighlight[rightIdx].toLowerCase() && i !== rightLyric.length - 1) {
@@ -234,7 +233,7 @@ class CompareDisplay extends Component {
 								            {
 								            	target: "labels",
 								            	mutation: (props) => {
-								         				this.setState({selectedCommonWord: props.text});					            		
+								         				this.setState({selectedCommonWord: props.text});
 								            	}
 								            }
 								          ];
@@ -309,7 +308,7 @@ class CompareDisplay extends Component {
 								    labels={(d) => d.x + ': ' + Math.round(d.y)}
 								    y0={0}
 								    domain={ {y: [0, 100]} }
-								    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"}, 
+								    style={{ labels: { fill: "black", fontSize: 6, fontFamily: "Lato"},
 								    // #003366 is dark blue, #800000 is maroon
 								    data: { fill: data => (data.x === this.state.barData[0].x ? "#800000": "#003366")  } }}
 								    animate={{ duration: 2000 }}
