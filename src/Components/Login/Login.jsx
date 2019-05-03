@@ -4,6 +4,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import axios from 'axios';
 import './Login.scss';
 import { Redirect } from 'react-router-dom'
+import { Message } from 'semantic-ui-react'
 
 class Login extends Component {
 	state = {
@@ -55,6 +56,10 @@ class Login extends Component {
 					uiConfig = { this.uiConfig }
 					firebaseAuth = { auth }
 				/>
+				<Message warning color='purple' size='mini'>
+					<Message.Header>You must log in before accessing our website!</Message.Header>
+					<p>Please log in to continue.</p>
+				</Message>
 				</div>
 			</div>
 
