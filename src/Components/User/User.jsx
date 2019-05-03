@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './User.scss'
-import { Header, Icon, Menu, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
+import { Header, Icon, Menu, Segment, Loader} from 'semantic-ui-react';
 import { auth, googleAuthProvider } from '../../firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import axios from 'axios';

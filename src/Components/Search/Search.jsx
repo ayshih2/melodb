@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Dimmer, Loader, Image} from 'semantic-ui-react';
+import { Input, Loader} from 'semantic-ui-react';
 import './Search.scss';
 import axios from 'axios';
 import Listview from './Listview/Listview';
@@ -71,7 +71,7 @@ class Search extends Component {
     return (
       <div className='parent'>
         <div className='search-container'>
-          <Input className='input' size='massive' transparent placeholder='I AM LOOKING FOR...' onChange={this.inputChangeHandler} value={this.state.value} />
+          <Input className='input' size='massive' transparent placeholder='FIND A SONG...' onChange={this.inputChangeHandler} value={this.state.value} />
         </div>
         <Listview query={this.state.result} />
       </div>
