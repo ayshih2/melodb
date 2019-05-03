@@ -189,6 +189,9 @@ class Compare extends Component {
     return (
     	<div className='gridLayout'>
 				<Grid textAlign='center' columns='equal'>
+					<Grid.Row>
+						<p> Compare two songs and their top five common words and sentiment. Sentiment is based on the overall meaning of the lyrics. </p>
+					</Grid.Row>				
 			    <Grid.Row>
 			      <Grid.Column>
 				      <Segment>
