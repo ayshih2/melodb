@@ -43,16 +43,32 @@ class CompareDisplay extends Component {
 	    axios.get(`http://localhost:5000/api/compare/?song1=${nextProps.leftSong.songTitle}&song2=${nextProps.rightSong.songTitle}`)
       .then(res => {
         console.log(res);
+
+        // since percentages are decimals, make sure they add up to 100
+        var sumOfRounded = 0;
+        var roundedNums = [];
+        res.data.data.topFiveCommonWords.forEach(elem => {
+        	console.log(elem.percentage);
+        	roundedNums.push(Math.floor(elem.percentage * 100));
+        	sumOfRounded += Math.floor(elem.percentage * 100);
+        	console.log(Math.floor(elem.percentage * 100))
+        });
+
+        var diff = 100 - sumOfRounded;
+        for (var i = 0; i < diff; i++) {
+        	roundedNums[i] += 1;
+        }
+
         this.setState({
         	commonData: res.data.data,
         	leftSong: nextProps.leftSong,
         	rightSong: nextProps.rightSong,
 		      pieData: [
-				    { x: res.data.data.topFiveCommonWords[0].word, y: test},
-				    { x: res.data.data.topFiveCommonWords[1].word, y: 100 - test},
-				    { x: res.data.data.topFiveCommonWords[2].word, y: 20},
-				    { x: res.data.data.topFiveCommonWords[3].word, y: 20},
-				    { x: res.data.data.topFiveCommonWords[4].word, y: 20}
+				    { x: res.data.data.topFiveCommonWords[0].word, y: roundedNums[0]},
+				    { x: res.data.data.topFiveCommonWords[1].word, y: roundedNums[1]},
+				    { x: res.data.data.topFiveCommonWords[2].word, y: roundedNums[2]},
+				    { x: res.data.data.topFiveCommonWords[3].word, y: roundedNums[3]},
+				    { x: res.data.data.topFiveCommonWords[4].word, y: roundedNums[4]}
 		  		]        	
         });
 	    }).catch(error => {
